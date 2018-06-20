@@ -1,0 +1,279 @@
+
+<head>
+    <meta charset="utf-8">
+    <title>Project Dashboard</title>
+</head>
+<body>
+    <!-- Page Container -->
+    <!--
+    Available Classes:
+    
+    'enable-cookies'             Remembers active color theme between pages (when set through color theme list)
+    
+    'sidebar-l'                  Left Sidebar and right Side Overlay
+    'sidebar-r'                  Right Sidebar and left Side Overlay
+    'sidebar-mini'               Mini hoverable Sidebar (> 991px)
+    'sidebar-o'                  Visible Sidebar by default (> 991px)
+    'sidebar-o-xs'               Visible Sidebar by default (< 992px)
+    
+    'side-overlay-hover'         Hoverable Side Overlay (> 991px)
+    'side-overlay-o'             Visible Side Overlay by default (> 991px)
+    
+    'side-scroll'                Enables custom scrolling on Sidebar and Side Overlay instead of native scrolling (> 991px)
+    -->
+    <div>
+        <!-- Main Container -->
+        <main id="content">
+            <!-- Page Header -->
+            <div class="bg-image overflow-hidden" style="background-image: url('assets/img/photos/photo31@2x.jpg');">
+                <div class="bg-black-op">
+                    <div class="content">
+                        <div class="block block-transparent">
+                            <div class="block-content block-content-full">
+                                <h1 class="h1 font-w300 text-white animated fadeInDown">{{dashboard.name}}</h1>
+                                <h5 class="h5 text-white-op animated fadeInUp">{{project.name}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-7">
+                    </div>
+                    <div class="col-sm-5 text-right hidden-xs">
+                        <a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-panel" type="button">+ Add Panel</button>
+                    </div>
+                </div>
+            </div>
+            <!-- END Page Header -->
+            <!-- Page Content -->
+            <div class="content content-narrow">
+                <div class="row">
+                    <div ng-hide="panels.length">
+                        <div class="col-sm-12">
+                    <div class="font-s64 text-gray text-center">
+                        <i class="fa fa-cog fa-spin"></i>
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-lg-6 col-xs-12" ng-repeat="panel in panels" ng-if="panel.type === '3' || panel.type === '4' || panel.type === '5' || panel.type === '6' || panel.type === '7' || panel.type === '8' || panel.type === '9' || panel.type === '10' || panel.type === '13'">                        
+                        <div class="block block-themed" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                            <div class="block-header bg-info">
+                                <ul class="block-options">
+                                        <!-- <li>
+                                            <button type="button" class="edit-panel" data-toggle="modal" data-id="{{panel.id}}" href="#modal-edit-panel" ng-click="initModalData()"><i class="si si-settings text-white-op" ></i></button>
+                                         </li> -->
+                                         <li>
+                                            <button type="button" data-js-block-option data-action="fullscreen_toggle"></button>
+                                        </li>
+                                        <li>
+                                            <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                        </li>
+                                         <li>
+                                            <button type="button" data-toggle="modal" class="panel-delete" data-id="{{panel.id}}" href="#modal-delete-panel" ng-click="initModalData()"><i class="si si-close text-white-op"></i></button>
+                                         </li>
+                                       
+                                    </ul>
+                                <h3 class="block-title">{{panel.name}}</h3>
+                            </div>
+                            <div class="block-content border-t" style="padding: 0 !important">
+                                <!-- Content goes here (charts, widgets, etc) -->
+                                <table class="table remove-margin-b font-s13" ng-if="panel.type !== '3' && panel.type !== '4' && panel.type !== '7' && panel.type !== '8' && panel.type !== '9' && panel.type !== '10'  && panel.type !== '13'">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="log in panel.sensorData">
+                                            <td class="font-w600"><a href="javascript:void(0)">{{log.created_at}}</a></td>
+                                            <td class="text-muted text-right" style="width: 70px;">{{log.data}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <table class="block-table text-center" ng-if="panel.type === '3'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="fa fa-sun-o fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;" rowspan="2">
+                                                <div class="h1 font-w700" ng-if="panel.sensorData.data"> {{panel.sensorData.data}}<span class="h2 text-muted"> <sup>o</sup>C</span> </div>
+                                                <div class="h5 text-muted text-uppercase push-5-t">Temperature</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span style="font-size:8px; font-style: italic;">Last sync: {{panel.sensorData.created_at}}</span>
+                                            </td>
+                                            <!-- <td class="bg-gray-lighter"></td> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="block-table text-center" ng-if="panel.type === '4'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-drop fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;" rowspan="2">
+                                                <div class="h1 font-w700" ng-if="panel.sensorData.data">{{panel.sensorData.data}} %</div>
+                                                <div class="h5 text-muted text-uppercase push-5-t">Humidity</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span style="font-size:8px; font-style: italic;">Last sync: {{panel.sensorData.created_at}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="block-table text-center" ng-if="panel.type === '7'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                               <ng-gauge size="170" type="arch" thick="10" 
+                                                          min="0" max="100" value="panel.sensorData.data" 
+                                                          cap="round" label="Temperature" append="&deg;C"
+                                                          foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                                </ng-gauge>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span style="font-size:8px; font-style: italic;">Last sync: {{panel.sensorData.created_at}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="block-table text-center" ng-if="panel.type === '8'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                               <ng-gauge size="170" type="arch" thick="10" 
+                                                          min="0" max="100" value="panel.sensorData.data" 
+                                                          cap="round" label="Humidity" append="%"
+                                                          foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                                </ng-gauge>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span style="font-size:8px; font-style: italic;">Last sync: {{panel.sensorData.created_at}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="block-table text-center" ng-if="panel.type === '13'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                               <ng-gauge size="170" type="arch" thick="10" 
+                                                          min="0" max="100" value="panel.sensorData.data" 
+                                                          cap="round" label="Voltage" append="kWh"
+                                                          foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                                </ng-gauge>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span style="font-size:8px; font-style: italic;">Last sync: {{panel.sensorData.created_at}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="block-table text-center" ng-if="panel.type === '9'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                               <ng-gauge size="170" type="arch" thick="10" 
+                                                          min="0" max="100" value="panel.sensorData.data" 
+                                                          cap="round" label="Power" append="kWh"
+                                                          foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                                </ng-gauge>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span style="font-size:8px; font-style: italic;">Last sync: {{panel.sensorData.created_at | date : format : timezone}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="block-table text-center" ng-if="panel.type === '10'" style="min-height: 165px">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                <!-- <span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="activate == 1 ? true : false" type="checkbox" id="val-activate-panel_{{panel.id}}" name="val-activate" ng-model="activate" ng-value="off" ng-change="switch(panel)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-xs-12" ng-repeat="panel in panels" ng-if="panel.type !== '3' && panel.type !== '4' && panel.type !== '5' && panel.type !== '6' && panel.type !== '7' && panel.type !== '8' && panel.type !== '9' && panel.type !== '10' && panel.type !== '13'">                        
+                        <div class="block block-themed" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                            <div class="block-header bg-info">
+                                <ul class="block-options">
+                                    <li>
+                                            <button type="button" data-js-block-option data-action="fullscreen_toggle"></button>
+                                        </li>
+                                        <li>
+                                            <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                        </li>
+                                         <li>
+                                            <button type="button" data-toggle="modal" class="panel-delete" data-id="{{panel.id}}" href="#modal-delete-panel" ng-click="initModalData()"><i class="si si-close text-white-op"></i></button>
+                                         </li>
+                                         
+                                </ul>
+                                <h3 class="block-title">{{panel.name}}</h3>
+                            </div>
+                            <div class="block-content border-t">
+                                <!-- Content goes here (charts, widgets, etc) -->
+                                <!-- <div class="input-group pull-right" style="max-width: 233px">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input ng-date-range-picker class="form-control date-picker" type="text" ng-model="panel.date" ng-change="changeRange(panel)"/>
+
+                                        </div> -->
+                                <div class="block-content block-content-full text-center">
+                                    <!-- Lines Chart Container -->
+                                    <div style="height: 330px;" ng-if="panel.type === '1'"><canvas class="js-chartjs-lines" id="panel_{{panel.id}}" ng-init="initLineChart(panel)"></canvas></div>
+                                    <div style="height: 330px;" ng-if="panel.type === '2'"><canvas class="js-chartjs-bars" id="panel_{{panel.id}}" ng-init="initBarChart(panel)"></canvas></div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+          
+            <!-- END Page Content -->
+        </main>
+    </div>
+
+    <div panel-modal></div>
+    <div editpanel-modal></div>
+    <div deletepanel-modal></div>
+
+    <!-- END Fade In Modal -->
+</body>

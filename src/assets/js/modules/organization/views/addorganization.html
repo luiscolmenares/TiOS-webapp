@@ -1,0 +1,108 @@
+<!-- Page Header -->
+<div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white">
+                <i class="fa fa-sitemap"></i> Add Organization <small></small>
+            </h1>
+        </div>
+        <!-- <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <li><a class="link-effect" s-href="organizations">Organizations</li> >
+                <li><a class="link-effect" href="">Add organization</a></li>
+            </ol>
+        </div> -->
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content content-narrow">
+    <!-- Forms Row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Material Forms Validation -->
+            <!--<h2 class="content-heading">Material Forms</h2>-->
+            <div class="block">
+                <div class="block-header">
+                   <!--  <ul class="block-options">
+                        <li>
+                            <button type="button"><i class="si si-settings"></i></button>
+                        </li>
+                    </ul> -->
+                    <!--<h3 class="block-title">Complete all fields</h3>-->
+                </div>
+                <div class="block-content block-content-narrow">
+                    <!-- jQuery Validation (.js-validation-material class is initialized in js/controllers.js -> FormsValidationCtrl Controller) -->
+                    <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                    <form class="js-validation-material form-horizontal push-10-t" name="form" ng-submit="createOrganization()" role="form">
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-organizationname" name="val-organizationname" placeholder="Enter organization's name" ng-model="organizationname">
+                                    <label for="val-organizationname">Organization Name</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-email2" name="val-email2" placeholder="Enter valid email." ng-model="email">
+                                    <label for="val-email2">Email</label>
+                                </div>
+                            </div>
+                        </div>-->
+                        <!-- Select2 (data-js-select2 attribute is initialized in js/directives.js) -->
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-phone" name="val-phone" placeholder="212-999-0000" ng-model="phone">
+                                    <label for="val-phone">Phone</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-address" name="val-address" placeholder="Enter address" ng-model="address">
+                                    <label for="val-address">Address</label>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-address2" name="val-address2" placeholder="Enter address" ng-model="address2">
+                                    <label for="val-address2">Address 2</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <textarea class="form-control" id="val-notes" name="val-notes" rows="3" placeholder="Notes from this organization" ng-model="notes"></textarea>
+                                    <label for="val-suggestions2">Notes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                             <label class="css-input css-checkbox css-checkbox-lg css-checkbox-primary">
+                                                <input type="checkbox" checked id="val-activate" ><span></span> Enable this organization
+                                            </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- END Material Forms Validation -->
+        </div>
+    </div>
+    <!-- END Forms Row -->
+</div>
+<!-- END Page Content -->

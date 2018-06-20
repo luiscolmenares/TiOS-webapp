@@ -1,0 +1,98 @@
+<div class="modal fade" id="modal-add-panel" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form class="js-validation-material form-horizontal push-10-t" name="form" ng-submit="createPanel()" role="form">
+                <div class="block block-themed block-transparent remove-margin-b">
+                    <div class="block-header bg-primary-dark">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Add Panel</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-panelname" name="val-panelname" placeholder="Enter panel name" ng-model="panelname">
+                                    <label for="val-panelname">Panel name</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-paneltype" name="val-paneltype" style="width: 100%;" data-placeholder="Choose one.." data-ng-change="getDatasourceOptions()" ng-model="paneltype">
+                                        <option></option> --><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <!-- <option value="1">Chart - Lines</option>
+                                        <option value="2">Chart - Bars</option> -->
+<!--                                        <option value="3">Chart - Radar</option>
+                                        <option value="4">Chart - Pie</option>
+                                        <option value="5">Chart - Donut</option>
+                                        <option value="5">Chart - Live</option>
+                                        <option value="6">Widget - Lines</option>
+                                        <option value="7">Widget - Bars</option>-->
+                                        <!-- <option value="8">Widget - Temperature</option>
+                                        <option value="9">Widget - Humidity</option>
+                                        <option value="10">History Log - Temperature</option>
+                                        <option value="11">History Log - Humidity</option>
+                                        <option value=12>Widget - Switch</option>
+                                        <option value=13>Widget - Gauge - Temperature</option>
+                                        <option value=14>Widget - Gauge - Humidity</option>
+                                        <option value=15>Widget - Gauge - Electric Current</option>
+                                    </select>
+                                    <label for="example2-select2">Panel Type</label>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-paneltype" name="val-paneltype" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedPaneltype" data-ng-options="paneltype.id as paneltype.name for paneltype in panelstype" data-ng-change="getDatasourceOptions()">
+                                    </select>
+                                    <label for="example2-select2">Panel Type</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  <select data-ng-model="option1" data-ng-options="option for option in options1" data-ng-change="getOptions2()">
+                                            </select> -->
+                        <div class="form-group" ng-show='datasources.length'>
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-datasources" name="val-datasources" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatasource" data-ng-options="datasource.id as datasource.name for datasource in datasources" ng-show='datasources.length || datapoints.length' data-ng-change="getDatapointsOptions()">
+                                    </select>
+                                    <label for="example2-select2">Datasource</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show='datapoints.length'>
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-datapoint" name="val-datapoint" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatapoint" data-ng-options="datapoint.id as datapoint.name for datapoint in datapoints" ng-show='datapoints.length'>
+                                    </select>
+                                    <label for="example2-select2">Datapoint</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <label class="css-input switch switch-primary" for="val-activate">
+                                    <input type="checkbox" id="val-activate" name="val-activate" ng-model="activate" ng-checked="'true'"><span></span>Active                                             
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

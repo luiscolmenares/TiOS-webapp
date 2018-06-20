@@ -1,0 +1,50 @@
+<head>
+	<meta charset="utf-8">
+	<title>System Events</title>
+</head>
+<body>
+	<div>
+			<!-- Page Header -->
+			<div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+				<div class="row items-push">
+					<div class="col-sm-7">
+						<h1 class="page-heading animated fadeIn text-white">
+							<i class="fa fa-clock-o"></i> System <span style="font-weight: 200 !important">Events</span></h1>
+
+						</div>
+						<div class="col-sm-5 text-right hidden-xs"> 
+							<a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+							<a class="btn btn-minw btn-square btn-primary" type="button" href="#/event/add">+ Add Event</a>
+						</div>
+					</div>
+				</div>
+				<!-- END Page Header -->
+<!-- END Page Header -->
+
+<!-- END Stats -->
+
+<!-- Page Content -->
+        <div class="content" ng-cloak>
+           
+            <table id="example" class="table table-bordered table-striped js-dataTable-full-events dataTable no-footer">
+                <thead>
+                    <tr>
+                        
+                        <th class="text-center" style="width: 5%">ID</th>
+                        <th style="width: 5%">Action</th>
+                        <th>Title</th>                      
+                        <th style="width: 15%">Date</th>
+                        <th style="width: 10%">Status</th>
+                        <th style="width: 10%"></th>
+                    
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        
+    </div>
+<!-- Small Dinamic modals -->
+    <div event-view-modal></div>
+    <div event-edit-modal></div>
+    <div event-delete-modal></div>
+</body>

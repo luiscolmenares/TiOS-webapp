@@ -1,0 +1,41 @@
+<div class="modal fade" id="modal-delete-dashboard" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form class="js-validation-material form-horizontal push-10-t" name="form" ng-submit="deleteDashboard()" role="form">
+                <div class="block block-themed block-transparent remove-margin-b">
+                    <div class="block-header  bg-danger">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Delete Dashboard</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                     <span class="form-control" ng-bind="dashboard.name"></span>
+                                    <label for="val-panelname">Dashboard name</label>
+                                </div>
+                            </div>
+                        </div>
+            
+
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <label class="css-input switch switch-primary disabled" for="val-activate">
+                                    <input type="checkbox" id="val-activate" name="val-activate" ng-model="dashboard.activate" ng-checked="'true'"><span></span>Active                                             
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-sm btn-danger" type="submit">Yes, Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

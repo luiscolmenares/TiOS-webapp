@@ -1,0 +1,191 @@
+<div class="modal fade" id="modal-trigger-edit" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="block block-themed block-transparent remove-margin-b">
+<div class="block-header bg-info">
+<ul class="block-options">
+<li>
+<button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+</li>
+</ul>
+<h3 class="block-title" ng-bind="trigger.name"></h3>
+</div>
+<div class="block-content">
+     <!-- Simple Wizards -->
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Simple Classic Wizard (.js-wizard-simple class is initialized in js/controllers.js -> FormsWizardCtrl Controller) -->
+            <!-- For more examples you can check out http://vadimg.com/twitter-bootstrap-wizard-example/ -->
+            <div class="js-wizard-simple block">
+                <!-- Step Tabs -->
+                <ul class="nav nav-tabs nav-justified" data-js-tabs>
+                    <li class="active">
+                        <a href="#simple-classic-step1" data-toggle="tab">1. Main  </a>
+                    </li>
+                    <li>
+                        <a href="#simple-classic-step2" data-toggle="tab">2. Settings</a>
+                    </li>
+                    <li>
+                        <a href="#simple-classic-step3" data-toggle="tab">3. Options</a>
+                    </li>
+                </ul>
+                <!-- END Step Tabs -->
+
+                <!-- Form -->
+                <form class="form-horizontal" method="post" ng-submit="updateTrigger()">
+                 <input type="hidden" name="val-triggerid" ng-model="trigger.id">
+                  <input type="hidden" name="val-triggerid" ng-model="trigger.project_id">
+                    <!-- Steps Content -->
+                    <div class="block-content tab-content">
+                        <!-- Step 1 -->
+                        <div class="tab-pane push-30-t push-50 active" id="simple-classic-step1">
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                <div class="form-material">
+                                    <label for="val-triggername">Trigger Name</label>
+                                     <input class="form-control" type="text" id="validation-triggername" name="validation-triggername" ng-model="trigger.name">
+                                </div>  
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                   <div class="form-material">
+                                        <select data-js-select2
+                                            class="form-control" 
+                                            name="DatasourceSelect" 
+                                            id="DatasourceSelect" 
+                                            style="width: 100%;"
+                                            ng-model="selectDatasourceObject" 
+                                            data-placeholder="Choose one.."
+                                            ng-options="o.name for o in datasources track by o.id"
+                                            data-ng-change="getDatapointsOptions()">
+                                            <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        </select>   
+                                        <label for="validation-datasource">Datasource</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                        <select data-js-select2
+                                            class="form-control" 
+                                            name="DatapointSelect" 
+                                            id="DatapointSelect" 
+                                            data-placeholder="Choose one.."
+                                            style="width: 100%;"
+                                            ng-model="selectDatapointObject" 
+                                            ng-options="o.name for o in datapoints track by o.id">
+                                            <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        </select>   
+                                        <label for="validation-datapoint">Datapoint</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Step 1 -->
+
+                        <!-- Step 2 -->
+                        <div class="tab-pane push-30-t push-50" id="simple-classic-step2">
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                         <select data-js-select2
+                                            class="form-control" 
+                                            name="OperatorSelect" 
+                                            id="OperatorSelect" 
+                                            style="width: 100%;"
+                                            ng-model="selectOperatorObject" 
+                                            ng-options="o.name for o in operators track by o.value">
+                                            <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        </select>   
+                                        <label for="validation-operator">Operator</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                        <label for="validation-value">Value</label>
+                                        <input class="form-control" type="text" id="validation-value" name="validation-value" ng-model="trigger.value">
+                                    </div>                                    
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                        <select data-js-select2
+                                            class="form-control" 
+                                            name="ActionSelect" 
+                                            id="ActionSelect" 
+                                            style="width: 100%;"
+                                            ng-model="selectActionObject" 
+                                            ng-options="o.description for o in actions track by o.id">
+                                            <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        </select>   
+                                        <label for="validation-action">Action</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- END Step 2 -->
+
+                        <!-- Step 3 -->
+                        <div class="tab-pane push-30-t push-50" id="simple-classic-step3">
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                        <label for="simple-classic-progress-notes">Notes</label>
+                                    <textarea class="form-control" id="simple-classic-progress-notes" name="simple-classic-progress-notes" rows="9" ng-model="trigger.notes" placeholder="Add notes for this trigger"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <label class="css-input css-checkbox css-checkbox-primary" for="val-active">
+                                        <input type="checkbox" id="val-active" name="val-active" ng-checked="trigger.active == 1 ? true : false" ><span></span>Enable this trigger
+                                    </label>
+                                 </div>
+                            </div>
+                        </div>
+                        <!-- END Step 3 -->
+                    </div>
+                    <!-- END Steps Content -->
+
+                    <!-- Steps Navigation -->
+                    <div class="block-content block-content-mini block-content-full border-t">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button class="wizard-prev btn btn-default" type="button"><i class="fa fa-arrow-left"></i> Previous</button>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <button class="wizard-next btn btn-default" type="button">Next <i class="fa fa-arrow-right"></i></button>
+                                <!-- <button class="wizard-finish btn btn-primary" type="submit"><i class="fa fa-check"></i> Submit</button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Steps Navigation -->
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+                        <button class="wizard-finish btn btn-primary" type="submit"><i class="fa fa-check"></i> Submit</button>
+                    </div>
+                </form>
+                <!-- END Form -->
+            </div>
+            <!-- END Simple Classic Wizard -->
+        </div>
+    </div>
+    <!-- END Simple Wizards -->
+</div>
+</div>
+
+</div>
+</div>
+</div>

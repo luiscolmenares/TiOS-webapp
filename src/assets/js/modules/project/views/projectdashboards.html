@@ -1,0 +1,104 @@
+
+<head>
+	<meta charset="utf-8">
+	<title>Project Dashboards</title>
+</head>
+<body>
+	<!-- Page Container -->
+<!--
+Available Classes:
+
+'enable-cookies'             Remembers active color theme between pages (when set through color theme list)
+
+'sidebar-l'                  Left Sidebar and right Side Overlay
+'sidebar-r'                  Right Sidebar and left Side Overlay
+'sidebar-mini'               Mini hoverable Sidebar (> 991px)
+'sidebar-o'                  Visible Sidebar by default (> 991px)
+'sidebar-o-xs'               Visible Sidebar by default (< 992px)
+
+'side-overlay-hover'         Hoverable Side Overlay (> 991px)
+'side-overlay-o'             Visible Side Overlay by default (> 991px)
+
+'side-scroll'                Enables custom scrolling on Sidebar and Side Overlay instead of native scrolling (> 991px)
+-->
+<div>
+	<!-- Main Container -->
+	<main id="content">
+		<!-- Page Header -->
+		<div class="bg-image overflow-hidden" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+			<div class="bg-black-op">
+				<div class="content content-narrow">
+					<div class="block block-transparent">
+						<div class="block-content block-content-full">
+							<h1 class="h1 font-w300 text-white animated fadeInDown push-50-t push-5">Dashboards</h1>
+							<h2 class="h4 font-w300 text-white-op animated fadeInUp">{{project.name}}</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content ">
+			<div class="row items-push">
+				<div class="col-sm-7">
+				</div>
+				<div class="col-sm-5 text-right hidden-xs">
+					<a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+					<button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-dashboard" type="button">+ Add Dashboard</button>
+				</div>
+			</div>
+		</div>
+		<div class="content content-narrow">
+		<div class="row">
+		<div ng-hide="dashboards.length">
+			<h2 class="h4 font-w300 animated fadeInUp">No Dashboards</h2>
+		</div>
+		
+                        <div ng-repeat="dashboard in dashboards">
+                        <div class="col-lg-4">
+                            <div class="block block-themed block-bordered">
+                                 <div class="block-header bg-info">
+                                    <ul class="block-options">
+                                        <li>
+                                        <button type="button" ui-sref="projectdashboard({projectId: {{dashboard.project_id}}, dashboardId: {{dashboard.id}}})"><a ><i class="si si-share-alt text-white"></i></a></button> 
+                                        </li>
+                                        <!-- <li>
+                                            <button type="button" data-toggle="modal" data-target="#modal-edit-dashboard"><i class="si si-settings text-white-op"></i></button>
+                                         </li> -->
+                                         <li>
+                                            <button type="button" data-toggle="modal" class="dashboard-delete" data-id="{{dashboard.id}}" href="#modal-delete-dashboard" ng-click="initModalData()"><i class="si si-close text-white-op"></i></button>
+                                         </li>
+                                       
+                                    </ul>
+                                    <h3 class="block-title">{{dashboard.name}}</h3>
+                                </div>
+                                <div class="block-content border-t">
+                                    <div class="row items-push text-center">
+                                        <div class="col-xs-6 border-r">
+                                            <div class="push-5"><i class="fa fa-tachometer fa-2x"></i></div>
+                                            <div class="h5 font-w300 text-muted"><span ng-bind="dashboard.widgetcount"></span> Widgets</div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="push-5"><i class="fa fa-line-chart fa-2x"></i></div>
+                                            <div class="h5 font-w300 text-muted"><span ng-bind="dashboard.chartcount"></span> Charts</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                        
+                        </div>
+		</div>
+		<!-- END Page Content -->
+	</main>
+	<!-- END Main Container -->
+	<!-- END Footer -->
+</div>
+<!-- END Page Container -->
+<!-- Apps Modal -->
+<div dashboard-modal></div>
+<div editdashboard-modal></div>
+<div deletedashboard-modal></div>
+<!-- END Fade In Modal -->
+</body>

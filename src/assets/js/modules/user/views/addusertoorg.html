@@ -1,0 +1,144 @@
+<div class="content bg-gray-lighter"  style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white">
+                <i class="si si-user"></i> Add User <small></small>
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <!-- <ol class="breadcrumb push-10-t">
+                <li><a class="link-effect" href="/src/#/users">Users</a></li>
+                <li><a class="link-effect" href="">Add User</a></li>
+            </ol> -->
+        </div>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content content-narrow">
+    <!-- Forms Row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Material Forms Validation -->
+            <!--<h2 class="content-heading">Material Forms</h2>-->
+            <div class="block">
+                <div class="block-header">
+                    <ul class="block-options">
+                        <!-- <li>
+                            <button type="button"><i class="si si-settings"></i></button>
+                        </li> -->
+                    </ul>
+                    <!--<h3 class="block-title">Complete all fields</h3>-->
+                </div>
+                <div class="block-content block-content-narrow">
+                    <!-- jQuery Validation (.js-validation-material class is initialized in js/controllers.js -> FormsValidationCtrl Controller) -->
+                    <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                    <!--<form class="js-validation-material form-horizontal push-10-t" action="index.html" method="post">-->
+                    <form class="js-validation-material form-horizontal push-10-t" name="form" ng-submit="createUser()" role="form">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-name" name="val-name" ng-model="name" placeholder="Enter user's name">
+                                    <label for="val-name">Name</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-email" name="val-email" ng-model="email" placeholder="Enter valid email.">
+                                    <label for="val-email">Email</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <input class="form-control" type="password" id="val-password" name="val-password"  ng-model="password" placeholder="Enter a good password.">
+                                    <label for="val-password2">Password</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <input class="form-control" type="password" id="val-confirm-password" name="val-confirm-password" ng-model="password2" placeholder="..and confirm it!">
+                                    <label for="val-confirm-password">Confirm Password</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Select2 (data-js-select2 attribute is initialized in js/directives.js) -->
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-role" name="val-role" ng-model="selectedRole" 
+                                    ng-options="r.display_name for r in roles track by r.id"  style="width: 100%;" data-placeholder="Choose a role" data-js-select2>
+                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                </select>
+                                <label for="val-select2">Role</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <div class="col-sm-9">
+                            <div class="form-material">
+                                <select class="form-control" id="val-organization" name="val-organization" ng-model="selectedOrganization" 
+                                ng-options="o.name for o in organizations track by o.id"  style="width: 100%;" data-placeholder="Choose an organization" data-js-select2>
+                                <option></option> --><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                            <!-- </select>
+                            <label for="val-skill2">Organization</label>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" id="val-phone" name="val-phone" ng-model="phone" placeholder="212-999-0000">
+                            <label for="val-phone">Phone</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="form-material">
+                            <textarea class="form-control" id="val-notes" name="val-notes" rows="3" placeholder="Notes from this user" ng-model="notes" ></textarea>
+                            <label for="val-suggestnotesions2">Notes</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                            <div class="col-sm-12">
+                             <label class="css-input css-checkbox css-checkbox-md css-checkbox-primary">
+                                                <input type="checkbox" checked id="val-activate-email" ><span></span> Allow this user to receive emails notifications
+                                            </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                             <label class="css-input css-checkbox css-checkbox-md css-checkbox-primary">
+                                                <input type="checkbox" checked id="val-activate-sms" ><span></span> Allow this user to receive SMS notifications
+                                            </label>
+                            </div>
+                        </div>
+                <div class="form-group">
+                            <div class="col-sm-12">
+                             <label class="css-input css-checkbox css-checkbox-lg css-checkbox-primary">
+                                                <input type="checkbox" checked id="val-activate" ><span></span> Enable this user
+                                            </label>
+                            </div>
+                        </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- END Material Forms Validation -->
+</div>
+</div>
+<!-- END Forms Row -->
+</div>
+<!-- END Page Content

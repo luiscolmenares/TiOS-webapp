@@ -1,0 +1,55 @@
+<!-- Page Header -->
+<div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white">
+                <i class="fa fa-server"></i> Datapoints
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs"> 
+            <a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+                        <a class="btn btn-minw btn-square btn-primary" type="button" href="#/datasource/{{datasourceId}}/datapoint/add">+ Add Datapoint</a>
+        </div>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content">
+    <!-- Dynamic Table Full -->
+    <div class="block">
+        <div class="block-content">
+        <div ng-hide="datapoints.length">
+                        <h2 class="h4 font-w300 animated fadeInUp">No Datapoints. Click <a href="#/datasource/{{datasourceId}}/datapoint/add">here</a> to add a Datapoint.</h2>
+                    </div>
+            <table  ng-show="datapoints.length" class="table table-bordered table-striped js-dataTable-simple">
+                <thead>
+                    <tr>
+                        <th class="text-center"></th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                    <tr ng-repeat="point in datapoints">
+                        <td>{{point.id}}</td>
+                        <td>{{point.name}}</td>
+                        <td>{{point.type}}</td>
+                        <td><span ng-class="isActive(point.active)">{{point.active}}</span></td>
+                        <td class="text-center">
+                            <div class="btn-group">                          
+                                <button class="btn btn-xs btn-default view-datapoint-edit" type="button" data-toggle="modal" data-id="{{point.id}}" href="#modal-datapoint-edit"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-xs btn-default view-datapoint-delete" type="button" data-toggle="modal" data-id="{{point.id}}" href="#modal-datapoint-delete" ><i class="fa fa-times"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div datapoint-edit-modal></div>
+    <div datapoint-delete-modal></div>
+</div>

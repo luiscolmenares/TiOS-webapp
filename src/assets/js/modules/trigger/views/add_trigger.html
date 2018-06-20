@@ -1,0 +1,204 @@
+<!-- Page Header -->
+<div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white">
+                Add Trigger <small>Add trigger to the project.</small>
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+<!-- <ol class="breadcrumb push-10-t">
+<li>Project</li>
+<li><a class="link-effect" href="">Add Datasource</a></li>
+</ol> -->
+</div>
+</div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content content-narrow">
+    <div class="row">
+       
+        <div class="col-lg-12">
+            <!-- Validation Wizard (.js-wizard-validation class is initialized in js/controllers.js -> FormsWizardCtrl Controller) -->
+            <!-- For more examples you can check out http://vadimg.com/twitter-bootstrap-wizard-example/ -->
+            <div class="js-wizard-validation block">
+               <!-- Step Tabs -->
+                <ul class="nav nav-tabs nav-tabs-alt nav-justified">
+                    <li class="active">
+                        <a class="inactive" href="#validation-step1" data-toggle="tab">1. Main</a>
+                    </li>
+                    <li>
+                        <a class="inactive" href="#validation-step2" data-toggle="tab">2. Settings</a>
+                    </li>
+                    <li>
+                        <a class="inactive" href="#validation-step3" data-toggle="tab">3. Options</a>
+                    </li>
+                </ul>
+                <!-- END Step Tabs -->
+
+
+                <!-- Form -->
+                <!-- jQuery Validation (.js-form2 class is initialized in js/controllers.js -> FormsWizardCtrl Controller) -->
+                <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                <form class="js-form2 form-horizontal" method="post" ng-submit="createTrigger();">
+                    <!-- Steps Content -->
+                    <div class="block-content tab-content">
+                       <!-- Step 1 -->
+                        <div class="tab-pane fade fade-right in push-30-t push-50 active" id="validation-step1">
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                        <input class="form-control" type="text" id="validation-triggername" name="validation-triggername" placeholder="Enter trigger's name" ng-model="triggername">
+                                        <label for="val-triggername">Trigger Name</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                        <select data-js-select2 class="form-control" id="validation-datasource" name="validation-datasource" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatasource" data-ng-options="datasource.id as datasource.name for datasource in datasources"  data-ng-change="getDatapointsOptions()">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        </select>
+                                        <label for="validation-datasource">Datasource</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                        <select data-js-select2 class="form-control" id="validation-datapoint" name="validation-datapoint" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatapoint" data-ng-options="datapoint.id as datapoint.name for datapoint in datapoints" ng-show='datapoints.length'>
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        </select>
+                                        <label for="validation-datapoint">Datapoint</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Step 1 -->
+
+
+                        <!-- Step 2 -->
+                        <div class="tab-pane fade fade-right push-30-t push-50" id="validation-step2">
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="validation-operator" name="validation-operator" style="width: 100%;" data-placeholder="Choose one.." ng-model="operator" data-ng-options="operator.value as operator.name for operator in operators">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        </select>
+                                        <label for="validation-operator">Operator</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2  col-sm-offset-2" ng-show="operator">
+                                    <div class="form-material">
+                                        <input class="form-control" type="text" id="validation-value" name="validation-value" placeholder="Enter value" ng-model="value">
+                                        <label for="validation-value">Value</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2  col-sm-offset-2" ng-show="operator == '> <'">
+                                    <div class="form-material">
+                                        <input class="form-control" type="text" id="validation-value-2" name="validation-value-2" placeholder="Enter value" ng-model="value2">
+                                        <label for="validation-value">Value 2</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                        <select data-js-select2 class="form-control" id="validation-action" name="validation-action" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedAction" data-ng-options="action.id as action.description for action in actions" data-ng-change="getRecipients()">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        </select>
+                                        <label for="validation-action">Action</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group" ng-show="recipients.length">
+                                            <label class="col-sm-8 col-sm-offset-2">Recipients</label>
+                                             <div class="col-sm-8 col-sm-offset-2">
+                                            <div ng-repeat="recipient in recipients">
+                                            
+                                              <div class="checkbox">
+                                                    <label for="example-checkbox1">
+                                                        <input type="checkbox" id="{{recipient.name}}" name="{{recipient.name}}" value="{{recipient.id}}" ng-model="recipient.selected" ng-click="addToList()"> {{recipient.name}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group" ng-show="recipients.length">
+                                             <div class="col-sm-8 col-sm-offset-2">
+                                                <div class="form-material">
+                                                    <label for="example-checkbox1">
+                                                        <input type="checkbox" id="custom-message-check" name="custom-message" value="custom-message" ng-model="custommessagecheck" ng-click="createMessage()"> Create custom message
+                                                    </label>
+                                                <textarea class="form-control" id="simple-classic-progress-notes" name="simple-classic-progress-notes" rows="9" ng-model="custommessage" ng-show="custommessagecheck" placeholder="Add custom message"></textarea>
+                                                </div>
+                                            </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <!-- END Step 2 -->
+
+
+                         <!-- Step 3 -->
+                        <div class="tab-pane fade fade-right push-30-t push-50" id="validation-step3">
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                        <label for="simple-classic-progress-notes">Notes</label>
+                                    <textarea class="form-control" id="simple-classic-progress-notes" name="simple-classic-progress-notes" rows="9" ng-model="notes" placeholder="Add notes for this trigger"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                             <label class="css-input css-checkbox css-checkbox-lg css-checkbox-primary">
+                                                <input type="checkbox" checked id="val-activate" ><span></span> Enable this trigger
+                                            </label>
+                            </div>
+                        </div>
+                            
+                            <!-- <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <label class="css-input switch switch-sm switch-primary" for="validation-active">
+                                        <input type="checkbox" id="validation-active" name="validation-terms" ng-model="activate"><span></span> Enable this trigger
+                                    </label>
+                                </div>
+                            </div> -->
+                        </div>
+                        <!-- END Step 3 -->
+
+                    </div>
+                    <!-- END Steps Content -->
+
+                    <!-- Steps Navigation -->
+                    <div class="block-content block-content-mini block-content-full border-t">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button class="wizard-prev btn btn-warning" type="button"><i class="fa fa-arrow-circle-o-left"></i> Previous</button>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <button class="wizard-next btn btn-success" type="button">Next <i class="fa fa-arrow-circle-o-right"></i></button>
+                                <button class="wizard-finish btn btn-primary" type="submit"><i class="fa fa-check-circle-o"></i> Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Steps Navigation -->
+                </form>
+                <!-- END Form -->
+            </div>
+            <!-- END Validation Wizard Wizard -->
+        </div>
+    </div>
+    <!-- END Wizards with Validation -->
+</div>
+<!-- END Page Content

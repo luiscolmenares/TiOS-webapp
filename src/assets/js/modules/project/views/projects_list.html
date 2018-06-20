@@ -1,0 +1,49 @@
+<!-- Page Header -->
+<div class="content bg-gray-lighter"   style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white"">
+                <i class="si si-briefcase"></i> Projects
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs"> 
+            <a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+            <a user-role="['super', 'admin', 'owner']" class="btn btn-minw btn-square btn-primary" type="button" href="#/project/add">+ Add Project</a>
+        </div>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content">
+    <!-- Dynamic Table Full -->
+    <div class="block">
+        <!--div class="block-header">
+            <h3 class="block-title">Dynamic Table <small>Full</small></h3>
+            <p>    Click <a ng-click="loadUsers()">here</a> to load data.</p>
+        </div>-->
+        <div class="block-content">
+            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/controllers.js -> TablesDatatablesCtrl Controller-->
+           <!--<table class="table table-bordered table-striped js-dataTable-full">-->
+           <table id="example" class="table table-bordered table-striped js-dataTable-full-2 dataTable no-footer">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th> 
+                        <th>Name</th>
+                        <th>Organization</th>
+                        <th class="hidden-xs">Notes</th>
+                        <th>Access</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <!-- END Dynamic Table Full -->
+    <!-- Small Dinamic modals -->
+    <div project-modal></div>
+    <div project-edit-modal></div>
+    <div project-delete-modal></div>
+
+</div>
+<!-- END Page Content -->

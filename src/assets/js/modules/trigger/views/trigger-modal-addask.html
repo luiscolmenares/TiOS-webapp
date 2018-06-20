@@ -1,0 +1,35 @@
+<div class="modal fade" id="modal-trigger-addask" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form class="js-validation-material form-horizontal push-10-t" name="form" ng-submit="triggerAskProject()" role="form">
+                <div class="block block-themed block-transparent remove-margin-b">
+                    <div class="block-header bg-primary-dark">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Select Triggers's Project</h3>
+                    </div>
+                    <div class="block-content">
+                    	<div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                        <select class="form-control" id="val-project" name="val-project" ng-model="selectedProject" 
+                                        ng-options="p.proj_org for p in projects track by p.id"  style="width: 100%;" data-placeholder="Choose a project" data-js-select2>
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                    </select>
+                                    <label for="val-project">Related Project</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

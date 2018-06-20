@@ -1,0 +1,93 @@
+<div class="modal fade" id="modal-project-edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent remove-margin-b">
+                <div class="block-header bg-primary-dark">
+                    <ul class="block-options">
+                        <li>
+                            <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                        </li>
+                    </ul>
+                    <h3 class="block-title" ng-bind="project.name"></h3>
+                </div>
+
+                <div class="block-content">
+                    <form class="js-validation-material form-horizontal push-10-t" name="form" ng-submit="updateProject()" role="form">
+                        <input type="hidden" name="val-projectid" ng-model="project.id">
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-projectname" name="val-projectname" placeholder="Enter project's name" ng-model="project.name">
+                                    <label for="val-projectname">Project Name</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" name="repeatOrgSelect" 
+                                            id="repeatOrgSelect" 
+                                            ng-model="selectOrganizationObject" 
+                                            ng-options="o.name for o in organizations track by o.id">
+                                    </select>           
+                                    <label for="val-phone">Organization</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <textarea class="form-control" id="val-notes" name="val-notes" rows="3" placeholder="Notes from this project" ng-model="project.notes"></textarea>
+                                    <label for="val-notes">Notes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  <div class="form-group">
+                             <div class="col-sm-9">
+                                 <label class="css-input switch switch-sm switch-primary">
+                                     <input type="checkbox" ng-checked="organization.active == 1 ? true : false" id="val-activate" name="val-activate"><span></span> Active
+                                 </label>
+                             </div>
+                         </div> -->
+                        <!-- <div class="form-group">
+                            <div class="col-sm-9">
+                                <label class="css-input switch switch-sm switch-primary" for="val-active">
+                                    <input type="checkbox" id="val-active" name="val-active" ng-checked="project.active == 1 ? true : false" ><span></span>Active
+                                </label>
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <label class="css-input css-checkbox css-checkbox-primary" for="val-active">
+                                    <input type="checkbox" id="val-active" name="val-active" ng-checked="project.active == 1 ? true : false" ><span></span>Active
+                                </label>
+                             </div>
+                        </div>
+
+                        <!-- <div class="form-group">
+                            <div class="col-sm-9">
+                                <div>
+                                    <label>Active Organization</label>
+                                </div>
+                                <label class="css-input css-checkbox css-checkbox-primary" for="val-activate">
+                                    <input type="checkbox" id="val-activate" name="val-activate" value="1" ng-model="activate"><span></span>Activate this organization
+                                </label>
+                            </div>
+                        </div> -->
+                        <div class="modal-footer">
+                            <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+                            <!--<button class="btn btn-sm btn-primary" type="submit" data-dismiss="modal"><i class="fa fa-check"></i> Edit</button>-->
+                            <button class="btn btn-sm btn-primary" type="submit">Edit</button>
+                        </div>
+                        <!-- <div class="form-group">
+                            <div class="col-xs-12">
+                                <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                            </div>
+                        </div> -->
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

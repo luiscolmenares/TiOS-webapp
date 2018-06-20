@@ -1,0 +1,75 @@
+<head>
+	<meta charset="utf-8">
+	<title>Organization Notifications</title>
+</head>
+<body>
+	<div>
+			<!-- Page Header -->
+			<div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+				<div class="row items-push">
+					<div class="col-sm-7">
+						<h1 class="page-heading animated fadeIn text-white">
+							<i class="fa fa-clock-o"></i> {{loggeduser.user.organization_name}} <span style="font-weight: 200 !important">Notifications</span></h1>
+
+						</div>
+						<div class="col-sm-5 text-right hidden-xs"> 
+							<a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+						</div>
+					</div>
+				</div>
+				<!-- END Page Header -->
+<!-- END Page Header -->
+
+<!-- Page Content -->
+		<div class="content">      
+                    <!-- Timelines Row -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="block block-themed"  id="notificationtable">
+                                <div class="block-header bg-primary">
+                                    <ul class="block-options">
+                                        <li>
+                                <button type="button" data-js-block-option data-action="fullscreen_toggle"></button>
+                            </li>
+                            <!-- <li>
+                                <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                            </li> -->
+                            <li>
+                                <button type="button" ng-click="panelLoading()"><i class="si si-refresh"></i></button>
+                            </li>
+                            <li>
+                                <button type="button" data-js-block-option data-action="content_toggle"></button>
+                            </li>
+                                    </ul>
+                                    <h3 class="block-title">All Notifications</h3>
+                                </div>
+                                <div class="block-content">
+                                    <ul class="list list-timeline pull-t">
+                                    	<!-- Notificatiosn from triggers  -->
+                                    	<li ng-repeat="notification in notifications">
+                                    		<div class="list-timeline-time">{{notification.created_at | date:'medium'}}</div>
+                                            <i ng-class='whatClassIsIt(notification.trigger_action_type_id)' class="list-timeline-icon"></i>
+                                            <div class="list-timeline-content">
+                                                <p class="font-w600" style="font-style: italic;">{{notification.message}}</p>
+                                                <p class="font-s13">{{notification.organization_name}} > {{notification.project_name}} > {{notification.datasource_name}} > {{notification.datapoint_name}}<i ng-click="deleteTrigNot(notification.id)" class="si si-trash pull-right" style="color: red; cursor:pointer" data-action-mode="demo"></i></p>
+
+
+                                            </div>
+                                    	</li>
+                                       
+                                        <!-- END System Notification Notificatiosn from triggers -->
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- END Icon Based -->
+                        </div>
+                        
+                    </div>
+                    <!-- END Timelines Row -->
+                
+        </div>
+<!-- END Page Content -->    
+</div>
+
+</div>
+</body>

@@ -1,0 +1,304 @@
+<div class="modal fade" id="modal-repeat" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form class="js-validation-material form-horizontal push-10-t" name="form" ng-submit="createRepeat()" role="form">
+                <div class="block block-themed block-transparent remove-margin-b">
+                    <div class="block-header bg-primary-dark">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button" ng-click="cancelRepeat()"><i class="si si-close"></i></button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Repeat event</h3>
+                    </div>
+                    <div class="block-content">
+                    <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-repeats" name="val-repeats" style="width: 100%;" data-placeholder="Choose one.."  ng-model="repeats"  data-ng-change="getRepeats()">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="daily">Daily</option>
+                                        <!-- <option value="weekday">Every weekday (Monday to Friday)</option>
+                                        <option value="m-w-f">Every Monday, Wednesday and Friday</option>
+                                        <option value="t-t">Every Tuesday and Thursday</option> -->
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="yearly">Yearly</option>
+                                    </select>
+                                    <label for="example2-select2">Repeats</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- repeats daily -->
+                        <div class="form-group" ng-show='false' >
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-repeats-daily-every" name="val-repeats-daily-every" style="width: 100%;" data-placeholder="Choose days to repeat"  ng-model="repeatsdaily" data-ng-change="getsRepeatsDaily()">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1" selected>1 day</option>
+                                        <option value="2">2 days</option>
+                                        <option value="3">3 days</option>
+                                        <option value="4">4 days</option>
+                                        <option value="5">5 days</option>
+                                        <option value="6">6 days</option>
+                                        <option value="7">7 days</option>
+                                        <option value="8">8 days</option>
+                                        <option value="9">9 days</option>
+                                        <option value="10">10 days</option>
+                                        <option value="11">11 days</option>
+                                        <option value="12">12 days</option>
+                                        <option value="13">13 days</option>
+                                        <option value="14">14 days</option>
+                                        <option value="15">15 days</option>
+                                        <option value="16">16 days</option>
+                                        <option value="17">17 days</option>
+                                        <option value="18">18 days</option>
+                                        <option value="19">19 days</option>
+                                        <option value="20">20 days</option>
+                                        <option value="21">21 days</option>
+                                        <option value="22">22 days</option>
+                                        <option value="23">23 days</option>
+                                        <option value="24">24 days</option>
+                                        <option value="25">25 days</option>
+                                        <option value="26">26 days</option>
+                                        <option value="27">27 days</option>
+                                        <option value="28">28 days</option>
+                                        <option value="29">29 days</option>
+                                        <option value="30">30 days</option>
+                                    </select>
+                                    <label for="example2-select2">Repeat Every</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ends repeat daily -->
+                        <!-- repeats weekly -->
+                        <div class="form-group" ng-show='false' >
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-repeats-weekly-every" name="val-repeats-weekly-every" style="width: 100%;" data-placeholder="Choose one.."  ng-model="repeatsweekly" data-ng-change="getsRepeatsWeekly()">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">1 week</option>
+                                        <option value="2">2 weeks</option>
+                                        <option value="3">3 weeks</option>
+                                        <option value="4">4 weeks</option>
+                                        <option value="5">5 weeks</option>
+                                        <option value="6">6 weeks</option>
+                                        <option value="7">7 weeks</option>
+                                        <option value="8">8 weeks</option>
+                                        <option value="9">9 weeks</option>
+                                        <option value="10">10 weeks</option>
+                                        <option value="11">11 weeks</option>
+                                        <option value="12">12 weeks</option>
+                                        <option value="13">13 weeks</option>
+                                        <option value="14">14 weeks</option>
+                                        <option value="15">15 weeks</option>
+                                        <option value="16">16 weeks</option>
+                                        <option value="17">17 weeks</option>
+                                        <option value="18">18 weeks</option>
+                                        <option value="19">19 weeks</option>
+                                        <option value="20">20 weeks</option>
+                                        <option value="21">21 weeks</option>
+                                        <option value="22">22 weeks</option>
+                                        <option value="23">23 weeks</option>
+                                        <option value="24">24 weeks</option>
+                                        <option value="25">25 weeks</option>
+                                        <option value="26">26 weeks</option>
+                                        <option value="27">27 weeks</option>
+                                        <option value="28">28 weeks</option>
+                                        <option value="29">29 weeks</option>
+                                        <option value="30">30 weeks</option>
+                                    </select>
+                                    <label for="example2-select2">Repeat Every</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ends repeat weekly -->
+                        <!-- <div class="form-group" ng-show='weeklyrepeatshow'>
+                        <div class="col-sm-12"><label>Repeats on:</label></div>
+                        
+                            <div class="block-content">
+
+                                    <div class="row items-push">
+                                        <div class="col-xs-3 col-sm-1">
+                                            <label class="css-input css-checkbox css-checkbox-primary">
+                                                <input type="checkbox" id='sunday'><span></span> S
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-1">
+                                            <label class="css-input css-checkbox css-checkbox-primary">
+                                                <input type="checkbox" id='Monday'><span></span> M
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-1">
+                                            <label class="css-input css-checkbox css-checkbox-primary">
+                                                <input type="checkbox" id='Tuesday'><span></span> T
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-1">
+                                            <label class="css-input css-checkbox css-checkbox-primary">
+                                                <input type="checkbox" id='Wednesday'><span></span> W
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-1">
+                                            <label class="css-input css-checkbox css-checkbox-primary">
+                                                <input type="checkbox" id='Thusrday'><span></span> T
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-1">
+                                            <label class="css-input css-checkbox css-checkbox-primary">
+                                                <input type="checkbox" id='Friday'><span></span> F
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-1">
+                                            <label class="css-input css-checkbox css-checkbox-primary">
+                                                <input type="checkbox" id='Saturday'><span></span> S
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div> -->
+                        
+                       
+
+
+                        <!-- repeats monthly -->
+                        <div class="form-group" ng-show='false' >
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-repeats-monthly-every" name="val-repeats-montly-every" style="width: 100%;" data-placeholder="Choose one.."  ng-model="repeatsMonthly">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1-month">1 month</option>
+                                        <option value="2-months">2 months</option>
+                                        <option value="3-months">3 months</option>
+                                        <option value="4-months">4 months</option>
+                                        <option value="5-months">5 months</option>
+                                        <option value="6-months">6 months</option>
+                                        <option value="7-months">7 months</option>
+                                        <option value="8-months">8 months</option>
+                                        <option value="9-months">9 months</option>
+                                        <option value="10-months">10 months</option>
+                                        <option value="11-months">11 months</option>
+                                        <option value="12-months">12 months</option>
+                                        <option value="13-months">13 months</option>
+                                        <option value="14-months">14 months</option>
+                                        <option value="15-months">15 months</option>
+                                    </select>
+                                    <label for="example2-select2">Repeat Every</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ends repeat monthly -->
+                        <!-- repeats yearly -->
+                        <div class="form-group" ng-show='false' >
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-repeats-monthly-every" name="val-repeats-yearly-every" style="width: 100%;" data-placeholder="Choose one.."  ng-model="repeatsYearly">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1-year">1 year</option>
+                                        <option value="2-years">2 years</option>
+                                        <option value="3-years">3 years</option>
+                                        <option value="4-years">4 years</option>
+                                        <option value="5-years">5 years</option>
+                                        <option value="6-years">6 years</option>
+                                        <option value="7-years">7 years</option>
+                                        <option value="8-years">8 years</option>
+                                        <option value="9-years">9 years</option>
+                                        <option value="10-years">10 years</option>
+                                        <option value="11-years">11 years</option>
+                                        <option value="12-years">12 years</option>
+                                        <option value="13-years">13 years</option>
+                                        <option value="14-years">14 years</option>
+                                        <option value="15-years">15 years</option>
+                                    </select>
+                                    <label for="example2-select2">Repeat Every</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ends repeat monthly -->
+                        
+                      <!-- 
+                        <div class="form-group" ng-show='datasources.length'>
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-datasources" name="val-datasources" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatasource" data-ng-options="datasource.id as datasource.name for datasource in datasources" ng-show='datasources.length || datapoints.length' data-ng-change="getDatapointsOptions()">
+                                    </select>
+                                    <label for="example2-select2">Datasource</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show='datapoints.length'>
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-datapoint" name="val-datapoint" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatapoint" data-ng-options="datapoint.id as datapoint.name for datapoint in datapoints" ng-show='datapoints.length'>
+                                    </select>
+                                    <label for="example2-select2">Datapoint</label>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+                        <!-- <div class="form-group">
+                            <div class="col-sm-9">
+                                <label class="css-input switch switch-primary" for="val-activate">
+                                    <input type="checkbox" id="val-activate" name="val-activate" ng-model="activate" ng-checked="'true'"><span></span>Active                                             
+                                </label>
+                            </div>
+                        </div> -->
+                        <!--  -->
+                        <div class="form-group">
+
+                        <div class="col-sm-9">
+                        <label for="example2-select2">Ends</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <label class="css-input css-radio css-radio-primary push-10-r">
+                                <input class="ocurrency" ng-model="repocurrence" value="never" type="radio" name="radio-group2" checked ><span></span> Never
+                            </label>
+                        </div>
+                          <div class="col-sm-9">
+                              <label class="css-input css-radio css-radio-primary">
+                                <input  class="ocurrency" ng-model="repocurrence" value="after" type="radio" name="radio-group2"><span></span> After 
+                                <select data-js-select2 class="form-control" id="val-ocurrency" name="val-repeats-yearly-every"   ng-model="ocurrency" >
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">1 ocurrence</option>
+                                        <option value="2">2 ocurrences</option>
+                                        <option value="3">3 ocurrences</option>
+                                        <option value="4">4 ocurrences</option>
+                                        <option value="5">5 ocurrences</option>
+                                        <option value="6">6 ocurrences</option>
+                                        <option value="7">7 ocurrences</option>
+                                        <option value="8">8 ocurrences</option>
+                                        <option value="9">9 ocurrences</option>
+                                        <option value="10">10 ocurrences</option>
+                                        <option value="11">11 ocurrences</option>
+                                        <option value="12">12 ocurrences</option>
+                                        <option value="13">13 ocurrences</option>
+                                        <option value="14">14 ocurrences</option>
+                                        <option value="15">15 ocurrences</option>
+                                    </select>
+                                
+                            </label>
+                          </div>  
+                          </div>
+                         <!--  <div class="form-group">
+                              <div class="col-sm-12">
+                                  <label>Summary: {{when}}{{howlong}}</label>
+                              </div>
+                          </div>
+                           -->
+                          
+                            
+                        <!-- </div> -->
+                        <!-- </div> -->
+                        
+                        <!-- -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-default" type="button" data-dismiss="modal" ng-click="cancelRepeat()">Cancel</button>
+                    <button class="btn btn-sm btn-primary" type="submit">Done</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

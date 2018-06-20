@@ -1,0 +1,269 @@
+<head>
+    <meta charset="utf-8">
+    <title>System Reports</title>
+</head>
+<body>
+    <div>
+
+        <!-- Page Header -->
+        <div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+            <div class="row items-push">
+                <div class="col-sm-7">
+                    <h1 class="page-heading animated fadeIn text-white">
+                        <i class="si si-notebook"></i> System <span style="font-weight: 200 !important">Reports Generator</span></h1>
+
+                    </div>
+                    <div class="col-sm-5 text-right hidden-xs"> 
+                        <!-- <a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a> -->
+                        <!-- <a user-role="['super']" class="btn btn-minw btn-square btn-primary" type="button" href="#/reporttemplate/add">+ Add Report Template</a> -->
+                    </div>
+                </div>
+            </div>
+            <!-- END Page Header -->
+            <!-- END Page Header -->
+
+            <!-- Page Content -->
+            <div class="content content-narrow">
+                <!-- Forms Row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- Material Forms Validation -->
+                        <h2 class="content-heading">Report Generator</h2>
+                        <div class="block">
+                            <div class="block-content">   
+                                <ul class="block-options">
+                                    <li>
+                                        <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo" ng-click="resetform()"><i class="si si-refresh"></i></button>
+                                    </li>
+                                </ul>
+                                <!-- jQuery Validation (.js-validation-material class is initialized in js/controllers.js -> FormsValidationCtrl Controller) -->
+                                <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                                <form class="js-validation-material form-horizontal push-10-t" name="form" ng-submit="createOnlineReport()" role="form">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="daterange">Date Range</label>
+                                            <div  class="form-material">
+                                                <div data-js-datepicker class="input-daterange input-group" data-date-format="mm/dd/yyyy">
+                                                    <input class="form-control" type="text" id="daterange1" name="daterange1" ng-model="daterange1" placeholder="From">
+                                                    <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                                                    <input class="form-control" type="text" id="daterange2" name="daterange2" ng-model="daterange2" placeholder="To">
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-9">
+                                            <div class="form-material">
+                                                <select data-js-select2 class="form-control" id="val-organization" name="val-organization" ng-model="selectedOrganization" 
+                                                ng-options="org.id as org.name for org in organizations"  style="width: 100%;" data-placeholder="Choose an organization"  data-ng-change="getProjectsOptions()">
+                                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                            </select>
+                                            <label for="val-org2">Organization</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-9">
+                                        <div class="form-material">
+                                            <select data-js-select2 class="form-control" id="validation-project" name="validation-project" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedProject" data-ng-options="project.id as project.name for project in projects"  data-ng-change="getDatasourcesOptions()">
+                                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                            </select>
+                                            <label for="validation-project">Projects</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-9">
+                                        <div class="form-material">
+                                            <select data-js-select2 class="form-control" id="validation-datasource" name="validation-datasource" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatasource" data-ng-options="datasource.id as datasource.name for datasource in datasources"  data-ng-change="getDatapointsOptions()">
+                                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                            </select>
+                                            <label for="validation-datasource">Datasource</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-9">
+                                        <div class="form-material">
+                                            <select data-js-select2 class="form-control" id="validation-datapoint" name="validation-datapoint" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatapoint" data-ng-options="datapoint.id as datapoint.name for datapoint in datapoints" ng-show='datapoints.length' data-ng-change="enableGenerateButton()">
+                                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                            </select>
+                                            <label for="validation-datapoint">Datapoint</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <button class="btn btn-sm btn-primary" type="submit"  ng-disabled='disabled'>Generate Online Report</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- END Material Forms Validation -->
+                </div>
+            </div>
+            <div class="row" ng-show="datapointvalues">
+                <div class="col-lg-12">
+                    <div class="block">
+                        <div class="block-content"> 
+                            <div class="block-header">
+                                <ul class="block-options">
+                                    <li>
+                                        <button type="button"><i class="si si-settings"></i></button>
+                                    </li>
+                                    <li>
+                                        <!-- <button class="btn btn-primary" print-btn><i class="fa fa-print"></i></button> -->
+                                        <button class="btn btn-primary" ng-click="printDiv()""><i class="fa fa-print"></i></button>
+                                    </li>
+                                </ul>
+                            </div> 
+                            <div id="printableArea">
+                            <div  class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <label>{{datapoint.name}} </label><br>
+                                    <label>Project: {{datapointvalues.project_name}}</label><br>
+                                    <label>Organization: {{datapointvalues.organization_name}}</label><br>
+                                    <label>Type: {{datapoint.type}} </label><br>
+                                    <label>Creation date: {{datapoint.created_at}}</label><br><br>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+                                    <label ng-show="daterange1">Date range: {{daterange1}} to {{daterange2}}</label><br>
+                                    <label ng-show="daterange1">Last recorded reading: {{lastread}}</label>
+                                </div>              
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-lg-3">
+                                    <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
+                                        <div class="block-content block-content-full bg-gray-lighter border-b">
+                                            <!-- <div class="h1 font-w700"><span class="h2 text-muted"></span> {{datapointvalues.count}}</div> -->
+                                            <div class="h1 font-w700" data-toggle="countTo" data-to="{{datapointvalues.count}}">{{datapointvalues.count}}</div>
+                                            <div class="h5 text-muted text-uppercase push-5-t"># readings</div>
+                                        </div>
+                                        <div class="block-content block-content-full block-content-mini">
+                                            <!-- <i class="fa fa-arrow-up text-success"></i> --> {{datapointvalues.totalcount}} Total readings
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
+                                        <div class="block-content block-content-full bg-gray-lighter border-b">
+                                            <div class="h1 font-w700">{{datapointvalues.average | number : 2}}<span class="h2 text-muted" ng-if="datapoint.type === 'Temperature'" > &deg;C</span></div>
+                                            <div class="h5 text-muted text-uppercase push-5-t">Average</div>
+                                        </div>
+                                        <div class="block-content block-content-full block-content-mini">
+                                            <!-- <i class="fa fa-arrow-down text-danger"> </i>-->{{datapointvalues.totalaverage | number : 2}} <span ng-if="datapoint.type === 'Temperature'" >&deg;C</span> Total average
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
+                                        <div class="block-content block-content-full bg-gray-lighter border-b">
+                                            <div class="h1 font-w700"><!-- <span class="h2 text-muted">+</span> --> {{datapointvalues.highest}}</div>
+                                            <div class="h5 text-muted text-uppercase push-5-t">Max Value</div>
+                                        </div>
+                                        <div class="block-content block-content-full block-content-mini">
+                                            <!-- <i class="fa fa-chevron-up text-success"></i> -->  Max value recorded: {{datapointvalues.totalhighest}}
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
+                                        <div class="block-content block-content-full bg-gray-lighter border-b">
+                                            <div class="h1 font-w700"><!-- <span class="h2 text-muted">+</span> --> {{datapointvalues.lowest}}</div>
+                                            <div class="h5 text-muted text-uppercase push-5-t">Min Value</div>
+                                        </div>
+                                        <div class="block-content block-content-full block-content-mini">
+                                            <!-- <i class="fa fa-chevron-down text-danger"></i> -->  Min value recorded: {{datapointvalues.totallowest}}
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- Lines Chart -->
+                                    <div class="block">
+                                        <div class="block-header">
+                                            <ul class="block-options">
+                                                <li>
+                                                    <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                                </li>
+                                            </ul>
+                                            <!-- <h3 class="block-title">Lines</h3> -->
+                                        </div>
+                                        <div class="block-content block-content-full text-center">
+                                            <!-- Lines Chart Container -->
+                                            <div style="height: 330px;"><canvas class="js-chartjs-lines-report" id="js-chartjs-lines-report"></canvas></div>
+                                        </div>
+                                    </div>
+                                    <!-- END Lines Chart -->
+                                </div>
+                            </div>
+                            <div class="row" ng-show="datapointvalues.toptriggersnotifications.length">
+                                <div class="col-lg-6">
+                                    <!-- Pie Chart -->
+                                    <div class="block">
+                                        <div class="block-header">
+                                            <ul class="block-options">
+                                                <li>
+                                                    <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                                </li>
+                                            </ul>
+                                            <h3 class="block-title">Triggers Notifications</h3>
+                                        </div>
+                                        <div class="block-content block-content-full">
+                                            <!-- Pie Chart Container -->
+                                            <div class="js-flot-pie-report" id="js-flot-pie-report" style="width: 300px; height: 300px;"></div>
+                                        </div>
+                                    </div>
+                                    <!-- END Pie Chart -->
+                                </div>
+                                <div class="col-lg-6">
+                                    <!-- Bordered Table -->
+                                    <div class="block">
+                                        <div class="block-header">
+                                            <h3 class="block-title">Top 5 Triggers Notifications</h3>
+                                        </div>
+                                        <div class="block-content">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center" style="width: 5%">#</th>
+                                                        <th  style="width: 10%">Type</th>
+                                                        <th>Message</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="toptriggersnotification in datapointvalues.toptriggersnotifications | orderBy:'-count' | limitTo : 5">
+                                                        <td class="text-center">{{toptriggersnotification.count}}</td>
+                                                        <td class="text-center"><i ng-class='whatClassIsIt(toptriggersnotification.trigger_action_type_id)' style="border-radius: 50%;padding: 8px; color: #ffffff;"></i>
+                                                        </td>
+                                                        <td><span class="font-w600 text-muted">{{toptriggersnotification.message}}</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- END Bordered Table -->
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                        <!-- END Simple Text Tiles -->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- END Forms Row -->
+    </div>
+    <!-- END Page Content -->
+</body>

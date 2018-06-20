@@ -1,0 +1,52 @@
+<head>
+	<meta charset="utf-8">
+	<title>Organization Triggers</title>
+</head>
+<body>
+	<div>
+			<!-- Page Header -->
+			<div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+				<div class="row items-push">
+					<div class="col-sm-7">
+						<h1 class="page-heading animated fadeIn text-white">
+							<i class="fa fa-flash"></i> {{loggeduser.user.organization_name}} <span style="font-weight: 200 !important">Triggers</span></h1>
+
+						</div>
+						<div class="col-sm-5 text-right hidden-xs"> 
+							<a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+							<button class="btn btn-minw btn-square btn-primary addask-trigger" data-toggle='modal' type="button" href='#modal-trigger-addask' ng-click='initModalData()'>+ Add Trigger</button>
+						</div>
+					</div>
+				</div>
+				<!-- END Page Header -->
+<!-- END Page Header -->
+
+<!-- Page Content -->
+		<div class="block-content">
+            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/controllers.js -> TablesDatatablesCtrl Controller-->
+           <!--<table class="table table-bordered table-striped js-dataTable-full">-->
+           <table id="example" class="table table-bordered table-striped js-dataTable-full-2 dataTable no-footer">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 10%">ID</th>
+                        <th>Name</th>
+                        <th>Project</th>
+                        <th>Type</th>
+                        <th style="width: 10%">Operator</th>
+                        <th>Value</th>
+                        <th class="hidden-xs">Notes</th>
+                        <th style="width: 10%">Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        </div>
+<!-- END Page Content -->    
+</div>
+<!-- Small Dinamic modals -->
+	<div trigger-askadd-modal></div>
+    <div trigger-view-modal></div>
+    <div trigger-edit-modal></div>
+    <div trigger-delete-modal></div>
+</body>

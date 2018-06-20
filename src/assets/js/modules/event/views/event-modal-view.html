@@ -1,0 +1,87 @@
+<div class="modal fade" id="modal-event-view" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="block block-themed block-transparent remove-margin-b">
+				<div class="block-header bg-info">
+					<ul class="block-options">
+						<li>
+							<button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+						</li>
+					</ul>
+					<h3 class="block-title">View Event</h3>
+				</div>
+				<div class="block-content">
+					<!-- Wizards with Validation -->
+					<div class="row">
+						<div class="col-lg-12">
+							<!-- Simple Wizard (.js-wizard-simple class is initialized in js/controllers.js -> FormsWizardCtrl Controller) -->
+							<!-- For more examples you can check out http://vadimg.com/twitter-bootstrap-wizard-example/ -->
+							<div class="js-wizard-simple block">
+
+								<form class="form-horizontal" action="index.html" method="post" onsubmit="return false;">
+									<!-- Steps Content -->
+									<div class="block-content tab-content">
+										<div class="form-group">
+											<div class="col-sm-12">
+												<div class="form-material">
+													<span class="form-control" ng-bind="event.title"></span>
+													<label for="val-organizationname">Event Title</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-12">
+												<div class="form-material">
+													<span class="form-control" ng-bind="event.eventdate"></span>
+													<label for="val-organizationname">Event Date</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-12">
+												<div class="form-material">
+													<span class="form-control" ng-bind="event.created_at"></span>
+													<label for="val-organizationname">Creation Date</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-12">
+												<div class="form-material">
+													<span class="form-control" type="text" id="val-organization" name="val-organization" placeholder="Enter address" ng-bind="event.organization_name"></span>
+													<label for="val-organization">Organization</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-12">
+												<div class="form-material">
+													<span class="form-control" type="text" id="val-organization" name="val-project" placeholder="Enter address" ng-bind="event.project_name"></span>
+													<label for="val-organization">Project</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-9">
+												<label class="css-input css-input-disabled switch switch-sm switch-primary">
+													<input type="checkbox" ng-checked="project.active === 1 ? true : false" id="val-activate" name="val-activate" ng-bind="project.active" ng-disabled="true"><span></span> Active
+												</label>
+											</div>
+										</div>
+
+									</div>
+									<!-- END Steps Content -->
+									<div class="modal-footer">
+										<button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+									</div>
+								</form>
+								<!-- END Form -->
+							</div>
+							<!-- END Simple Wizard -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

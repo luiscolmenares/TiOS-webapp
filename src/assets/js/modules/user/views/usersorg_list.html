@@ -1,0 +1,53 @@
+<!--Page Header -->
+<div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white">
+                <i class="si si-users"></i> Users 
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            
+            <a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+            <a user-role="['super', 'admin', 'owner']" class="btn btn-minw btn-square btn-primary" type="button" href="#/organization/user/add">+ Add User</a>
+        </div>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content">
+    <!-- Dynamic Table Full -->
+    <div class="block">
+        <!--div class="block-header">
+            <h3 class="block-title">Dynamic Table <small>Full</small></h3>
+            <p>    Click <a ng-click="loadUsers()">here</a> to load data.</p>
+        </div>-->
+        <div class="block-content">
+            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/controllers.js -> TablesDatatablesCtrl Controller-->
+           <table id="example" class="table table-bordered table-striped js-dataTable-full dataTable no-footer">
+           <!--<table class="table table-bordered table-striped">-->
+           <!--<table>-->
+                <thead>
+                    <tr>
+                        <!-- <th class="text-center">id</th> -->
+                        <th>name</th>
+                        <th>organization</th>
+                        <th class="hidden-xs sorting">email</th>
+                        <!--<th class="text-center hidden-xs sorting">role</th>
+                        <th class="text-center hidden-xs sorting">organization</th>-->
+                        <th class="hidden-xs sorting">status</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>      
+            </table>
+        </div>
+    </div>
+    <!-- END Dynamic Table Full -->
+     <!-- Small Dinamic modals -->
+    <div user-modal></div>
+    <div user-edit-modal></div>
+    <div user-delete-modal></div>
+
+</div>
+<!-- END Page Content

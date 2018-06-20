@@ -1,0 +1,88 @@
+<!-- Page Header -->
+<div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');"> 
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white">
+                <i class="si si-briefcase"></i> Add Project <small> Add project to the system.</small>
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <!-- <ol class="breadcrumb push-10-t">
+                <li>Forms</li>
+                <li><a class="link-effect" href="">Validation</a></li>
+            </ol> -->
+        </div>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content content-narrow">
+    <!-- Forms Row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Material Forms Validation -->
+            <!--<h2 class="content-heading">Material Forms</h2>-->
+            <div class="block">
+                <div class="block-header">
+                    <ul class="block-options">
+                       <!--  <li>
+                            <button type="button"><i class="si si-settings"></i></button>
+                        </li> -->
+                    </ul>
+                    <!--<h3 class="block-title">Complete all fields</h3>-->
+                </div>
+                <div class="block-content block-content-narrow">
+                    <!-- jQuery Validation (.js-validation-material class is initialized in js/controllers.js -> FormsValidationCtrl Controller) -->
+                    <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                    <form class="js-validation-material form-horizontal push-10-t" name="form" ng-submit="createProject()" role="form">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-projectname" name="val-projectname" placeholder="Enter project name" ng-model="projectname">
+                                    <label for="val-projectname">Project name</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-organization" name="val-organization" ng-model="selectedOrganization" 
+                                    ng-options="org.id as org.name for org in organizations"  style="width: 100%;" data-placeholder="Choose an organization" data-js-select2>
+                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                </select>
+                                <label for="val-org2">Organization</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="form-material">
+                                <textarea class="form-control" id="val-notes" name="val-notes" rows="3" placeholder="Notes from this Project" ng-model="notes"></textarea>
+                                <label for="val-notes">Notes</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <div class="col-sm-12">
+                             <label class="css-input css-checkbox css-checkbox-lg css-checkbox-primary">
+                                                <input type="checkbox" checked id="val-activate" ><span></span> Enable this project
+                                            </label>
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END Material Forms Validation -->
+    </div>
+</div>
+<!-- END Forms Row -->
+</div>
+<!-- END Page Content

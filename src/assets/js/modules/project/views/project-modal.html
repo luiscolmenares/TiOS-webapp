@@ -1,0 +1,58 @@
+<div class="modal fade" id="modal-project" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-sm">
+	<div class="modal-content">
+	<form class="js-validation-material form-horizontal push-10-t" name="form" role="form">
+		<div class="block block-themed block-transparent remove-margin-b">
+			<div class="block-header bg-info">
+				<ul class="block-options">
+					<li>
+						<button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+					</li>
+				</ul>
+				<h3 class="block-title" ng-bind="project.name"></h3>
+			</div>
+
+			<div class="block-content">
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="form-material">
+							<span class="form-control" ng-bind="project.name"></span>
+							<label for="val-organizationname">Project Name</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="form-material">
+							<span class="form-control" type="text" id="val-organization" name="val-organization" placeholder="Enter address" ng-bind="project.organization"></span>
+							<label for="val-organization">Organization</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+						<div class="form-material">
+							<span class="form-control" id="val-notes" name="val-notes" rows="3" placeholder="Notes from this project" ng-bind="project.notes"></span>
+							<label for="val-suggestions2">Notes</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<label class="css-input css-input-disabled switch switch-sm switch-primary">
+							<input type="checkbox" ng-checked="project.active === 1 ? true : false" id="val-activate" name="val-activate" ng-bind="project.active" ng-disabled="true"><span></span> Active
+						</label>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+		</div>
+
+</form>
+	</div>
+</div>
+</div>

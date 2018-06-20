@@ -1,0 +1,320 @@
+<!--Page Header -->
+<div class="content bg-gray-lighter"  style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white">
+                <i class="fa fa-clock-o"></i> Add Event <small></small>
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <!-- <li><a class="link-effect" href="/#/events">Events</a></li>
+                <li><a class="link-effect" href="">Add Event</a></li> -->
+            </ol>
+        </div>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content content-narrow">
+    <!-- Forms Row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Material Forms Validation -->
+            <!--<h2 class="content-heading">Material Forms</h2>-->
+            <div class="block">
+                <div class="block-header">
+                   <!--  <ul class="block-options">
+                        <li>
+                            <button type="button"><i class="si si-settings"></i></button>
+                        </li>
+                    </ul> -->
+                    <!--<h3 class="block-title">Complete all fields</h3>-->
+                </div>
+                <div class="block-content block-content-narrow">
+                    <!-- jQuery Validation (.js-validation-material class is initialized in js/controllers.js -> FormsValidationCtrl Controller) -->
+                    <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                    <!--<form class="js-validation-material form-horizontal push-10-t" action="index.html" method="post">-->
+                    <form class="js-validation-material form-horizontal push-10-t" name="form" ng-submit="createEvent()" role="form">
+
+                    <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="form-material">
+                                        <select class="form-control" id="val-project" name="val-project" ng-model="selectedProject" 
+                                        ng-options="p.proj_org for p in projects track by p.id"  style="width: 100%;" data-placeholder="Choose a project" data-js-select2 data-ng-change="getDatasourceOptions()">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                    </select>
+                                    <label for="val-project">Related Project</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    
+                        <div class="form-group" ng-show='datapoints.length'>
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-datapoint" name="val-datapoint" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatapoint" data-ng-options="datapoint.id as datapoint.name for datapoint in datapoints" ng-show='datapoints.length'>
+                                    </select>
+                                    <label for="example2-select2">Datapoint</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-title" name="val-title" ng-model="title" placeholder="Enter Event title">
+                                    <label for="val-title">Title</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <input data-js-datepicker class="form-control" type="text" id="val-date" name="val-date" ng-model="from_date" data-date-format="mm/dd/yyyy" placeholder="mm/dd/yyyy">
+                                    <label for="example-datepicker4">Choose a date</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group"  ng-show='!isallday'>
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <input class="form-control" type="text" id="val-time" name="val-time" ng-model="fromtime" placeholder="mm/dd/yyyy">
+                                    <label for="val-title">Time</label>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="form-group"  ng-show="notallday">
+                            <div class="col-sm-12">
+                                <div class="form-material floating">
+                                    <input data-js-masked-input="99:99" class="form-control" type="text" id="example-masked2-fromtime" name="example-masked2-fromtime"  ng-model="from_time">
+                                    <label for="example-masked2-time">Time <small class="text-muted">(00:00 - 24h format)</small></label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                       <!--  <div class="form-group">
+                            <div class="col-sm-12">
+                                <div data-js-datetimepicker="{showTodayButton: true, showClear: true, showClose: true, sideBySide: true}" class="form-material input-group date">
+                                    <input class="form-control datepickerfrom" type="text" id="val-from-date" ng-model="parent.checkOut" name="val-from-date" placeholder="Choose a date..">
+                                    <label for="example-datetimepicker8">Choose from date</label>
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!-- <div class="form-group">
+                            <div class="col-sm-12">
+                                <div data-js-datetimepicker="{showTodayButton: true, showClear: true, showClose: true, sideBySide: true}" class="form-material input-group date">
+                                    <input class="form-control" type="text" id="val-to-date" name="val-to-date" placeholder="Choose a date.." ng-model="todate" ng-change="isfilled()">
+                                    <label for="example-datetimepicker8">Choose to date</label>
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="form-group">
+                            <!-- <div class="col-sm-3">
+                             <label class="css-input css-checkbox css-checkbox-md css-checkbox-primary">
+                                    <input type="checkbox" id="val-all-day-check" ng-model="allday" data-ng-change="allDay()"><span></span> All day
+                                </label>
+                            </div> -->
+                            <div class="col-sm-4">
+                             <label class="css-input css-checkbox css-checkbox-md css-checkbox-primary">
+                                    <!-- <input type="checkbox" id="val-repeat-check"  ng-model="selectedTimePickerOptions" data-ng-change="showRepeat()" ng-checked='repeatchecked'> -->
+                                    <input type="checkbox" id="val-repeat-check"  ng-click="showRepeat()" ng-checked='repeatchecked'><span></span> Repeat{{repeattext}}
+                                </label>
+                            </div>
+                        </div>
+
+    
+
+                        
+                        <div class="form-group" ng-show="selectedProject">
+                                <div class="col-sm-12">
+                                    <div class="form-material">
+                                        <select data-js-select2 class="form-control" id="validation-action" name="validation-action" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedaction" data-ng-options="action.id as action.description for action in actions" data-ng-change="getRecipients()">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        </select>
+                                        <label for="validation-action">Action</label>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <div class="form-group" ng-show="datasourceshow">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-datasources" name="val-datasources" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatasource" data-ng-options="datasource.id as datasource.name for datasource in datasources" data-ng-change="getDatapointsOptions()">
+                                    </select>
+                                    <label for="example2-select2">Datasource</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show='datapoints.length'>
+                            <div class="col-xs-12">
+                                <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="val-datapoint" name="val-datapoint" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatapoint" data-ng-options="datapoint.id as datapoint.name for datapoint in datapoints" ng-show='datapoints.length'>
+                                    </select>
+                                    <label for="example2-select2">Datapoint</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                                <div class="col-sm-12" ng-show="recipients.length">
+                                            <label>Recipients</label>
+                                             <ul style="list-style-type: none;"">
+                                                 <li ng-repeat="recipient in recipients">
+                                            
+                                              <div class="checkbox">
+                                                    <label for="example-checkbox1">
+                                                        <input type="checkbox" id="{{recipient.name}}" name="{{recipient.name}}" value="{{recipient.id}}" ng-model="recipient.selected" ng-click="addToList()"> <span class="small">{{recipient.name}}</span>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                             </ul>
+                                            
+                                        
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12" ng-show="recipients.length">
+                                             
+                                                <div class="form-material">
+                                                    <label for="example-checkbox1">
+                                                         Create message
+                                                    </label>
+                                                <textarea class="form-control" id="simple-classic-progress-notes" name="simple-classic-progress-notes" rows="9" ng-model="custommessage" placeholder="Add custom message"></textarea>
+                                                </div>
+                                       
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12" ng-show="selectedaction == 1">
+                                    <!-- <div class="col-sm-12" ng-show="recipients.length"> -->
+                                             
+                                                <div class="form-material">
+                                                    <label for="example-checkbox1">
+                                                        <input type="checkbox" id="send-report-check" name="send-report" value="send-report" ng-model="sendreportcheck" ng-click="addReport()"> Attach Report {{selectedaction}}
+                                                    </label>
+                                                <!-- <textarea class="form-control" id="simple-classic-progress-notes" name="simple-classic-progress-notes" rows="9" ng-model="custommessage" ng-show="custommessagecheck" placeholder="Add custom message"></textarea> -->
+                                                </div>
+                                       
+                                    </div>
+                            </div>
+  
+
+  
+                        
+
+
+                       <!--  <div class="form-group">
+                        <div class="col-sm-9">
+                            <div class="form-material">
+                                    <input data-js-masked-input="99/99/9999" class="form-control" type="text" id="val-from-date" name="val-from-date" placeholder="mm/dd/yyyy">
+                                    <label for="val-from-date">Choose From Date</label>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-9">
+                                <div class="form-material">
+                                    <input data-js-masked-input="99/99/9999" class="form-control" type="text" id="val-to-date" name="val-from-date" placeholder="mm/dd/yyyy">
+                                    <label for="val-from-date">Choose To Date</label>
+                                </div>
+                                </div>
+
+                                
+                        </div> -->
+                            
+                        <!-- /div> -->
+                        
+
+
+                     <!-- <div class="form-group">   
+                    <div class="col-sm-12">
+                        <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="example2-select2" name="example2-select2" style="width: 100%;" data-placeholder="Choose one.." ng-model="selectedTimerOption" data-ng-change="getTimePickerOptions()">
+                                        <option></option> --><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <!-- <option value="1">Single Point Duration</option>
+                                        <option value="2">All Day</option>
+                                        <option value="3">Multiple Days</option>
+                                    </select>
+                                    <label for="example2-select2">Event Duration</label>
+                                </div>
+                                </div>
+                                </div> -->
+
+                       
+                        <!-- <div class="form-group" ng-show='singlePointSelected'>
+                            <div class="col-sm-12">
+                                <div data-js-datetimepicker="{showTodayButton: true, showClear: true, showClose: true, sideBySide: true}" class="form-material input-group date">
+                                    <input class="form-control" type="text" id="example-datetimepicker8" name="example-datetimepicker8" placeholder="Choose a date..">
+                                    <label for="example-datetimepicker8">Choose a date</label>
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div> -->
+
+                       <!--  <div class="form-group" ng-show='allDaySelected'> -->
+                        <!-- <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-material">
+                                    <input data-js-datepicker class="form-control" type="text" id="example-datepicker4" name="example-datepicker4" data-date-format="mm/dd/yy" placeholder="mm/dd/yy">
+                                    <label for="example-datepicker4">Choose a date</label>
+                                </div>
+                            </div>
+                        </div>  -->
+
+                        <!-- <div class="form-group" ng-show='multipleDaySelected'>
+                            <div class="col-sm-12">
+                                <div data-js-datetimepicker="{showTodayButton: true, showClear: true, showClose: true, sideBySide: true}" class="form-material input-group date">
+                                    <input class="form-control" type="text" id="example-datetimepicker8" name="example-datetimepicker8" placeholder="Choose a date..">
+                                    <label for="example-datetimepicker8">From date</label>
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div data-js-datetimepicker="{showTodayButton: true, showClear: true, showClose: true, sideBySide: true}" class="form-material input-group date">
+                                    <input class="form-control" type="text" id="example-datetimepicker8" name="example-datetimepicker8" placeholder="Choose a date..">
+                                    <label for="example-datetimepicker8">To date</label>
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- div class="form-group">   
+                    <div class="col-sm-12">
+                        <div class="form-material">
+                                    <select data-js-select2 class="form-control" id="example2-select2" name="example2-select2" style="width: 100%;" data-placeholder="Choose one.." ng-model="action">
+                                        <option></option> --><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <!-- <option value="1">No action</option>
+                                        <option value="2">Swicth ON</option>
+                                        <option value="3">Switch OFF</option>
+                                        <option value="4">New value</option>
+                                        <option value="5">Value check</option>
+                                        <option value="6">Report</option>
+                                    </select>
+                                    <label for="example2-select2">Event Action</label>
+                                </div>
+                                </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <button class="btn btn-sm btn-primary" type="submit">Create Event</button>
+                                    </div>
+                                </div>
+                        </div>                        
+                
+            </form>
+        </div>
+    </div>
+    <!-- END Material Forms Validation -->
+</div>
+</div>
+<!-- END Forms Row -->
+</div>
+<div repeat-modal></div>
+<!-- END Page Content

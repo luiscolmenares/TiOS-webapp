@@ -1,0 +1,128 @@
+<div class="modal fade" id="modal-trigger-view" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="block block-themed block-transparent remove-margin-b">
+				<div class="block-header bg-info">
+					<ul class="block-options">
+						<li>
+							<button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+						</li>
+					</ul>
+					<h3 class="block-title">View Trigger</h3>
+				</div>
+				<div class="block-content">
+					<!-- Wizards with Validation -->
+					<div class="row">
+						<div class="col-lg-12">
+							<!-- Simple Wizard (.js-wizard-simple class is initialized in js/controllers.js -> FormsWizardCtrl Controller) -->
+							<!-- For more examples you can check out http://vadimg.com/twitter-bootstrap-wizard-example/ -->
+							<div class="js-wizard-simple block">
+								<!-- Step Tabs -->
+								<ul class="nav nav-tabs nav-tabs-alt nav-justified" data-js-tabs>
+									<li class="active">
+										<a href="#simple-step1" data-toggle="tab">1. Main</a>
+									</li>
+									<li>
+										<a href="#simple-step2" data-toggle="tab">2. Settings</a>
+									</li>
+									<li>
+										<a href="#simple-step3" data-toggle="tab">3. Options</a>
+									</li>
+								</ul>
+								<!-- END Step Tabs -->
+								<!-- Form -->
+								<form class="form-horizontal" action="index.html" method="post" onsubmit="return false;">
+									<!-- Steps Content -->
+									<div class="block-content tab-content">
+										<!-- Step 1 -->
+										<div class="tab-pane fade in push-30-t push-50 active" id="simple-step1">
+											<div class="form-group">
+												<div class="col-sm-8 col-sm-offset-2">
+													<div class="form-material">
+														<span class="form-control" type="text" placeholder="Enter trigger's name" ng-bind="trigger.name"></span>
+														<label for="val-triggername">Trigger</label>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-8 col-sm-offset-2">
+													<div class="form-material">
+														<span class="form-control" type="text"  ng-bind="trigger.datasource_name"></span>
+														<label for="val-triggername">Datasource</label>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-8 col-sm-offset-2">
+													<div class="form-material">
+														<span class="form-control" type="text"  ng-bind="trigger.datapoint_name"></span>
+														<label for="val-triggername">Datapoint</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- END Step 1 -->
+
+										<!-- Step 2 -->
+										<div class="tab-pane fade push-30-t push-50" id="simple-step2">
+											<div class="form-group">
+												<div class="col-sm-8 col-sm-offset-2">
+													<div class="form-material">
+														<span class="form-control" type="text"  ng-bind="trigger.operator"></span>
+														<label for="val-triggername">Operator</label>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-8 col-sm-offset-2">
+													<div class="form-material">
+														<span class="form-control" type="text"  ng-bind="trigger.value"></span>
+														<label for="val-triggername">Value</label>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-8 col-sm-offset-2">
+													<div class="form-material">
+														<span class="form-control" type="text"  ng-bind="trigger.description"></span>
+														<label for="val-triggername">Action</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- END Step 2 -->
+										<!-- Step 3 -->
+										<div class="tab-pane fade push-30-t push-50" id="simple-step3">
+											<div class="form-group">
+												<div class="col-sm-8 col-sm-offset-2">
+													<div class="form-material">
+														<span class="form-control" type="text"  ng-bind="trigger.notes"></span>
+														<label for="val-triggername">Notes</label>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-8 col-sm-offset-2">
+													<label class="css-input switch switch-sm switch-primary" for="validation-active">
+														<input type="checkbox" ng-checked="trigger.active === 1 ? true : false" id="val-activate" name="val-activate" ng-bind="trigger.active" ng-disabled="true"><span></span> Enable this trigger
+													</label>
+												</div>
+											</div>
+										</div>
+										<!-- END Step 3 -->
+									</div>
+									<!-- END Steps Content -->
+									<div class="modal-footer">
+										<button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+									</div>
+								</form>
+								<!-- END Form -->
+							</div>
+							<!-- END Simple Wizard -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

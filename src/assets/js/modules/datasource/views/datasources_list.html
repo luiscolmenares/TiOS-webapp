@@ -1,0 +1,69 @@
+<!--Page Header -->
+<div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white">
+                <i class="fa fa-server"></i> Datasources 
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs"> 
+            <a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+            <a class="btn btn-minw btn-square btn-primary" type="button" href="#/project/{{projectId}}/datasource/add">+ Add Datasource</a>
+        </div>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content">
+    <!-- Dynamic Table Full -->
+    <div class="block">
+        <div class="block-content">
+            <table class="table table-bordered table-striped" ng-hide="!datasourceslist.length">
+                <thead>
+                    <tr>
+                        <th class="text-center"></th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <div ng-hide="datasourceslist.length">
+                        <h2 class="h4 font-w300 animated fadeInUp">No Datasources. Click <a href="#/project/{{projectId}}/datasource/add">here</a> to add a Datasource.</h2>
+                    </div>
+                    <tr ng-repeat="datasource in datasourceslist">
+                        <td>{{datasource.id}}</td>
+                        <td>{{datasource.name}}<br>
+                            <a href="javascript:void(0)" ng-click="seeDataPoint(datasource)" class="font-s13" ng-hide="datasource.ip == '0.0.0.0'">Click to see all Datapoints from this Datasource</a>
+                        </td>
+                        <td>{{datasource.type}}</td>
+                        <td><span ng-class="isActive(datasource.active)">{{datasource.active}}</span></td>
+
+                        <!-- <td>
+                            <table class="table table-bordered">
+                                <tr ng-repeat="(key, val) in datasource.options">
+                                    <td>{{key}}</td>
+                                    <td>{{val}}</td>
+                                </tr>
+                            </table>                                
+                        </td> -->
+                        <td class="text-center">
+                            <div class="btn-group">                          
+                                <button class="btn btn-xs btn-default view-datasource-edit" type="button" data-toggle="modal" data-id="{{datasource.id}}" href="#modal-datasource-edit"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-xs btn-default view-datasource-delete" type="button" data-toggle="modal" data-id="{{datasource.id}}" href="#modal-datasource-delete" ><i class="fa fa-times"></i></button>
+                                <a class="btn btn-xs btn-square btn-success" type="button" href="#/datasource/{{datasource.id}}/datapoint/add" ng-hide="datasource.ip == '0.0.0.0'">+ Add Datapoint</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div datasource-edit-modal></div>
+    <div datasource-delete-modal></div>
+    <!-- END Dynamic Table Full -->
+
+</div>
+<!-- END Page Content

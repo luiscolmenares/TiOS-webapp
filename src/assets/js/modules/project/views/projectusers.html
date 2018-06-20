@@ -1,0 +1,86 @@
+
+<head>
+	<meta charset="utf-8">
+	<title>Project Users</title>
+</head>
+<body>
+	<!-- Page Container -->
+<!--
+Available Classes:
+
+'enable-cookies'             Remembers active color theme between pages (when set through color theme list)
+
+'sidebar-l'                  Left Sidebar and right Side Overlay
+'sidebar-r'                  Right Sidebar and left Side Overlay
+'sidebar-mini'               Mini hoverable Sidebar (> 991px)
+'sidebar-o'                  Visible Sidebar by default (> 991px)
+'sidebar-o-xs'               Visible Sidebar by default (< 992px)
+
+'side-overlay-hover'         Hoverable Side Overlay (> 991px)
+'side-overlay-o'             Visible Side Overlay by default (> 991px)
+
+'side-scroll'                Enables custom scrolling on Sidebar and Side Overlay instead of native scrolling (> 991px)
+-->
+<div>
+	<!-- Main Container -->
+	<main id="content">
+		<!-- Page Header -->
+		<div class="bg-image overflow-hidden" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+			<div class="bg-black-op">
+				<div class="content content-narrow">
+					<div class="block block-transparent">
+						<div class="block-content block-content-full">
+							<h1 class="h1 font-w300 text-white animated fadeInDown push-50-t push-5">Users</h1>
+							<h2 class="h4 font-w300 text-white-op animated fadeInUp">{{project.name}}</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content ">
+			<div class="row items-push">
+				<div class="col-sm-7">
+				</div>
+				<div class="col-sm-5 text-right hidden-xs">
+					<a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+					<button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-user" type="button">+ Add User to this Project</button>
+				</div>
+			</div>
+		</div>
+		<div class="content content-narrow">
+		<div class="row">
+		<div ng-hide="projectusers.length">
+			<h2 class="h4 font-w300 animated fadeInUp">No Users</h2>
+		</div>
+                        <div ng-repeat="projectuser in projectusers">
+
+                       
+
+                        <div class="col-sm-6 col-lg-3">
+                           <!--  <a class="block block-link-hover2" href="#modal-project-user" data-toggle="modal" data-id="{{projectuser.id}}" ng-click="initModalData()"> -->
+                           <div class="btn btn-xs btn-default view-project-user" data-toggle="modal" data-id='{{projectuser.id}}' href="#modal-project-user" type="button" ng-click="initModalData()">
+                                <div class="block-content block-content-full text-center bg-image" style="background-image: url('assets/img/photos/photo12.jpg');">
+                                    <img class="img-avatar img-avatar96 img-avatar-thumb" src="assets/img/avatars/avatar4.jpg" alt="">
+                                </div>
+                                <div class="block-content block-content-full text-center">
+                                    <div class="font-w600 push-5">{{projectuser.name}}</div>
+                                    <div class="text-muted">{{projectuser.email}}</div>
+                                </div>
+                            <!-- </a> --></div>
+                        </div>
+
+                        </div>
+                        
+                        </div>
+		</div>
+		<!-- END Page Content -->
+	</main>
+	<!-- END Main Container -->
+	<!-- END Footer -->
+</div>
+<!-- END Page Container -->
+<!-- Apps Modal -->
+<div project-user-modal></div>
+<div useradd-modal></div>
+<!-- END Fade In Modal -->
+</body>
