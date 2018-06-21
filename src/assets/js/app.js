@@ -34,20 +34,16 @@ var App = angular.module('app', [
     //'ngWebSocket'
 ]);
 App.constant('urls', {
-    // BASE: 'http://localhost:8080/',
-    //Digital Ocean Server
-    //BASE_API_SERVER: 'http://159.89.47.69/',
-    //BASE_API_SERVER: 'http://192.168.1.5:5000/',
-    // BASE_API_SERVER: 'http://192.168.1.75:5000/',
-    BASE_API_SERVER: 'http://127.0.0.1:5000/',
-    //DigitalOcean Server
-    //BASE_API: 'http://159.89.47.69/api/',
-    //BASE_API: 'http://192.168.1.5:5000/api/',
-    BASE_API: 'http://127.0.0.1:5000/api/',
-    // BASE_NR: 'http://ec2-54-158-29-116.compute-1.amazonaws.com:1880',
-    BASE_NR: 'http://127.0.0.1:1880',
-     // BASE_NR: 'http://node-red.tiosplatform.com:1880',
-    //BASE_MQTT: 'http://ec2-34-228-153-47.compute-1.amazonaws.com'
+//Local
+BASE_API_SERVER: 'http://127.0.0.1:5000/',
+BASE_API: 'http://127.0.0.1:5000/api/',
+BASE_NR: 'http://127.0.0.1:1880',
+
+//prod
+BASE_API_SERVER: 'https://api.tiosplatform.com/',
+BASE_API: 'https://api.tiosplatform.com/api/',
+BASE_NR: 'http://node-red.tiosplatform.com:1880/',
+
 });
 
 // Router configuration
@@ -2319,6 +2315,15 @@ App.controller('HeaderCtrl', ['$scope', '$localStorage', '$window', '$location',
 //                     'Last 30 Days': [moment().subtract(29, 'days'), moment()],
 //                     'This Month': [moment().startOf('month'), moment().endOf('month')],
 //                     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+//                 }
+//             }, function (start, end, label) {
+//                 scope.ngModel.startDate = start.format('YYYY-MM-DD');
+//                 scope.ngModel.endDate = end.format('YYYY-MM-DD');
+//                 scope.$apply();
+//             });
+//         }
+//     };
+// });.subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
 //                 }
 //             }, function (start, end, label) {
 //                 scope.ngModel.startDate = start.format('YYYY-MM-DD');
