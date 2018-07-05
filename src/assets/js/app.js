@@ -35,9 +35,9 @@ var App = angular.module('app', [
 ]);
 App.constant('urls', {
 //Local
-BASE_API_SERVER: 'http://127.0.0.1:5000/',
-BASE_API: 'http://127.0.0.1:5000/api/',
-BASE_NR: 'http://127.0.0.1:1880',
+// BASE_API_SERVER: 'http://127.0.0.1:5000/',
+// BASE_API: 'http://127.0.0.1:5000/api/',
+// BASE_NR: 'http://127.0.0.1:1880',
 
 //prod
 BASE_API_SERVER: 'https://api.tiosplatform.com/',
@@ -324,6 +324,39 @@ App.config(['$stateProvider', '$urlRouterProvider',
                     url: '/projects',
                     templateUrl: 'assets/js/modules/project/views/projects_list.html',
                     controller: 'ProjectTablesCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    insertBefore: '#css-bootstrap',
+                                    serie: true,
+                                    files: [
+                                        'assets/js/plugins/datatables/jquery.dataTables.min.css',
+                                        'assets/js/plugins/datatables/jquery.dataTables.min.js',
+                                        'assets/js/plugins/datatables/dataTables.buttons.min.js',
+                                        'assets/js/plugins/datatables/buttons.flash.min.js',
+                                        'assets/js/plugins/datatables/jszip.min.js',
+                                        'assets/js/plugins/datatables/pdfmake.min.js',
+                                        'assets/js/plugins/datatables/vfs_fonts.js',
+                                        'assets/js/plugins/datatables/buttons.html5.min.js',
+                                        'assets/js/plugins/datatables/buttons.print.min.js',
+                                        'assets/js/plugins/datatables/responsive.dataTables.min.css',
+                                        'assets/js/plugins/datatables/dataTables.bootstrap.min.js',
+                                        'assets/js/plugins/datatables/dataTables.bootstrap.min.css',
+                                        'assets/js/plugins/datatables/dataTables.responsive.min.js',
+                                        'assets/js/plugins/datatables/responsive.bootstrap.min.js',
+                                        'assets/js/plugins/datatables/responsive.bootstrap.min.css',
+                                        'assets/js/plugins/sweetalert/sweetalert.min.css',
+                                        'assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js',
+                                        'assets/js/plugins/sweetalert/sweetalert.min.js'
+                                    ]
+                                });
+                            }]
+                    }
+                })
+                .state('spaces', {
+                    url: '/project/:projectId/spaces',
+                    templateUrl: 'assets/js/modules/space/views/spaces_list.html',
+                    controller: 'SpaceTablesCtrl',
                     resolve: {
                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load({

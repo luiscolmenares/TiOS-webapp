@@ -95,8 +95,18 @@ App.controller('TablesDatapointTablesCtrl', ['$scope', '$localStorage', '$state'
 ]);
 
 // Forms Wizard Controller
-App.controller('DatapointFormsWizardCtrl', ['$scope', '$localStorage', '$window', 'DatapointService', '$state', '$stateParams',
-    function ($scope, $localStorage, $window, DatapointService, $state, $stateParams) {
+App.controller('DatapointFormsWizardCtrl', ['$scope', '$localStorage', '$window', 'DatapointService', '$state', '$stateParams', 'SpaceService', '$stateParams', 'ProjectService', 'DatasourceService',
+    function ($scope, $localStorage, $window, DatapointService, $state, $stateParams, SpaceService, $stateParams, ProjectService, DatasourceService) {
+ 
+ console.log('-----stateparams');
+ console.log($stateParams);
+        DatasourceService.GetProjectByDatasourceId($stateParams.datasourceId).then(function (response){
+            $scope.project = response.project;
+            SpaceService.GetSpacesByProjectId($scope.project.id).then(function (response) {
+                $scope.spaceslist = response.spaces;
+            });
+        });
+        
 // Init simple wizard, for more examples you can check out http://vadimg.com/twitter-bootstrap-wizard-example/
         var initWizardSimple = function () {
             jQuery('.js-wizard-simple').bootstrapWizard({
@@ -384,6 +394,7 @@ App.controller('DatapointFormsWizardCtrl', ['$scope', '$localStorage', '$window'
                     notes: $scope.notes,
                     data: $scope.data,
                     active: activation,
+                    space_id: $scope.space_id
                 });
                 console.log('datapoint-->');
                 console.log(datapoint);

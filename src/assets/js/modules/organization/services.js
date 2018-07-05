@@ -18,6 +18,7 @@
         service.Update = Update;
         service.Delete = Delete;
         service.GetOrganizationsProjectsDashboards = GetOrganizationsProjectsDashboards;
+        service.GetByProjectId = GetByProjectId;
 
         return service;
 

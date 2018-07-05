@@ -1,5 +1,5 @@
 // Tables DataTables Controller
-App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeout', '$http', '$stateParams', '$state', 'DatasourceService', 'urls', 'ProjectService',
+App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeout', '$http', '$stateParams', '$state', 'DatasourceService', 'urls', 'ProjectService', 
     function ($scope, $localStorage, $timeout, $http, $stateParams, $state, DatasourceService, urls, ProjectService) {
         console.log($stateParams);
         $scope.projectId = $stateParams.projectId;
@@ -19,14 +19,13 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
         };
         $scope.loadDatasources = function () {
             console.log('loading datasources');
-            DatasourceService.GetDatasourcesByProjectId($stateParams.projectId).then(function (response) {
-                console.log('from datasource service--->');
-                console.log(response);
-            });
+            // DatasourceService.GetDatasourcesByProjectId($stateParams.projectId).then(function (response) {
+            //     console.log('from datasource service--->');
+            //     console.log(response);
+            // });
             $http.get(urls.BASE_API + "project/" + $stateParams.projectId + "/datasources").then(function (response) {
                 console.log(response);
                 for (var i = 0, len = response.data.datasources.length; i < len; i++) {
-                    //response.data.datasources[i].options = JSON.parse(response.data.datasources[i].options);
                     if (response.data.datasources[i].active == 1){
                         response.data.datasources[i].active = "enabled";
                     } else {
@@ -34,13 +33,6 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
                     }
                 }
                 $scope.datasourceslist = response.data.datasources;
-                // console.log('los datasources');
-
-                // DatasourceService.GetDatasourceTypes().then(function (result) {
-                //     console.log('los datasources');
-                //     console.log(result);
-                //     $scope.datasourcetypes = result.datasourcetypes;
-                // });
             });
             
         };
@@ -322,9 +314,17 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
 ]);
 
 // Forms Wizard Controller
-App.controller('DatasourceFormsWizardCtrl', ['$scope', '$localStorage', '$window', 'DatasourceService', '$state', '$stateParams', 'urls',
-    function ($scope, $localStorage, $window, DatasourceService, $state, $stateParams, urls) {
+App.controller('DatasourceFormsWizardCtrl', ['$scope', '$localStorage', '$window', 'DatasourceService', '$state', '$stateParams', 'urls', 'SpaceService',
+    function ($scope, $localStorage, $window, DatasourceService, $state, $stateParams, urls, SpaceService) {
 $scope.broker = urls.BASE_NR;
+$scope.unitid = "999";
+$scope.ip = "0.0.0.0";
+$scope.port = "999";
+
+SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (response) {
+                $scope.spaceslist = response.spaces;
+            });
+// $('#val-thing').prop("checked") = true;
 // Init simple wizard, for more examples you can check out http://vadimg.com/twitter-bootstrap-wizard-example/
         var initWizardSimple = function () {
             jQuery('.js-wizard-simple').bootstrapWizard({
@@ -573,13 +573,16 @@ $scope.broker = urls.BASE_NR;
         $scope.thingDatasource = function(){
         var isChecked = $('#val-thing').prop("checked");
         if (isChecked) {
+                    console.log('thing deactivated');
+                    $scope.unitid = "";
+                    $scope.ip = "";
+                    $scope.port = "";
+
+                } else {
                     console.log('thing activated');
                     $scope.unitid = "999";
                     $scope.ip = "0.0.0.0";
                     $scope.port = "999";
-
-                } else {
-                    console.log('thing deactivated');
                 }
         
         };
@@ -627,6 +630,7 @@ $scope.broker = urls.BASE_NR;
                     data: $scope.data,
                     active: activation,
                     project_id: $stateParams.projectId,
+                    space_id: $scope.space_id
                 });
                 console.log('datasource-->');
                 console.log(datasource);

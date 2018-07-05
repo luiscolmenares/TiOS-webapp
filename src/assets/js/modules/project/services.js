@@ -20,6 +20,7 @@
         service.GetUserCountByOrganizationId = GetUserCountByOrganizationId;
         service.GetProjectCountByOrganizationId = GetProjectCountByOrganizationId;
         service.GetProjectsByOrganizationId = GetProjectsByOrganizationId;
+        service.GetSpacesCountByProjectId = GetSpacesCountByProjectId;
         service.GetDatasourceCountByProjectId = GetDatasourceCountByProjectId;
         service.GetActiveDatasourcesByProjectId = GetActiveDatasourcesByProjectId;
         service.GetDatasourcesByProjectId = GetDatasourcesByProjectId;
@@ -107,6 +108,18 @@
                 }
             };
             return $http.get(urls.BASE_API + 'organization/' + organizationId + '/projects/count', config).then(handleSuccess, handleError('Error getting projects count by org id'));
+
+        }
+
+        GetSpacesCountByProjectId
+
+        function GetSpacesCountByProjectId(projectId) {
+            var config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            };
+            return $http.get(urls.BASE_API + 'project/' + projectId + '/spaces/count', config).then(handleSuccess, handleError('Error getting spaces count by id'));
 
         }
 

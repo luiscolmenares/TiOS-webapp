@@ -21,6 +21,7 @@
         service.GetDatasourceProtocolTypeById = GetDatasourceProtocolTypeById;
         service.GetDatasourceProtocolTypes = GetDatasourceProtocolTypes;
         service.AttachProject = AttachProject;
+        service.GetProjectByDatasourceId = GetProjectByDatasourceId;
 
         return service;
 
@@ -70,6 +71,15 @@
         }
         function GetDatasourceProtocolTypes() {
             return $http.get(urls.BASE_API + 'datasource/protocols').then(handleSuccess, handleError('Error getting all datasource protocol types'));
+        }
+        function GetProjectByDatasourceId(datasourceId) {
+            var config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            };
+            return $http.get(urls.BASE_API + 'datasource/' + datasourceId + '/project', config).then(handleSuccess, handleError('Error getting project by id'));
+
         }
 
         function AttachProject(datasourceId, projectId) {

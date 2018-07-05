@@ -7,8 +7,8 @@
         </div>
         <div class="col-sm-5 text-right hidden-xs">
             <ol class="breadcrumb push-10-t">
-                <li><a class="link-effect" href="/src/#/projects">Projects</a></li>
-                <li><a class="link-effect" href="">Project Settings</a></li>
+                <li><a class="link-effect" data-ui-sref="projects">Back to Projects</a></li>
+                <!-- <li><a class="link-effect" href="">Project Settings</a></li> -->
             </ol>
         </div>
     </div>
@@ -18,7 +18,26 @@
 <!-- Page Content -->
 <div class="content">
     <div class="row">
-    <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-12 col-md-12 col-lg-3">
+            <a class="block block-bordered block-link-hover3" data-ui-sref="spaces({projectId: project.id})">
+                <table class="block-table text-center">
+                    <tbody>
+                        <tr>
+                            <td class="bg-gray-lighter border-r" style="width: 50%;">
+                                <div class="push-30 push-30-t">
+                                    <i class="si si-frame fa-3x text-black-op"></i>
+                                </div>
+                            </td>
+                            <td style="width: 50%;">
+                                <div class="h1 font-w700"><span class="h2 text-muted">+</span> <span ng-bind="spacescount"></span></div>
+                                <div class="h5 text-muted text-uppercase push-5-t">Spaces</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </a>
+        </div>
+    <div class="col-sm-12 col-md-12 col-lg-3">
             <a class="block block-bordered block-link-hover3" data-ui-sref="datasources({projectId: project.id})">
                 <table class="block-table text-center">
                     <tbody>
@@ -37,7 +56,7 @@
                 </table>
             </a>
         </div>
-        <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-12 col-md-12 col-lg-3">
             <a class="block block-bordered block-link-hover3"  data-ui-sref="projectusers({projectId: project.id})">
                 <table class="block-table text-center">
                     <tbody>
@@ -56,7 +75,7 @@
                 </table>
             </a>
         </div>
-        <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-12 col-md-12 col-lg-3">
         <a class="block block-bordered block-link-hover3"  data-ui-sref="projectdashboards({projectId: project.id})">
                 <table class="block-table text-center">
                     <tbody>
@@ -76,7 +95,10 @@
             </a>
         </div>
 
-        <div class="col-sm-6 col-lg-3">
+        
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-3">
             <a class="block block-bordered block-link-hover3" data-ui-sref="triggers({projectId: project.id})">
                 <table class="block-table text-center">
                     <tbody>
@@ -95,6 +117,7 @@
                 </table>
             </a>
         </div>
+        
         
 <!-- <div class="col-sm-12 col-lg-4">
 <a class="block block-bordered block-link-hover3" href="javascript:void(0)">

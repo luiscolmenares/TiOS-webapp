@@ -1,0 +1,68 @@
+
+<div class="content bg-gray-lighter"   style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white"">
+                <i class="si si-frame"></i> Spaces
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs"> 
+            <a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+    <!--         <a user-role="['super', 'admin', 'owner']" class="btn btn-minw btn-square btn-primary" type="button" href="#/project/add">+ Add Space</a -->
+            <button user-role="['super', 'admin', 'owner']" class='btn btn-minw btn-square btn-primary add-space' data-toggle='modal' data-id='" + data + "'  type='button' ng-click='initModalData()'><i class='fa fa-plus'></i> Add Space</button>
+        </div>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content">
+    <!-- Dynamic Table Full -->
+    <div class="block">
+        <!--div class="block-header">
+            <h3 class="block-title">Dynamic Table <small>Full</small></h3>
+            <p>    Click <a ng-click="loadUsers()">here</a> to load data.</p>
+        </div>-->
+        <div class="block-content">
+            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/controllers.js -> TablesDatatablesCtrl Controller-->
+           <!--<table class="table table-bordered table-striped js-dataTable-full">-->
+           <table id="example" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th> 
+                        <th>Name</th>
+                        <th>Organization</th>
+                        <th >Project</th>
+                        <!-- <th>Access</th> -->
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr ng-repeat="space in spaceslist">
+                        <td>{{space.id}}</td>
+                        <td>{{space.name}}
+                        </td>
+                        <td>{{space.organization_name}}</td>
+                        <td>{{space.project_name}}</td>
+                        <td class="text-center">
+                            <div class="btn-group">                          
+                                <button class="btn btn-xs btn-default view-space-edit" type="button" data-toggle="modal" data-id="{{space.id}}" href="#modal-space-edit"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-xs btn-default view-space-delete" type="button" data-toggle="modal" data-id="{{space.id}}" href="#modal-space-delete" ><i class="fa fa-times"></i></button>
+                                <button class="btn btn-xs btn-default view-space-delete" type="button" data-toggle="modal" data-id="{{space.id}}" href="#modal-space-delete" ><i class="fa fa-image"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- END Dynamic Table Full -->
+    <!-- Small Dinamic modals -->
+    <div space-add-modal></div>
+    <div space-edit-modal></div>
+    <div space-delete-modal></div>
+
+</div>
+<!-- END Page Content

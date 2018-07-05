@@ -1444,6 +1444,10 @@ ProjectService.GetTriggerCountByProjectId($stateParams.projectId).then(function 
     console.log(data);
     $scope.triggercount = data;
 });
+ProjectService.GetSpacesCountByProjectId($stateParams.projectId).then(function (data) {
+    console.log(data);
+    $scope.spacescount = data;
+});
 }
 ]);
 

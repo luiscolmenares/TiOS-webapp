@@ -1,0 +1,37 @@
+<div class="modal fade" id="modal-space-edit" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<form class="js-validation-material form-horizontal push-10-t" name="form" ng-submit="updateSpace(space)" role="form">
+				<input type="hidden" name="val-id" ng-model="space.id">
+				<input type="hidden" name="val-organization_id" ng-model="space.organization_id">
+				<input type="hidden" name="val-project_id" ng-model="space.project_id">
+				<input type="hidden" name="val-project_id" ng-model="space.image">
+				<div class="block block-themed block-transparent remove-margin-b">
+					<div class="block-header bg-info">
+						<ul class="block-options">
+							<li>
+								<button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+							</li>
+						</ul>
+						<h3 class="block-title"><i class="si si-frame"></i> Edit Space</h3>
+					</div>
+					<div class="block-content">
+						<div class="form-group">
+							<div class="col-sm-12">
+								<div class="form-material form-material-primary ">
+									<input  class="form-control" type="text" id="val-name" name="val-name" ng-model="space.name" />
+									<label for="val-name">Name</label>
+								</div>
+							</div>
+						</div>						
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-sm btn-primary" type="submit">Save</button><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+				</div>
+
+			</form>
+		</div>
+	</div>
+</div>
