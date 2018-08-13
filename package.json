@@ -34,6 +34,7 @@
   "license": "ISC",
   "dependencies": {
     "angular-websocket": "^2.0.1",
-    "angularjs-gauge": "^2.1.0"
+    "angularjs-gauge": "^2.1.0",
+    "paho-mqtt": "^1.0.4"
   }
 }

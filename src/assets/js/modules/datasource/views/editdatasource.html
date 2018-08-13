@@ -49,12 +49,20 @@
                                             <input class="form-control" type="text" id="simple-classic-progress-datasourcename" name="simple-classic-progress-datasourcename" placeholder="Please enter Datasource name" ng-model="datasource.name">
                                         </div>
                                     </div>
+                                   
                                     <div class="form-group">
-                                        <div class="col-sm-8 col-sm-offset-2">
-                                            <label for="simple-classic-progress-datasourcetype">Datasource Type</label>
-                                            <input class="form-control" type="text" id="simple-classic-progress-datasourcetype" name="simple-classic-progress-datasourcetype" placeholder="Please enter Datasource type" ng-model="datasource.type">
-                                        </div>
-                                    </div>
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <div class="form-material">
+                                    <select class="form-control" name="repeatDatasourceTypeSelect" 
+                                            id="repeatDatasourceTypeSelect" 
+                                            ng-model="selectDatasourceTypeObject" 
+                                            ng-options="o.name for o in datasourcetypes track by o.id">
+                                    </select>           
+                                    <label for="val-phone">Datasource Type</label>
+                                </div>
+                            </div>
+                        </div>
+                                    
                                     <div class="form-group">
                                <!--  <div class="col-sm-8 col-sm-offset-2">
                                     <label class="css-input css-checkbox css-checkbox-default">
@@ -72,6 +80,10 @@
                                     <div class="col-sm-8 col-sm-offset-2">
                                         <label for="simple-classic-progress-host">MQTT BROKER</label>
                                         <input class="form-control" type="text" id="val-broker" name="val-broker" ng-model="datasource.broker" placeholder="Ex: http://mqttbroker.io:1880">
+                                    </div>   
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                        <label for="simple-classic-progress-host">MQTT BROKER PORT</label>
+                                        <input class="form-control" type="text" id="val-brokerport" name="val-brokerport" ng-model="datasource.brokerport" placeholder="8083">
                                     </div>                               
                                 </div>
                                 <div class="form-group" ng-show="thing()">
