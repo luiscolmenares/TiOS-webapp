@@ -4,6 +4,19 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
         console.log($stateParams);
         $scope.projectId = $stateParams.projectId;
         $scope.datasourceslist = [];
+        $scope.datasourcetypes = [];
+        
+
+        function myIndexOfTypes(o, arr) {
+
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].name == o.type) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
 
         $scope.isActive = function (active){
             //alert(active);
@@ -208,6 +221,13 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
         };
         $(document).on("click", ".view-datasource-edit", function () {
             var dataid = $(this).data('id');
+            DatasourceService.GetDatasourceTypes()
+                .then(function (result) {
+                    console.log('datasources from controller');
+                    console.log(result);
+                    // $scope.datasourcetypes = result.datasourcetypes;
+                    $scope.datasourcetypes = result.datasourcestype;
+               
             DatasourceService.GetById(dataid)
                     .then(function (rest) {
                         console.log(rest);
@@ -224,12 +244,24 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
                                 }
                         
                         };
+                        //organization to scope
+                                    // console.log(result.organization);
+                                    // console.log($scope.organizations);
+                                    // $scope.organization = result.organization;
+//en el array de organization, poneos el role del user como default
+                                    $scope.selectDatasourceTypeObject = $scope.datasourcetypes[myIndexOfTypes($scope.datasource, $scope.datasourcetypes)];
+                                    console.log('selectDatasourceTypeObject type Objeto seleccionado ---');
+                                    console.log(myIndexOfTypes($scope.datasource, $scope.datasourcetypes));
+                                    console.log($scope.selectDatasourceTypeObject);
+
                         $scope.datasource.broker = JSON.parse($scope.datasource.options).broker;
+                        $scope.datasource.brokerport = JSON.parse($scope.datasource.options).brokerport;
                          $scope.datasource.topic = JSON.parse($scope.datasource.options).topic;
                          // console.log('scope.datasource.topic');
                          // console.log($scope.datasource.topic);
                         $('#modal-datasource-edit').modal('show');
                     });
+                     });
         });
         $(document).on("click", ".view-datasource-delete", function () {
             var dataid = $(this).data('id');
@@ -248,13 +280,15 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
                     activation = 1;
                 }
                 var selectedoptions = {
+                    "type": $scope.selectDatasourceTypeObject.name,
                     "broker": $scope.datasource.broker,
+                    "brokerport": $scope.datasource.brokerport,
                     "topic": $scope.datasource.topic,
                 };
                 var datasource = $.param({
                     id: $scope.datasource.id,
                     name: $scope.datasource.name,
-                    type: $scope.datasource.type,
+                    type: $scope.selectDatasourceTypeObject.name,
                     unitid: $scope.datasource.unitid,
                     ip: $scope.datasource.ip,
                     port: $scope.datasource.port,
@@ -316,7 +350,9 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
 // Forms Wizard Controller
 App.controller('DatasourceFormsWizardCtrl', ['$scope', '$localStorage', '$window', 'DatasourceService', '$state', '$stateParams', 'urls', 'SpaceService',
     function ($scope, $localStorage, $window, DatasourceService, $state, $stateParams, urls, SpaceService) {
-$scope.broker = urls.BASE_NR;
+// $scope.broker = urls.BASE_NR;
+$scope.broker = urls.MQTT_BROKER;
+$scope.brokerport = urls.MQTT_BROKER_PORT;
 $scope.unitid = "999";
 $scope.ip = "0.0.0.0";
 $scope.port = "999";
@@ -614,6 +650,7 @@ SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (respons
                 var selectedoptions = {
                     "type": $scope.datasourcetype,
                     "broker": $scope.broker,
+                    "port": $scope.brokerport,
                     "topic": $scope.topic,
                 };
 //var so = '{ "host": "190.72.231.86",  "port": "8899", "autoReconnect": "true", "reconnectTimeout": "1000", "timeout":  "5000", "unitId": "1" }';

@@ -12,17 +12,17 @@ $scope.selectedOrganization = null;
 $scope.projects = [];
 
 organizations.fetchOrganizations(function (data) {
-if (AuthenticationService.userHasRole(["super"])){
-    OrganizationService.GetAll()
-    .then(function (data) {
-        $scope.organizations = data.organizations;
-    });
-} else {
-    var filteredorganizations = data.filter(function (organization){
-        return organization.id == $rootScope.loggeduser.user.organization_id;
-    });
-    $scope.organizations = filteredorganizations;
-}
+    if (AuthenticationService.userHasRole(["super"])){
+        OrganizationService.GetAll()
+        .then(function (data) {
+            $scope.organizations = data.organizations;
+        });
+    } else {
+        var filteredorganizations = data.filter(function (organization){
+            return organization.id == $rootScope.loggeduser.user.organization_id;
+        });
+        $scope.organizations = filteredorganizations;
+    }
 });
 
 $scope.createProject = function () {
@@ -311,32 +311,32 @@ $scope.deleteProject = function () {
                                     swal("Error Deleting this project", "Triggers already created to this project.", "error");
                                     $('#modal-projects-delete').modal('hide');
                                 } else {
-                                   ProjectService.Delete($scope.project.id)
-                                   .then(function (response) {
-                                    if (response.success == false) {
-                                        swal("Error Deleting This Project", "", "error");
-                                    } else {
-                //$state.reload();
-                localStorageService.remove('projects');
-                swal("This Project has been deleted", "", "success");
+                                    ProjectService.Delete($scope.project.id)
+                                    .then(function (response) {
+                                        if (response.success == false) {
+                                            swal("Error Deleting This Project", "", "error");
+                                        } else {
+//$state.reload();
+localStorageService.remove('projects');
+swal("This Project has been deleted", "", "success");
 
-                var oTable = $('.js-dataTable-full-2').dataTable();
-                oTable.fnClearTable();
-                oTable.fnDestroy();
-                projects.fetchProjects(function (data) {
-                    localStorageService.set('projects', data);
-                    projectlist = data;
-                });
+var oTable = $('.js-dataTable-full-2').dataTable();
+oTable.fnClearTable();
+oTable.fnDestroy();
+projects.fetchProjects(function (data) {
+    localStorageService.set('projects', data);
+    projectlist = data;
+});
 
-                $timeout(function () {
+$timeout(function () {
 //initDataTableFull();
 $state.reload();
 }, 1000);
-                $('#modal-projects-delete').modal('hide');
-            }
-        });
-                               }
-                           });
+$('#modal-projects-delete').modal('hide');
+}
+});
+                                }
+                            });
 
                         }
                     });
@@ -612,8 +612,152 @@ templateUrl: '/assets/js/modules/project/views/project-modal-delete.html'
 });
 
 // Project dashboard controller
-App.controller('ProjectDashboardCtrl', ['$scope', '$stateParams', 'ProjectService', '$filter', 'urlBuilder', 'urls', 'DatasourceService', 'DatapointService', 'DashboardService', '$timeout', '$state', '$http',
-    function ($scope, $stateParams, ProjectService, $filter, urlBuilder, urls, DatasourceService, DatapointService, DashboardService, $timeout, $state, $http) {
+App.controller('ProjectDashboardCtrl', ['$scope', 
+    '$stateParams', 
+    'ProjectService', 
+    '$filter', 
+    'urlBuilder', 
+    'urls', 
+    'DatasourceService', 
+    'DatapointService', 
+    'DashboardService', 
+    '$timeout', 
+    '$state', 
+    '$http',
+// 'MqttClient',
+function ($scope, $stateParams, ProjectService, $filter, urlBuilder, urls, DatasourceService, DatapointService, DashboardService, $timeout, $state, $http) {
+
+// $scope.mqttdata = "NA";
+
+//      var host = urls.MQTT_BROKER;
+//      var port = urls.MQTT_BROKER_PORT;
+//      var id = "wmflwek";
+
+//      // MqttClient.init(host, port, id);
+//      mqtt = new Paho.MQTT.Client(host,port,id);
+//      var options = {
+//          useSSL: true,
+//          timeout: 3,
+//          onSuccess: onConnect,
+//          onFailure: failureCallback,
+//          userName: "kike",
+//          password: "K1k3355453",
+
+//      };
+
+//      mqtt.onMessageArrived = onMessageArrived;
+
+//      mqtt.connect(options);
+
+
+// MqttClient.connect({onSuccess: successCallback});
+
+// MqttClient.connect(options);
+// MqttClient.onMessageArrived= onMessageArrived;
+
+
+
+// Flot charts, for more examples you can check out http://www.flotcharts.org/flot/examples/
+// var initChartsFlot = function () {
+
+//     var flotLive = jQuery('.js-flot-live');
+
+// // Live Chart
+// var dataLive = [];
+
+// function getRandomData() { // Random data generator
+
+//     if (dataLive.length > 0)
+//         dataLive = dataLive.slice(1);
+
+//     while (dataLive.length < 20) {
+//         var prev = dataLive.length > 0 ? dataLive[dataLive.length - 1] : 50;
+//         var y = prev + Math.random() * 10 - 5;
+//         if (y < 0)
+//             y = 0;
+//         if (y > 100)
+//             y = 100;
+//         dataLive.push(y);
+//     }
+
+//     var res = [];
+//     for (var i = 0; i < dataLive.length; ++i)
+//         res.push([i, dataLive[i]]);
+
+// // Show live chart info
+// jQuery('.js-flot-live-info').html(y.toFixed(0) + '&deg;C');
+
+// return res;
+// }
+
+// function getMqttData() { // Random data generator
+
+//     if (dataLive.length > 0)
+//         dataLive = dataLive.slice(1);
+
+//     while (dataLive.length < 20) {
+//         var prev = dataLive.length > 0 ? dataLive[dataLive.length - 1] : 50;
+//         var y = prev + Math.random() * 10 - 5;
+//         if (y < 0)
+//             y = 0;
+//         if (y > 100)
+//             y = 100;
+//         dataLive.push(y);
+//     }
+
+//     var res = [];
+//     for (var i = 0; i < dataLive.length; ++i)
+//         res.push([i, dataLive[i]]);
+
+// // Show live chart info
+// jQuery('.js-flot-live-info').html(y.toFixed(0) + '&deg;C');
+
+// return res;
+// }
+
+// function updateChartLive() { // Update live chart
+// // console.log(getMqttData());
+// chartLive.setData([getMqttData()]);
+// chartLive.draw();
+// setTimeout(updateChartLive, 700);
+// }
+
+// var chartLive = jQuery.plot(flotLive, // Init live chart
+//     [{data: getRandomData()}],
+//     {
+//         series: {
+//             shadowSize: 0
+//         },
+//         lines: {
+//             show: true,
+//             lineWidth: 2,
+//             fill: true,
+//             fillColor: {
+//                 colors: [{opacity: .2}, {opacity: .2}]
+//             }
+//         },
+//         colors: ['#75b0eb'],
+//         grid: {
+//             borderWidth: 0,
+//             color: '#aaaaaa'
+//         },
+//         yaxis: {
+//             show: true,
+//             min: 0,
+//             max: 110
+//         },
+//         xaxis: {
+//             show: false
+//         }
+//     }
+//     );
+
+// updateChartLive(); // Start getting new data
+
+
+// };
+
+// initChartsFlot();
 /*
 *Function Reload
 */
@@ -654,35 +798,33 @@ $scope.switch = function(panel){
     .then(function (resp){
         var optionsStr = JSON.parse(resp.datasource.options);
         $scope.broker = urls.BASE_NR;
-        //$scope.broker = optionsStr.broker;d
-        $scope.topic = optionsStr.topic;
-        ProjectService.ThingDiscreteStatus($scope.broker, $scope.topic, $scope.activate).
-        then(function(response){
-            if (response.success != null){
-                $.notify({
-                    message : 'Something went wrong - '+response.message
-                }, {
-                    type : 'danger'
-                });
-            } else {
-                var message = 'Succesfully switched ';
-                if ($scope.activate == 0){
-                    message = message + 'OFF';
-                } 
-                if ($scope.activate == 1){
-                    message = message + 'ON';
-                } 
-                $.notify({
-// options
-message: message
-},{
-// settings
-type: 'success'
-});
-            }
+//$scope.broker = optionsStr.broker;d
+$scope.topic = optionsStr.topic;
+ProjectService.ThingDiscreteStatus($scope.broker, $scope.topic, $scope.activate).
+then(function(response){
+    if (response.success != null){
+        $.notify({
+            message : 'Something went wrong - '+response.message
+        }, {
+            type : 'danger'
+        });
+    } else {
+        var message = 'Succesfully switched ';
+        if ($scope.activate == 0){
+            message = message + 'OFF';
+        } 
+        if ($scope.activate == 1){
+            message = message + 'ON';
+        } 
+        $.notify({
+            message: message
+        },{     
+            type: 'success'
+        });
+    }
 
-        });   
-    });
+});   
+});
 
 
 
@@ -820,16 +962,16 @@ $scope.deletePanel = function() {
     ProjectService.DeletePanel($scope.panel.id)
     .then(function (response){
         if (response.success == false) {
-                $('#modal-delete-panel').modal('hide');
-                swal("Error Deleting This Panel", "", "error");
-            } else {
-                $('#modal-delete-panel').modal('hide');
-                swal("Panel has been deleted", "", "success");
-            }
-            $timeout(function () {
-                //initDataTableFull();
-                $state.reload();
-            }, 3000);
+            $('#modal-delete-panel').modal('hide');
+            swal("Error Deleting This Panel", "", "error");
+        } else {
+            $('#modal-delete-panel').modal('hide');
+            swal("Panel has been deleted", "", "success");
+        }
+        $timeout(function () {
+//initDataTableFull();
+$state.reload();
+}, 3000);
     });
 
 }
@@ -882,9 +1024,9 @@ $scope.getDatasourceOptions = function () {
     console.log(value);
     ProjectService.GetActiveDatasourcesByProjectId($stateParams.projectId).then(function (response) {
         console.log(response.datasources);
-        // $active_datasources = 
-        $scope.datasources = response.datasources;
-    });
+// $active_datasources = 
+$scope.datasources = response.datasources;
+});
 
 };
 $scope.createPanel = function () {
@@ -906,9 +1048,9 @@ if ($scope.panelname)
 
     console.log('selectedDatapoint');
     console.log($scope.selectedDatapoint);
-     if (angular.isUndefined($scope.selectedDatapoint)){
+    if (angular.isUndefined($scope.selectedDatapoint)){
         $scope.selectedDatapoint = 1;
-     }
+    }
 // use $.param jQuery function to serialize data from JSON 
 var panel = $.param({
     name: $scope.panelname,
@@ -923,13 +1065,13 @@ var panel = $.param({
 ProjectService.CreatePanel(panel)
 .then(function (response) {
     console.log(response);
-    //App.loader('show');
-    if (response.success == false) {
-        $('#modal-add-panel').modal('hide');
-        swal("Error Creating new panel", "", "error");
-    } else {
-        $('#modal-add-panel').modal('hide');
-        swal("New Panel has been created", "", "success");
+//App.loader('show');
+if (response.success == false) {
+    $('#modal-add-panel').modal('hide');
+    swal("Error Creating new panel", "", "error");
+} else {
+    $('#modal-add-panel').modal('hide');
+    swal("New Panel has been created", "", "success");
 //$state.go('projects', { redirect : true });
 }
 $timeout(function () {
@@ -944,25 +1086,40 @@ $state.reload();
 
 };
 
+
 /*
 *  Panels Type
-*  +----+------------------------------+---
-*    | id | name                         | 
-*    +----+------------------------------+-
-*    |  1 | Chart - Lines                | 
-*    |  2 | Chart - Bars                 | 
-*    |  3 | Widget - Temperature         | 
-*    |  4 | Widget - Humidity            | 
-*    |  5 | History Log - Temperature    | 
-*    |  6 | History Log - Humidity       | 
-*    |  7 | Widget - Gauge - Temperature | 
-*    |  8 | Widget - Gauge - Humidity    | 
-*    |  9 | Widget - Gauge - Power(Kwh)  | 
-*    | 10 | Widget - Power Switch        | 
-*    +----+------------------------------+-
-*
+* +----+-----------------------------------+------------+------------+------------+
+* | id | name                              | created_at | updated_at | deleted_at |
+* +----+-----------------------------------+------------+------------+------------+
+* |  1 | Chart - Lines - Temperature       | NULL       | NULL       | NULL       |
+* |  2 | Chart - Bars - Temperature        | NULL       | NULL       | NULL       |
+* |  3 | Widget - Temperature              | NULL       | NULL       | NULL       |
+* |  4 | Widget - Humidity                 | NULL       | NULL       | NULL       |
+* |  5 | History Log - Temperature         | NULL       | NULL       | NULL       |
+* |  6 | History Log - Humidity            | NULL       | NULL       | NULL       |
+* |  7 | Widget - Gauge - Temperature      | NULL       | NULL       | NULL       |
+* |  8 | Widget - Gauge - Humidity         | NULL       | NULL       | NULL       |
+* |  9 | Widget - Gauge - Power(Kwh)       | NULL       | NULL       | NULL       |
+* | 10 | Widget - Power Switch             | NULL       | NULL       | NULL       |
+* | 11 | Chart - Lines - Humidity          | NULL       | NULL       | NULL       |
+* | 12 | Chart - Bars - Humidity           | NULL       | NULL       | NULL       |
+* | 13 | Widget - Gauge - Voltage          | NULL       | NULL       | NULL       |
+* | 14 | Chart - Lines - Voltage           | NULL       | NULL       | NULL       |
+* | 15 | Chart - Bars - Voltage            | NULL       | NULL       | NULL       |
+* | 16 | History Log - Voltage             | NULL       | NULL       | NULL       |
+* | 17 | Chart - Lines - Power(Kwh)        | NULL       | NULL       | NULL       |
+* | 18 | Chart - Bars - Power(Kwh)         | NULL       | NULL       | NULL       |
+* | 19 | History Log - Power(Kwh)          | NULL       | NULL       | NULL       |
+* | 20 | Widget - Gauge - Electric Current | NULL       | NULL       | NULL       |
+* | 21 | Chart - Lines - Electric Current  | NULL       | NULL       | NULL       |
+* | 22 | Chart - Bars - Electric Current   | NULL       | NULL       | NULL       |
+* | 23 | History Log - Electric Current    | NULL       | NULL       | NULL       |
+* +----+-----------------------------------+------------+------------+------------+
 */
+
 var generateChartData = function (panels) {
+    $scope.connected_flag=0;
     angular.forEach(panels, function (panel) {
         if (panel.type === '1') {
             if (!_.findWhere($scope.lineChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
@@ -975,73 +1132,202 @@ var generateChartData = function (panels) {
             }
         }
         if (panel.type === '3') {
-            console.log('panle');
-            console.log(panel);
-            angular.extend($scope.widgetTemperatureChart, panel.sensorData);
-        }
-        if (panel.type === '4') {
-            angular.extend($scope.widgetHumidityChart, panel.sensorData);
-        }
-        if (panel.type === '5') {
-            if (!_.findWhere($scope.historyTemperatureChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
-                angular.extend($scope.historyTemperatureChart, panel.sensorData);
-            }
-        }
-        if (panel.type === '6') {
-            if (!_.findWhere($scope.historyHumidityChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
-                angular.extend($scope.historyHumidityChart, panel.sensorData);
-            }
-        }
-        if (panel.type === '7') {
-            angular.extend($scope.widgetTemperatureChart, panel.sensorData);
-        }
-        if (panel.type === '8') {
-            angular.extend($scope.widgetHumidityChart, panel.sensorData);
-        }
-        if (panel.type === '9') {
-            angular.extend($scope.widgetPowerChart, panel.sensorData);
-        }
-        // if (panel.type === '10') {
-        //     angular.extend($scope.widgetSwitch, panel.sensorData);
-        // }
+// console.log('panle');
+// console.log(panel);
+angular.extend($scope.widgetTemperatureChart, panel.sensorData);
+}
+if (panel.type === '4') {
+    angular.extend($scope.widgetHumidityChart, panel.sensorData);
+}
+if (panel.type === '5') {
+    if (!_.findWhere($scope.historyTemperatureChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
+        angular.extend($scope.historyTemperatureChart, panel.sensorData);
+    }
+}
+if (panel.type === '6') {
+    if (!_.findWhere($scope.historyHumidityChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
+        angular.extend($scope.historyHumidityChart, panel.sensorData);
+    }
+}
+if (panel.type === '7') {
+// angular.extend($scope.widgetTemperatureChart, panel.sensorData);
+angular.extend($scope.widgetTemperatureChart, panel.sensorData);
+}
+if (panel.type === '8') {
+    angular.extend($scope.widgetHumidityChart, panel.sensorData);
+}
+if (panel.type === '9') {
+    angular.extend($scope.widgetPowerChart, panel.sensorData);
+}
+if (panel.type === '24') {
+
+    panel.sensorData = 25;
+    var Mqttconnection;
+    var host = panel.MQTTInfo.broker;
+    var port = Number(panel.MQTTInfo.port);
+    var id = "js_paho_id_" + parseInt(Math.random() * 100, 10);
+    var path = "/ws";
+
+//     function onConnected(recon,url){
+// console.log(" in onConnected " +reconn);
+// $scope.connected_flag=1;
+// alert('dentro: '+$scope.connected_flag);
+// }
+
+function onConnectionLost(message){
+    console.log("connection lost");
+// document.getElementById("status").innerHTML = "Connection Lost";
+// document.getElementById("messages").innerHTML ="Connection Lost";
+$.notify({
+    message: 'Connection Lost. '+message.errorCode+': '+message.errorMessage,
+},{     
+    type: 'danger'
+});
+$scope.connected_flag=0;
+}
+// var topic = panel.MQTTInfo.topic;
+// var topic1 = "org1/room1/monitor/temperature";
+// var topic2 = "org1/room2/monitor/temperature";
+// var topic = "org1/room2/monitor/temperature"];
+
+// MqttClient.init(host, port, id);
+// $scope.MQTTconnect = function(){
+    $scope.connected_flag=1;
+
+    $scope.mqtt = new Paho.MQTT.Client(host,port,path,id);
+    options = {
+        useSSL: true,
+        timeout: 3,
+        onSuccess: onConnect,
+        onFailure: failureCallback,
+        userName: "kike",
+        password: "K1k3355453",
+
+    };
+
+    $scope.mqtt.onMessageArrived = onMessageArrived;
+    $scope.mqtt.onConnectionLost = onConnectionLost;
+// mqtt.onConnected = onConnected;
+// connect the client
+$scope.mqtt.connect(options);
+// alert(mqtt.host);
+
+// }
 
 
+// mqtt.subscribe(panel.MQTTInfo.topic);
+function sonFailure(message){
+    $.notify({
+        message: 'messageerrorCode: '+message.errorCode+': '+message.errorMessage,
+    },{     
+        type: 'danger'
+    });
+}
+
+function sonSuccess(){
+    $.notify({
+        message: 'topico: '+panel.MQTTInfo.topic,
+    },{     
+        type: 'success'
+    });
+}
+
+function onConnect() {
+    if ($scope.connect = false){
+        $scope.connect = true;
+
+    }
+    else{
+        console.log('MQTT connected');
+    $scope.connected_flag=1;
+// alert('dentro: '+$scope.connected_flag);
+$.notify({
+    message: 'MQTT connected.'
+},{     
+    type: 'success'
+});
+// MqttClient.subscribe('org1/room1/monitor/temperature');
+var soptions={
+    onSuccess:sonSuccess,
+    onFailure: sonFailure
+};
+
+$scope.mqtt.subscribe(panel.MQTTInfo.topic, soptions);
+// $.notify({
+//     message: 'topic: '+panel.MQTTInfo.topic,
+// },{     
+//     type: 'success'
+// });
+
+// mqtt.subscribe(topic2);
+
+// $.notify({
+//         message: 'topic: '+topic2,
+//     },{     
+//         type: 'success'
+//     });
+//     // message = new Paho.MQTT.Message("Hello from app nuevo");
+//     // message.destinationName = "test";
+//     // MqttClient.send(message);
+    }
+    
+
+}
+//initial load
+// $scope.loadData();
+
+function onMessageArrived(message) {
+//chequear los panels que usen MQTT Broker
+console.log("Topic:     " + message.destinationName);
+// mqtt.subscribe(message.destinationName);
 
 
-//                 if (panel.type === '3') {
-//                     if (!_.findWhere($scope.radarChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
-//                         angular.extend($scope.radarChart, panel.sensorData);
-//                     }
-//                 }
-//                 if (panel.type === '4') {
-//                     if (!_.findWhere($scope.donutChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
-//                         angular.extend($scope.donutChart, panel.sensorData);
-//                     }
-//                 }
-//                 if (panel.type === '5') {
-//                     if (!_.findWhere($scope.liveChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
-//                         angular.extend($scope.liveChart, panel.sensorData);
-//                     }
-//                 }
-//                 if (panel.type === '6') {
-//                     if (!_.findWhere($scope.widgetLinesChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
-//                         angular.extend($scope.widgetLinesChart, panel.sensorData);
-//                     }
-//                 }
-//                 if (panel.type === '7') {
-//                     if (!_.findWhere($scope.widgetBarChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
-//                         angular.extend($scope.widgetBarChart, panel.sensorData);
-//                     }
-//                 }
-//                 if (panel.type === '8') {
-// //                    if (!_.findWhere($scope.widgetTemperatureChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
-//                     angular.extend($scope.widgetTemperatureChart, panel.sensorData);
-// //                    }
-//                 }
-//                 if (panel.type === '9') {
-// //                    if (!_.findWhere($scope.widgetHumidityChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
-//                     angular.extend($scope.widgetHumidityChart, panel.sensorData);
-// //                    }
+console.log("en el scope");
+$scope.$apply(function () {
+    updateSensorData(message);
+
+});
+console.log(panel.sensorData);
+console.log("onMessageArrivedCB:"+message.payloadString);
+// loadData(message.payloadString);
+}
+function updateSensorData(message){
+    panel.sensorData = message.payloadString;
+}
+function failureCallback(message) {
+    console.log('Connection Failed- Retrying')
+    $.notify({
+        message: 'Connection Failed- Retrying in 30sg'
+    },{     
+        type: 'warning'
+    });
+    setTimeout($scope.MQTTconnect(), 3000000);
+
+}
+// if(angular.isUndefined(mqtt)){
+// alert('fuera: '+$scope.connected_flag);
+if($scope.connected_flag == 0){
+    // alert('procediendo a conectar');
+    $scope.MQTTconnect();
+} else {
+    // alert('ya esta conectado');
+// onConnect();
+// var soptions={
+//     onSuccess:sonSuccess,
+//     onFailure: sonFailure
+// };
+// mqtt.subscribe(panel.MQTTInfo.topic, soptions);
+}
+
+// MQTTconnect()
+// }
+
+
+angular.extend($scope.widgetTemperatureChart, panel.sensorData);
+}
+// if (panel.type === '10') {
+//     angular.extend($scope.widgetSwitch, panel.sensorData);
+// }
 //                 }
 //                 if (panel.type === '10') {
 //                     if (!_.findWhere($scope.historyTemperatureChart, {type: panel.type, datapoint_id: panel.datapoint_id, datasource_id: panel.datasource_id})) {
@@ -1067,12 +1353,15 @@ var init = function () {
     $scope.widgetHumidityChart = {};
     $scope.historyTemperatureChart = [];
     $scope.historyHumidityChart = [];
-    ProjectService.GetPanelsByDashboardId($stateParams.dashboardId).then(function (data) {
-        angular.forEach(data, function (panel) {
-            panel.date = {startDate: null, endDate: null};
-        });
-        $scope.panels = data;
-        generateChartData(data);
+// $scope.MQTTconnect();
+ProjectService.GetPanelsByDashboardId($stateParams.dashboardId).then(function (data) {
+    angular.forEach(data, function (panel) {
+        panel.date = {startDate: null, endDate: null};
+    });
+
+    $scope.panels = data;
+
+    generateChartData(data);
 //                initChartsChartJS();
 });
 };
@@ -1163,15 +1452,15 @@ ProjectService.GetDashboardsByProjectId($stateParams.projectId).then(function (d
 
 //Delete Dashboard Modal
 $(document).on("click", ".dashboard-delete", function () {
-    //alert('delete');
-    var dashboardid = $(this).data('id');
-    DashboardService.GetById(dashboardid)
-    .then(function (data) {
-        //console.log('panel');
-        //console.log(data.panel);
-        $scope.dashboard = data.dashboard;
-        $('#modal-delete-dashboard').modal('show');
-    });
+//alert('delete');
+var dashboardid = $(this).data('id');
+DashboardService.GetById(dashboardid)
+.then(function (data) {
+//console.log('panel');
+//console.log(data.panel);
+$scope.dashboard = data.dashboard;
+$('#modal-delete-dashboard').modal('show');
+});
 });
 //Delete panel function
 $scope.deleteDashboard = function() {
@@ -1179,16 +1468,16 @@ $scope.deleteDashboard = function() {
     ProjectService.DeleteDashboard($scope.dashboard.id)
     .then(function (response){
         if (response.success == false) {
-                $('#modal-delete-dashboard').modal('hide');
-                swal("Error Deleting This Dashboard", "", "error");
-            } else {
-                $('#modal-delete-dashboard').modal('hide');
-                swal("Dashboard has been deleted", "", "success");
-            }
-            $timeout(function () {
-                //initDataTableFull();
-                $state.reload();
-            }, 3000);
+            $('#modal-delete-dashboard').modal('hide');
+            swal("Error Deleting This Dashboard", "", "error");
+        } else {
+            $('#modal-delete-dashboard').modal('hide');
+            swal("Dashboard has been deleted", "", "success");
+        }
+        $timeout(function () {
+//initDataTableFull();
+$state.reload();
+}, 3000);
     });
 
 }
@@ -1222,8 +1511,8 @@ ProjectService.CreateDashboard(dashboard)
     } else {
         $('#modal-add-dashboard').modal('hide');
         swal("New dashboard has been created", "", "success");
-}
-$timeout(function () {
+    }
+    $timeout(function () {
 //initDataTableFull();
 $state.reload();
 }, 3000);
@@ -1346,9 +1635,9 @@ OrganizationService.GetByProjectId($stateParams.projectId)
 .then(function (data){
     console.log('Get Org By Project ID');
     console.log(data.organization.id);
-    //$scope.organization_id = data.organization.id;
-    ProjectService.GetUsersByOrganizationId(data.organization.id)
-    .then(function (data) {
+//$scope.organization_id = data.organization.id;
+ProjectService.GetUsersByOrganizationId(data.organization.id)
+.then(function (data) {
     console.log('Get Users by Org ID--->');
     console.log(data);
     $scope.users = data.users;
