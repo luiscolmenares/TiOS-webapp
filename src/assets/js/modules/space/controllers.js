@@ -55,7 +55,7 @@ var uploader = $scope.uploader = new FileUploader({
             console.info('onProgressAll', progress);
         };
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
-            swal("Se ha actualizado la imagen  de la promocion!", "", "success");
+            swal("Space image updated!", "", "success");
                     var oTable = $('.js-dataTable-full-2').dataTable();
                     oTable.fnClearTable();
                 oTable.fnDestroy();
