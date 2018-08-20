@@ -44,3 +44,25 @@ angular.module('Authentication')
         };
     }]);
 }());
+// Reminder  Controller
+App.controller('ReminderCtrl', ['$scope', 
+  '$localStorage', 
+  '$window', 
+  'AuthenticationService', 
+  '$location', 
+  'localStorageService', 
+  'organizations', 
+  'projects', 
+  'users', 
+  'OrganizationService',
+  'UserService', 
+  'ProjectService', 
+  'DashboardService',
+  'TriggerService',
+  'triggers',
+  'MqttClient',
+  'urls',
+  function ($scope, $localStorage, $window, AuthenticationService, $location, localStorageService, organizations, projects, users, OrganizationService, UserService, ProjectService, DashboardService, TriggerService, triggers, MqttClient, urls) {
+
+    }
+]);

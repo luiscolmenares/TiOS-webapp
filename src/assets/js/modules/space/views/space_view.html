@@ -1,1 +1,91 @@
-space_view.html
+
+<div class="content bg-gray-lighter"   style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white"">
+                <i class="si si-frame"></i> {{space.name}}
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs"> 
+            <a class="btn btn-minw btn-square btn-default" type="button" ng-click="reload()">Refresh</a>
+            <!--         <a user-role="['super', 'admin', 'owner']" class="btn btn-minw btn-square btn-primary" type="button" href="#/project/add">+ Add Space</a -->
+                <!-- <button user-role="['super', 'admin', 'owner']" class='btn btn-minw btn-square btn-primary add-space' data-toggle='modal' data-id='" + data + "'  type='button' ng-click='initModalData()'><i class='fa fa-plus'></i> Add Space</button> -->
+            </div>
+        </div>
+    </div>
+    <!-- END Page Header -->
+
+    <!-- Page Content -->
+    <div class="content content-narrow">
+        <div class="row">
+            <div class="col-lg-6 col-xs-12">  
+                <div class="block block-themed" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    <div class="block-header bg-info">
+                        <ul class="block-options">
+                            <li>
+                                <button type="button" data-js-block-option data-action="fullscreen_toggle"></button>
+                            </li>
+                            <li>
+                                <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                            </li>
+                            <li>
+                                <button type="button" data-toggle="modal" class="panel-delete" ng-click="initModalData()"><i class="si si-close text-white-op"></i></button>
+                            </li>
+
+                        </ul>
+                        <h3 class="block-title">titulo</h3>
+                    </div>
+                    <table class="block-table text-center">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="100" value="40" 
+                                    cap="round" label="Temperature" append="&deg;C"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>  
+        </div>
+        <div class="col-lg-6 col-xs-12">  
+                <div class="block block-themed" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    <div class="block-header bg-info">
+                        <ul class="block-options">
+                            <li>
+                                <button type="button" data-js-block-option data-action="fullscreen_toggle"></button>
+                            </li>
+                            <li>
+                                <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                            </li>
+                            <li>
+                                <button type="button" data-toggle="modal" class="panel-delete" ng-click="initModalData()"><i class="si si-close text-white-op"></i></button>
+                            </li>
+
+                        </ul>
+                        <h3 class="block-title">titulo</h3>
+                    </div>
+                     <table class="block-table text-center" style="min-height: 165px">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                <!-- <span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="activate == 1 ? true : false" type="checkbox" id="val-activate-panel_{{panel.id}}" name="val-activate" ng-model="activate" ng-value="off" ng-change="switch(panel)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+            </div>  
+        </div>
+    </div>
+</div>

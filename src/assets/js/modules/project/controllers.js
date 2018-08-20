@@ -1168,6 +1168,7 @@ if (panel.type === '24') {
     var id = "js_paho_id_" + parseInt(Math.random() * 100, 10);
     var path = "/ws";
 
+
 //     function onConnected(recon,url){
 // console.log(" in onConnected " +reconn);
 // $scope.connected_flag=1;

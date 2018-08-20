@@ -1,8 +1,8 @@
 /*
 *  Description: spaces list controller
 */
-App.controller('SpaceTablesCtrl', ['$scope', 'spaces', '$localStorage', '$window', '$http', 'localStorageService', 'ProjectService', '$state', 'OrganizationService', 'AuthenticationService', '$rootScope', '$timeout', 'SpaceService', '$stateParams',
-    function ($scope, spaces, $localStorage, $window, $http, localStorageService, ProjectService, $state, OrganizationService, AuthenticationService, $rootScope, $timeout, SpaceService, $stateParams) {
+App.controller('SpaceTablesCtrl', ['$scope', 'spaces', '$localStorage', '$window', '$http', 'localStorageService', 'ProjectService', '$state', 'OrganizationService', 'AuthenticationService', '$rootScope', '$timeout', 'SpaceService', '$stateParams', 'FileUploader', 'urls',
+    function ($scope, spaces, $localStorage, $window, $http, localStorageService, ProjectService, $state, OrganizationService, AuthenticationService, $rootScope, $timeout, SpaceService, $stateParams, FileUploader, urls) {
 /*
 *Function Reload
 */
@@ -18,6 +18,80 @@ OrganizationService.GetAll()
     $scope.organizations = result.organizations;
 });
 var projectlist = [];
+
+var uploader = $scope.uploader = new FileUploader({
+
+            url: urls.BASE_API + 'space/upload/'
+        });
+// FILTERS
+
+        uploader.filters.push({
+            name: 'imageFilter',
+            fn: function(item /*{File|FileLikeObject}*/, options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        });
+// CALLBACKS
+
+        uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+            console.info('onWhenAddingFileFailed', item, filter, options);
+        };
+        uploader.onAfterAddingFile = function(fileItem) {
+             fileItem.url = urls.BASE_API + 'space/upload/' + $scope.space.id
+            console.info('onAfterAddingFile', fileItem);
+        };
+        uploader.onAfterAddingAll = function(addedFileItems) {
+            addedFileItems.url = urls.BASE_API + 'space/upload/' + $scope.space.id
+            console.info('onAfterAddingAll', addedFileItems);
+        };
+        uploader.onBeforeUploadItem = function(item) {
+            console.info('onBeforeUploadItem', item);
+        };
+        uploader.onProgressItem = function(fileItem, progress) {
+            console.info('onProgressItem', fileItem, progress);
+        };
+        uploader.onProgressAll = function(progress) {
+            console.info('onProgressAll', progress);
+        };
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+            swal("Se ha actualizado la imagen  de la promocion!", "", "success");
+                    var oTable = $('.js-dataTable-full-2').dataTable();
+                    oTable.fnClearTable();
+                oTable.fnDestroy();
+                spaces.fetchSpaces(function (data) {
+
+            //  //console.log('saving organization in localStorage...');
+
+                localStorageService.set('spaces', data);
+
+
+            //   //$scope.organizationslist = data;
+            });
+                $timeout(function () {
+            //initDataTableFull();
+            $state.reload();
+            }, 1000);
+
+        $('#modal-space-add-image').modal('hide');
+            console.info('onSuccessItem', fileItem, response, status, headers);
+        };
+        uploader.onErrorItem = function(fileItem, response, status, headers) {
+            swal("Error subiendo imagen de la promocion", "", "error");
+            console.info('onErrorItem', fileItem, response, status, headers);
+        };
+        uploader.onCancelItem = function(fileItem, response, status, headers) {
+            console.info('onCancelItem', fileItem, response, status, headers);
+        };
+        uploader.onCompleteItem = function(fileItem, response, status, headers) {
+            console.info('onCompleteItem', fileItem, response, status, headers);
+        };
+        uploader.onCompleteAll = function() {
+            console.info('onCompleteAll');
+        };
+
+        console.info('uploader', uploader);
+
 function myIndexOf(o, arr) {
 
     for (var i = 0; i < arr.length; i++) {
@@ -47,6 +121,18 @@ $(document).on("click", ".view-space", function () {
     .then(function (data) {
         $scope.space = data.space;
         $('#modal-space').modal('show');
+    });
+});
+
+$(document).on("click", ".view-space-add-image", function () {
+    var spaceid = $(this).data('id');
+    console.log('space id');
+    console.log(spaceid);
+    SpaceService.GetById(spaceid)
+    .then(function (data) {
+        $scope.space = data;
+        console.log($scope.space);
+        $('#modal-space-add-image').modal('show');
     });
 });
 
@@ -687,6 +773,134 @@ bsDataTables();
 
 }]);
 
+/*
+*  Description: spaces list controller
+*/
+App.controller('SpaceViewCtrl', ['$scope', 'spaces', '$localStorage', '$window', '$http', 'localStorageService', 'ProjectService', '$state', 'OrganizationService', 'AuthenticationService', '$rootScope', '$timeout', 'SpaceService', '$stateParams',
+    function ($scope, spaces, $localStorage, $window, $http, localStorageService, ProjectService, $state, OrganizationService, AuthenticationService, $rootScope, $timeout, SpaceService, $stateParams) {
+/*
+*Function Reload
+*/
+// alert('hello');
+$scope.project_id = $stateParams.projectId;
+$scope.space_id = $stateParams.spaceId;
+$scope.reload = function () {
+    $state.reload();
+};
+
+ SpaceService.GetById($scope.space_id)
+    .then(function (data) {
+        $scope.space = data;
+        console.log($scope.space);
+        console.log($scope.space.datasources);
+        angular.forEach($scope.space.datasources, function (datasource) {
+    console.log(datasource);
+    if (datasource.type === 'Temperature Sensor (Celsius)') {
+        //connect to MQTT Client
+        var Mqttconnection;
+        var host = datasource.options_array.broker;
+        var port = Number(datasource.options_array.port);
+        var id = "js_paho_id_" + parseInt(Math.random() * 100, 10);
+        var path = "/ws";
+    }
+    function onConnectionLost(message){
+    console.log("connection lost");
+        $.notify({
+            message: 'Connection Lost. '+message.errorCode+': '+message.errorMessage,
+        },{     
+            type: 'danger'
+        });
+    }
+
+    function sonFailure(message){
+    $.notify({
+        message: 'messageerrorCode: '+message.errorCode+': '+message.errorMessage,
+    },{     
+        type: 'danger'
+    });
+}
+
+function sonSuccess(){
+    $.notify({
+    message: 'MQTT connected.'
+    },{     
+        type: 'success'
+    });
+    $.notify({
+        message: 'topico: '+datasource.options_array.topic,
+    },{     
+        type: 'success'
+    });
+}
+
+    function onConnect() {
+        var soptions={
+            onSuccess:sonSuccess,
+            onFailure: sonFailure
+        };
+
+        mqtt.subscribe(datasource.options_array.topic, soptions);
+
+        }
+
+        function failureCallback(message) {
+    console.log('Connection Failed- Retrying')
+    $.notify({
+        message: 'Connection Failed- Retrying in 30sg'
+    },{     
+        type: 'warning'
+    });
+    setTimeout($scope.MQTTconnect(), 3000000);
+
+}
+
+function onMessageArrived(message) {
+//chequear los panels que usen MQTT Broker
+console.log("Topic:     " + message.destinationName);
+// mqtt.subscribe(message.destinationName);
+
+
+console.log("en el scope");
+$scope.$apply(function () {
+    // updateSensorData(message);
+
+});
+
+console.log("onMessageArrivedCB:"+message.payloadString);
+// loadData(message.payloadString);
+}
+
+
+    mqtt = new Paho.MQTT.Client(host,port,path,id);
+    options = {
+        useSSL: true,
+        timeout: 3,
+        onSuccess: onConnect,
+        onFailure: failureCallback,
+        userName: "kike",
+        password: "K1k3355453",
+
+    };
+
+    mqtt.onMessageArrived = onMessageArrived;
+    mqtt.onConnectionLost = onConnectionLost;
+// mqtt.onConnected = onConnected;
+// connect the client
+ mqtt.connect(options);
+
+
+    // if (datasource.type === 'Temperature Sensor (Celsius)') {
+
+    // }
+});
+    });
+
+
+
+
+}]);
+
+
 App.directive('spaceAddModal', function () {
     return {
 //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
@@ -713,6 +927,16 @@ App.directive('spaceEditModal', function () {
 restrict: "EA",
 scope: false,
 templateUrl: '/assets/js/modules/space/views/space_edit.html'
+// templateUrl: '/src/assets/js/modules/organization/views/organization-modal-edit.html'
+};
+});
+
+App.directive('spaceAddImageModal', function () {
+    return {
+//template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+restrict: "EA",
+scope: false,
+templateUrl: '/assets/js/modules/space/views/space_add_image.html'
 // templateUrl: '/src/assets/js/modules/organization/views/organization-modal-edit.html'
 };
 });

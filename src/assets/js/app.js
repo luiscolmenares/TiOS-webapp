@@ -29,9 +29,8 @@ var App = angular.module('app', [
     'ngMaterial',
     'ngMessages',
     'angularjs-gauge',
-    'angularPaho'
-
-    // 'angularFileUpload'
+    'angularPaho',
+    'angularFileUpload'
     //'AngularPrint'
     //,
     //'ngWebSocket'
@@ -106,6 +105,26 @@ App.config(['$stateProvider', '$urlRouterProvider',
                     }
 //controller: 'MainCtrl',
                 })
+                .state('reminder', {
+                    url: '/reminder',
+//templateUrl: 'assets/views/base_pages_login_v2.html'
+                    controller: 'ReminderCtrl',
+                    templateUrl: 'assets/js/modules/authentication/views/reminder.html',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    insertBefore: '#css-bootstrap',
+                                    serie: true,
+                                    files: [
+                                        'assets/js/plugins/jquery-validation/jquery.validate.min.js',
+                                        'assets/js/plugins/jquery-validation/additional-methods.min.js',
+                                        'assets/js/pages/base_pages_reminder.js',
+                                    ]
+                                });
+                            }]
+                    }
+//controller: 'MainCtrl',
+                })
                 .state('dashboard', {
                     url: '/dashboard',
                     templateUrl: 'assets/views/ready_dashboard.html',
@@ -123,6 +142,7 @@ App.config(['$stateProvider', '$urlRouterProvider',
                                         // 'assets/js/plugins/sweetalert/sweetalert.min.css',
                                         // 'assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js',
                                         // 'assets/js/plugins/sweetalert/sweetalert.min.js'
+                                        
                                     ]
                                 });
                             }]
@@ -364,6 +384,39 @@ App.config(['$stateProvider', '$urlRouterProvider',
                     url: '/project/:projectId/spaces',
                     templateUrl: 'assets/js/modules/space/views/spaces_list.html',
                     controller: 'SpaceTablesCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    insertBefore: '#css-bootstrap',
+                                    serie: true,
+                                    files: [
+                                        'assets/js/plugins/datatables/jquery.dataTables.min.css',
+                                        'assets/js/plugins/datatables/jquery.dataTables.min.js',
+                                        'assets/js/plugins/datatables/dataTables.buttons.min.js',
+                                        'assets/js/plugins/datatables/buttons.flash.min.js',
+                                        'assets/js/plugins/datatables/jszip.min.js',
+                                        'assets/js/plugins/datatables/pdfmake.min.js',
+                                        'assets/js/plugins/datatables/vfs_fonts.js',
+                                        'assets/js/plugins/datatables/buttons.html5.min.js',
+                                        'assets/js/plugins/datatables/buttons.print.min.js',
+                                        'assets/js/plugins/datatables/responsive.dataTables.min.css',
+                                        'assets/js/plugins/datatables/dataTables.bootstrap.min.js',
+                                        'assets/js/plugins/datatables/dataTables.bootstrap.min.css',
+                                        'assets/js/plugins/datatables/dataTables.responsive.min.js',
+                                        'assets/js/plugins/datatables/responsive.bootstrap.min.js',
+                                        'assets/js/plugins/datatables/responsive.bootstrap.min.css',
+                                        'assets/js/plugins/sweetalert/sweetalert.min.css',
+                                        'assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js',
+                                        'assets/js/plugins/sweetalert/sweetalert.min.js'
+                                    ]
+                                });
+                            }]
+                    }
+                })
+                .state('spaceview', {
+                    url: '/project/:projectId/space/:spaceId',
+                    templateUrl: 'assets/js/modules/space/views/space_view.html',
+                    controller: 'SpaceViewCtrl',
                     resolve: {
                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load({
@@ -2256,7 +2309,8 @@ $scope.loader = function () {
 
                     if (($state.is('login') == true) ||
                         ($state.is('404') == true) ||
-                        ($state.is('500') == true)) {
+                        ($state.is('500') == true) ||
+                        ($state.is('reminder') == true)) {
                         $scope.oneui.settings.sidebarOpen = false;
                     } else {
 

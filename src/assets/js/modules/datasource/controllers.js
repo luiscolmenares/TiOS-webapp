@@ -289,6 +289,7 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
                     id: $scope.datasource.id,
                     name: $scope.datasource.name,
                     type: $scope.selectDatasourceTypeObject.name,
+                    type_codename: $scope.selectDatasourceTypeObject.type_codename,
                     unitid: $scope.datasource.unitid,
                     ip: $scope.datasource.ip,
                     port: $scope.datasource.port,

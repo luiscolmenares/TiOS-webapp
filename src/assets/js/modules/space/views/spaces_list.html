@@ -46,10 +46,14 @@
                         <td>{{space.organization_name}}</td>
                         <td>{{space.project_name}}</td>
                         <td class="text-center">
-                            <div class="btn-group">                          
+                            <div class="btn-group">     
+                                <a class='btn btn-xs btn-default' ui-sref='spaceview({projectId: {{space.project_id}}, spaceId: {{space.id}} })'><i class='fa fa-eye'></i></a>        
                                 <button class="btn btn-xs btn-default view-space-edit" type="button" data-toggle="modal" data-id="{{space.id}}" href="#modal-space-edit"><i class="fa fa-pencil"></i></button>
+                                <button class='btn btn-xs btn-default view-space-add-image' data-toggle='modal' data-id="{{space.id}}" href='#modal-space-add-image' type='button'><i class='fa fa-image'></i></button>
                                 <button class="btn btn-xs btn-default view-space-delete" type="button" data-toggle="modal" data-id="{{space.id}}" href="#modal-space-delete" ><i class="fa fa-times"></i></button>
-                                <button class="btn btn-xs btn-default view-space-delete" type="button" data-toggle="modal" data-id="{{space.id}}" href="#modal-space-delete" ><i class="fa fa-image"></i></button>
+                                
+                              
+
                             </div>
                         </td>
                     </tr>
@@ -62,6 +66,7 @@
     <!-- Small Dinamic modals -->
     <div space-add-modal></div>
     <div space-edit-modal></div>
+    <div space-add-image-modal></div>
     <div space-delete-modal></div>
 
 </div>
