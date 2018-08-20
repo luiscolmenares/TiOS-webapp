@@ -23,14 +23,27 @@
 									<label for="val-name">Name</label>
 								</div>
 							</div>
-						</div>						
+						</div>	
+						<div class="form-group">
+							<div class="col-sm-12">
+								<div class="form-material">
+									<select class="form-control" id="material-select" name="material-select" size="1" ng-model="space.icon_image">
+										<option value="default.png">Default</option>
+										<option value="bedroom.png">Bedroom</option>
+										<option value="living.png">Living</option>
+										<option value="bathroom.png">Bathroom</option>
+										<option value="garage.png">Garage</option>
+										<option value="patio.png">Patio</option>
+									</select>
+									<label for="material-select">Space Icon</label>
+								</div>
+							</div>
+						</div>				
 					</div>
-
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-sm btn-primary" type="submit">Save</button><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
 				</div>
-
 			</form>
 		</div>
 	</div>

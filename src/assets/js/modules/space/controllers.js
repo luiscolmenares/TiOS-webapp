@@ -210,6 +210,7 @@ var space = $.param({
     id: $scope.space.id,
     name: $scope.space.name,
     image: $scope.space.image,
+    icon_image: $scope.space.icon_image,
     project_id: $scope.space.project_id,
     organization_id: $scope.space.organization_id
 });
@@ -251,8 +252,6 @@ SpaceService.Update(space, $scope.space.id)
 *Function create space
 */
 $scope.createSpace= function () {
-    console.log('$scope.space!!!!');
-console.log($scope);
 
     if ($scope.name)
     {
@@ -261,6 +260,7 @@ console.log($scope);
 var space = $.param({
     name: $scope.name,
     image: 'space.jpg',
+    icon_image: $scope.icon_image,
     organization_id: $scope.organization_id,
     project_id: $scope.project_id,
 });
