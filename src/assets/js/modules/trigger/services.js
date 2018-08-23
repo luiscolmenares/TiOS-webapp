@@ -82,7 +82,7 @@
         }
 
         function GetAllNotifications(){
-            return $http.get(urls.BASE_API + 'notifications').then(handleSuccess, handleError('Error getting notificcations'));
+            return $http.get(urls.BASE_API + 'notifications').then(handleSuccess, handleError('Error getting notifications'));
         }
 
         function GetTriggersNotificationByOrganizatioId(organizationid){

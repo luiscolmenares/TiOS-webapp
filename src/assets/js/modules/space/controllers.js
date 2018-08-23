@@ -259,7 +259,7 @@ $scope.createSpace= function () {
 // use $.param jQuery function to serialize data from JSON 
 var space = $.param({
     name: $scope.name,
-    image: 'space.jpg',
+    image: 'default_'+$scope.icon_image,
     icon_image: $scope.icon_image,
     organization_id: $scope.organization_id,
     project_id: $scope.project_id,
