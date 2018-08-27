@@ -49,109 +49,118 @@
                                             <input class="form-control" type="text" id="simple-classic-progress-datasourcename" name="simple-classic-progress-datasourcename" placeholder="Please enter Datasource name" ng-model="datasource.name">
                                         </div>
                                     </div>
-                                   
-                                    <div class="form-group">
-                            <div class="col-sm-8 col-sm-offset-2">
-                                <div class="form-material">
-                                    <select class="form-control" name="repeatDatasourceTypeSelect" 
-                                            id="repeatDatasourceTypeSelect" 
-                                            ng-model="selectDatasourceTypeObject" 
-                                            ng-options="o.name for o in datasourcetypes track by o.id">
-                                    </select>           
-                                    <label for="val-phone">Datasource Type</label>
-                                </div>
-                            </div>
-                        </div>
-                                    
-                                    <div class="form-group">
-                               <!--  <div class="col-sm-8 col-sm-offset-2">
-                                    <label class="css-input css-checkbox css-checkbox-default">
-                                                <input type="checkbox" id="val-thing" ng-model="thing" data-ng-change="thingDatasource()"><span></span> Datasource is a Thing (I.E: SmartBulb, Smartswitch, AC)
-                                    </label>
-                                </div> -->
-
-                            </div>
-                                </div>
-                                <!-- END Step 1 -->
-
-                                <!-- Step 2 -->
-                                <div class="tab-pane fade fade-up push-30-t push-50" id="simple-classic-progress-step2">
-                                <div class="form-group" ng-show="thing()">
-                                    <div class="col-sm-8 col-sm-offset-2">
-                                        <label for="simple-classic-progress-host">MQTT BROKER</label>
-                                        <input class="form-control" type="text" id="val-broker" name="val-broker" ng-model="datasource.broker" placeholder="Ex: http://mqttbroker.io:1880">
-                                    </div>   
-                                    <div class="col-sm-8 col-sm-offset-2">
-                                        <label for="simple-classic-progress-host">MQTT BROKER PORT</label>
-                                        <input class="form-control" type="text" id="val-brokerport" name="val-brokerport" ng-model="datasource.brokerport" placeholder="8083">
-                                    </div>                               
-                                </div>
-                                <div class="form-group" ng-show="thing()">
-                                    <div class="col-sm-3 col-sm-offset-2">
-                                        <label for="simple-classic-progress-host">TOPIC</label>
-                                        <input class="form-control" type="text" id="val-topic" name="val-topic" ng-model="datasource.topic" placeholder="Ex: facility1/room2/bulb1">
-                                    </div>                               
-                                </div>
-                                    <div class="form-group"  ng-show="!thing()">
-                                        <div class="col-sm-3 col-sm-offset-2">
-                                            <label for="val-unitid">Unit ID</label>                                 
-                                            <input class="form-control" type="text" id="val-unitid" name="val-unitid" placeholder="Ex: 1" ng-model="datasource.unitid">
-                                        </div>
-                                        <div class="col-sm-3 col-sm-offset-2">
-                                            <label for="simple-classic-progress-port">Port</label>
-                                            <input class="form-control" type="text" id="simple-classic-progress-port" name="simple-classic-progress-port" placeholder="Ex: 8899" ng-model="datasource.port">
-                                        </div>
-                                    </div>
-                                    <div class="form-group"  ng-show="!thing()">
-                                        <div class="col-sm-3 col-sm-offset-2">
-                                            <label for="simple-classic-progress-host">IP/HOST</label>
-                                            <input class="form-control" type="text" id="simple-classic-progress-host" name="simple-classic-progress-host" ng-model="datasource.ip" placeholder="Ex: 127.0.0.1">
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <!-- END Step 2 -->
-
-                                <!-- Step 3 -->
-                                <div class="tab-pane fade fade-up push-30-t push-50" id="simple-classic-progress-step3">
 
                                     <div class="form-group">
                                         <div class="col-sm-8 col-sm-offset-2">
-                                            <label for="simple-classic-progress-notes">Notes</label>
-                                            <textarea class="form-control" id="simple-classic-progress-notes" name="simple-classic-progress-notes" rows="9" ng-model="datasource.notes" placeholder="Add notes for this datasource"></textarea>
+                                            <div class="form-material">
+                                                <select class="form-control" name="repeatDatasourceTypeSelect" 
+                                                id="repeatDatasourceTypeSelect" 
+                                                ng-model="selectDatasourceTypeObject" 
+                                                ng-options="o.name for o in datasourcetypes track by o.id">
+                                            </select>           
+                                            <label for="val-phone">Datasource Type</label>
                                         </div>
                                     </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-8 col-sm-offset-2">
-                                            <label class="css-input css-checkbox css-checkbox-primary" for="val-active">
-                                                <input type="checkbox" id="val-active" name="val-active" ng-checked="datasource.active == 1 ? true : false" ><span></span>Enable this datasource
-                                            </label>
-                                         </div>
-                                    </div> 
                                 </div>
-                                <!-- END Step 3 -->
-                            </div>
-                            <!-- END Steps Content -->
 
-                            <!-- Steps Navigation -->
-                            <div class="block-content block-content-mini block-content-full border-t">
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <button class="wizard-prev btn btn-default" type="button"><i class="fa fa-arrow-left"></i> Previous</button>
-                                    </div>
-                                    <div class="col-xs-6 text-right">
-                                        <button class="wizard-next btn btn-default" type="button">Next <i class="fa fa-arrow-right"></i></button>
-                                        <button class="wizard-finish btn btn-primary" type="submit"><i class="fa fa-check"></i> Submit</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END Steps Navigation -->
-                        </form>
-                        <!-- END Form -->
-                    </div>
-                </div>
-            </div>
+                                <div class="form-group">
+<!--  <div class="col-sm-8 col-sm-offset-2">
+<label class="css-input css-checkbox css-checkbox-default">
+<input type="checkbox" id="val-thing" ng-model="thing" data-ng-change="thingDatasource()"><span></span> Datasource is a Thing (I.E: SmartBulb, Smartswitch, AC)
+</label>
+</div> -->
+
+</div>
+</div>
+<!-- END Step 1 -->
+
+<!-- Step 2 -->
+<div class="tab-pane fade fade-up push-30-t push-50" id="simple-classic-progress-step2">
+    <div class="form-group" ng-show="thing()">
+        <div class="col-sm-8 col-sm-offset-2">
+            <label for="simple-classic-progress-host">MQTT BROKER</label>
+            <input class="form-control" type="text" id="val-broker" name="val-broker" ng-model="datasource.broker" placeholder="Ex: http://mqttbroker.io:1880">
+        </div>   
+        <div class="col-sm-8 col-sm-offset-2">
+            <label for="simple-classic-progress-host">MQTT BROKER PORT</label>
+            <input class="form-control" type="text" id="val-brokerport" name="val-brokerport" ng-model="datasource.brokerport" placeholder="8083">
+        </div>                               
+    </div>
+    <div class="form-group" ng-show="thing()">
+        <div class="col-sm-8 col-sm-offset-2">
+            <label for="simple-classic-progress-host">TOPIC</label>
+            <input class="form-control" type="text" id="val-topic" name="val-topic" ng-model="datasource.topic" placeholder="Ex: facility1/room2/bulb1">
+        </div>                               
+    </div>
+    <div class="form-group"  ng-show="!thing()">
+        <div class="col-sm-3 col-sm-offset-2">
+            <label for="val-unitid">Unit ID</label>                                 
+            <input class="form-control" type="text" id="val-unitid" name="val-unitid" placeholder="Ex: 1" ng-model="datasource.unitid">
+        </div>
+        <div class="col-sm-3 col-sm-offset-2">
+            <label for="simple-classic-progress-port">Port</label>
+            <input class="form-control" type="text" id="simple-classic-progress-port" name="simple-classic-progress-port" placeholder="Ex: 8899" ng-model="datasource.port">
         </div>
     </div>
+    <div class="form-group"  ng-show="!thing()">
+        <div class="col-sm-3 col-sm-offset-2">
+            <label for="simple-classic-progress-host">IP/HOST</label>
+            <input class="form-control" type="text" id="simple-classic-progress-host" name="simple-classic-progress-host" ng-model="datasource.ip" placeholder="Ex: 127.0.0.1">
+        </div>
+
+    </div>
+</div>
+<!-- END Step 2 -->
+
+<!-- Step 3 -->
+<div class="tab-pane fade fade-up push-30-t push-50" id="simple-classic-progress-step3">
+<div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <div class="form-material">
+                                    <select class="form-control" id="material-select" name="material-select" size="1" ng-model="datasource.space_id">
+                                        <option ng-repeat="space in spaceslist" value="{{space.id}}">{{space.name}}</option>
+                                    </select>
+                                    <label for="material-select">Space</label>
+                                </div>
+                            </div>
+
+<div class="form-group">
+    <div class="col-sm-8 col-sm-offset-2">
+        <label for="simple-classic-progress-notes">Notes</label>
+        <textarea class="form-control" id="simple-classic-progress-notes" name="simple-classic-progress-notes" rows="9" ng-model="datasource.notes" placeholder="Add notes for this datasource"></textarea>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-8 col-sm-offset-2">
+        <label class="css-input css-checkbox css-checkbox-primary" for="val-active">
+            <input type="checkbox" id="val-active" name="val-active" ng-checked="datasource.active == 1 ? true : false" ><span></span>Enable this datasource
+        </label>
+    </div>
+</div> 
+</div>
+<!-- END Step 3 -->
+</div>
+<!-- END Steps Content -->
+
+<!-- Steps Navigation -->
+<div class="block-content block-content-mini block-content-full border-t">
+    <div class="row">
+        <div class="col-xs-6">
+            <button class="wizard-prev btn btn-default" type="button"><i class="fa fa-arrow-left"></i> Previous</button>
+        </div>
+        <div class="col-xs-6 text-right">
+            <button class="wizard-next btn btn-default" type="button">Next <i class="fa fa-arrow-right"></i></button>
+            <button class="wizard-finish btn btn-primary" type="submit"><i class="fa fa-check"></i> Submit</button>
+        </div>
+    </div>
+</div>
+<!-- END Steps Navigation -->
+</form>
+<!-- END Form -->
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>    

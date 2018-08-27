@@ -1,6 +1,6 @@
 // Tables DataTables Controller
-App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeout', '$http', '$stateParams', '$state', 'DatasourceService', 'urls', 'ProjectService', 
-    function ($scope, $localStorage, $timeout, $http, $stateParams, $state, DatasourceService, urls, ProjectService) {
+App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeout', '$http', '$stateParams', '$state', 'DatasourceService', 'urls', 'ProjectService', 'SpaceService',
+    function ($scope, $localStorage, $timeout, $http, $stateParams, $state, DatasourceService, urls, ProjectService, SpaceService) {
         console.log($stateParams);
         $scope.projectId = $stateParams.projectId;
         $scope.datasourceslist = [];
@@ -221,6 +221,9 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
         };
         $(document).on("click", ".view-datasource-edit", function () {
             var dataid = $(this).data('id');
+            SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (response) {
+                $scope.spaceslist = response.spaces;
+            });
             DatasourceService.GetDatasourceTypes()
                 .then(function (result) {
                     console.log('datasources from controller');
@@ -282,7 +285,7 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
                 var selectedoptions = {
                     "type": $scope.selectDatasourceTypeObject.name,
                     "broker": $scope.datasource.broker,
-                    "brokerport": $scope.datasource.brokerport,
+                    "port": $scope.datasource.brokerport,
                     "topic": $scope.datasource.topic,
                 };
                 var datasource = $.param({
@@ -296,6 +299,7 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
                     options: JSON.stringify(selectedoptions),
                     data: $scope.datasource.data,
                     notes: $scope.datasource.notes,
+                    space_id: $scope.datasource.space_id,
                     active: activation,
                     project_id: $scope.projectId,
                 });
@@ -631,12 +635,12 @@ SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (respons
                     console.log(result);
                     $scope.datasourcestype = result.datasourcestype;
                 });
-        $scope.selectedDatasourceProtocolType = null;
-        $scope.datasourceprotocoltypes = [];
-        DatasourceService.GetDatasourceProtocolTypes()
-                .then(function (result) {
-                    $scope.datasourceprotocoltypes = result.datasourceprotocoltypes;
-                });
+        // $scope.selectedDatasourceProtocolType = null;
+        // $scope.datasourceprotocoltypes = [];
+        // DatasourceService.GetDatasourceProtocolTypes()
+        //         .then(function (result) {
+        //             $scope.datasourceprotocoltypes = result.datasourceprotocoltypes;
+        //         });
         $scope.createDatasource = function () {
             var isChecked = $('#val-activate').prop("checked");
             //$scope.data = "{}";

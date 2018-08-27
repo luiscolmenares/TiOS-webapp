@@ -784,6 +784,7 @@ App.controller('SpaceViewCtrl', ['$scope', 'spaces', '$localStorage', '$window',
 // alert('hello');
 $scope.project_id = $stateParams.projectId;
 $scope.space_id = $stateParams.spaceId;
+$scope.gaugeSensorData = 25;
 $scope.reload = function () {
     $state.reload();
 };
@@ -795,7 +796,7 @@ $scope.reload = function () {
         console.log($scope.space.datasources);
         angular.forEach($scope.space.datasources, function (datasource) {
     console.log(datasource);
-    if (datasource.type === 'Temperature Sensor (Celsius)') {
+    if (datasource.type === 'Monitor: Temperature Sensor (Celsius)') {
         //connect to MQTT Client
         var Mqttconnection;
         var host = datasource.options_array.broker;
@@ -803,6 +804,10 @@ $scope.reload = function () {
         var id = "js_paho_id_" + parseInt(Math.random() * 100, 10);
         var path = "/ws";
     }
+    function updateSensorData(message){
+        // alert(message.payloadString);
+    $scope.gaugeSensorData = message.payloadString;
+}
     function onConnectionLost(message){
     console.log("connection lost");
         $.notify({
@@ -862,7 +867,7 @@ console.log("Topic:     " + message.destinationName);
 
 console.log("en el scope");
 $scope.$apply(function () {
-    // updateSensorData(message);
+    updateSensorData(message);
 
 });
 
@@ -889,13 +894,43 @@ console.log("onMessageArrivedCB:"+message.payloadString);
  mqtt.connect(options);
 
 
-    // if (datasource.type === 'Temperature Sensor (Celsius)') {
+    if (datasource.type === 'Control: Smart Switch (Light)') {
 
-    // }
+
+
+
+    }
 });
     });
 
+$scope.switch = function(datasource){
+    if (datasource.type === 'Control: Smart Switch (Light)') {
 
+var isChecked = jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
+    if (isChecked) {
+        $scope.activate = "ON";
+    } else {
+        $scope.activate = "OFF";
+    }
+    console.log('switch');
+    console.log(datasource);
+    // var topic = document.forms["smessage"]["Ptopic"].value;
+    var topic = datasource.options_array.topic;
+    // var msg = document.forms["smessage"]["message"].value;
+    var msg = $scope.activate;
+    console.log(msg);
+    message = new Paho.MQTT.Message(msg);
+    if (topic=="")
+        message.destinationName = "test-topic"
+    else
+        message.destinationName = topic;
+    mqtt.send(message);
+
+
+    }
+    
+
+}
 
 
 }]);
