@@ -1219,7 +1219,7 @@ else
   if (data == '1') {
     return "<span class='label label-success'>active</span>";
   }
-  return "<span class='label label-danger'>inactive</span>";
+  return "<span class='label label-info'>delivered</span>";
 
 }
 },
@@ -1802,8 +1802,8 @@ var getNotifications = function(){
 
   TriggerService.GetAllNotifications()
   .then(function (data){
-// console.log('notifications--->');
-// console.log(data);
+console.log('notifications--->');
+console.log(data);
 //$scope.timelinedate = toTimestamp()
 for (var i = data.notifications.length - 1; i >= 0; i--) {
   data.notifications[i].created_at = new Date(data.notifications[i].created_at);

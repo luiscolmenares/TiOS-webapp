@@ -41,7 +41,7 @@
                     
                     <tr ng-repeat="space in spaceslist">
                         <td>{{space.id}}</td>
-                        <td><img src="{{space.icon_image_url}}" style="height: 20px; padding-right: 5px">{{space.name}}
+                        <td><img ng-src="{{space.icon_image_url}}" style="height: 20px; padding-right: 5px">{{space.name}}
                         </td>
                         <td>{{space.organization_name}}</td>
                         <td>{{space.project_name}}</td>

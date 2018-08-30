@@ -573,6 +573,7 @@ var isCheckedRepeat = $('#val-repeat-check').prop("checked");
                                      datapoint_id: 0,
                                      active: 1, 
                                      end: 'after',
+                                     custommessage: $scope.custommessage,
                                  });
 
                     EventService.Create(event)
