@@ -21,76 +21,76 @@ var projectlist = [];
 
 var uploader = $scope.uploader = new FileUploader({
 
-            url: urls.BASE_API + 'space/upload/'
-        });
+    url: urls.BASE_API + 'space/upload/'
+});
 // FILTERS
 
-        uploader.filters.push({
-            name: 'imageFilter',
-            fn: function(item /*{File|FileLikeObject}*/, options) {
-                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-            }
-        });
+uploader.filters.push({
+    name: 'imageFilter',
+    fn: function(item /*{File|FileLikeObject}*/, options) {
+        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+    }
+});
 // CALLBACKS
 
-        uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-            console.info('onWhenAddingFileFailed', item, filter, options);
-        };
-        uploader.onAfterAddingFile = function(fileItem) {
-             fileItem.url = urls.BASE_API + 'space/upload/' + $scope.space.id
-            console.info('onAfterAddingFile', fileItem);
-        };
-        uploader.onAfterAddingAll = function(addedFileItems) {
-            addedFileItems.url = urls.BASE_API + 'space/upload/' + $scope.space.id
-            console.info('onAfterAddingAll', addedFileItems);
-        };
-        uploader.onBeforeUploadItem = function(item) {
-            console.info('onBeforeUploadItem', item);
-        };
-        uploader.onProgressItem = function(fileItem, progress) {
-            console.info('onProgressItem', fileItem, progress);
-        };
-        uploader.onProgressAll = function(progress) {
-            console.info('onProgressAll', progress);
-        };
-        uploader.onSuccessItem = function(fileItem, response, status, headers) {
-            swal("Space image updated!", "", "success");
-                    var oTable = $('.js-dataTable-full-2').dataTable();
-                    oTable.fnClearTable();
-                oTable.fnDestroy();
-                spaces.fetchSpaces(function (data) {
+uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+    console.info('onWhenAddingFileFailed', item, filter, options);
+};
+uploader.onAfterAddingFile = function(fileItem) {
+    fileItem.url = urls.BASE_API + 'space/upload/' + $scope.space.id
+    console.info('onAfterAddingFile', fileItem);
+};
+uploader.onAfterAddingAll = function(addedFileItems) {
+    addedFileItems.url = urls.BASE_API + 'space/upload/' + $scope.space.id
+    console.info('onAfterAddingAll', addedFileItems);
+};
+uploader.onBeforeUploadItem = function(item) {
+    console.info('onBeforeUploadItem', item);
+};
+uploader.onProgressItem = function(fileItem, progress) {
+    console.info('onProgressItem', fileItem, progress);
+};
+uploader.onProgressAll = function(progress) {
+    console.info('onProgressAll', progress);
+};
+uploader.onSuccessItem = function(fileItem, response, status, headers) {
+    swal("Space image updated!", "", "success");
+    var oTable = $('.js-dataTable-full-2').dataTable();
+    oTable.fnClearTable();
+    oTable.fnDestroy();
+    spaces.fetchSpaces(function (data) {
 
-            //  //console.log('saving organization in localStorage...');
+//  //console.log('saving organization in localStorage...');
 
-                localStorageService.set('spaces', data);
+localStorageService.set('spaces', data);
 
 
-            //   //$scope.organizationslist = data;
-            });
-                $timeout(function () {
-            //initDataTableFull();
-            $state.reload();
-            }, 1000);
+//   //$scope.organizationslist = data;
+});
+    $timeout(function () {
+//initDataTableFull();
+$state.reload();
+}, 1000);
 
-        $('#modal-space-add-image').modal('hide');
-            console.info('onSuccessItem', fileItem, response, status, headers);
-        };
-        uploader.onErrorItem = function(fileItem, response, status, headers) {
-            swal("Error subiendo imagen de la promocion", "", "error");
-            console.info('onErrorItem', fileItem, response, status, headers);
-        };
-        uploader.onCancelItem = function(fileItem, response, status, headers) {
-            console.info('onCancelItem', fileItem, response, status, headers);
-        };
-        uploader.onCompleteItem = function(fileItem, response, status, headers) {
-            console.info('onCompleteItem', fileItem, response, status, headers);
-        };
-        uploader.onCompleteAll = function() {
-            console.info('onCompleteAll');
-        };
+    $('#modal-space-add-image').modal('hide');
+    console.info('onSuccessItem', fileItem, response, status, headers);
+};
+uploader.onErrorItem = function(fileItem, response, status, headers) {
+    swal("Error subiendo imagen de la promocion", "", "error");
+    console.info('onErrorItem', fileItem, response, status, headers);
+};
+uploader.onCancelItem = function(fileItem, response, status, headers) {
+    console.info('onCancelItem', fileItem, response, status, headers);
+};
+uploader.onCompleteItem = function(fileItem, response, status, headers) {
+    console.info('onCompleteItem', fileItem, response, status, headers);
+};
+uploader.onCompleteAll = function() {
+    console.info('onCompleteAll');
+};
 
-        console.info('uploader', uploader);
+console.info('uploader', uploader);
 
 function myIndexOf(o, arr) {
 
@@ -104,15 +104,15 @@ function myIndexOf(o, arr) {
 }
 
 $(document).on("click", ".add-space", function () {
-    // alert($stateParams.projectId);
-    $scope.project_id = $stateParams.projectId;
-    OrganizationService.GetByProjectId($scope.project_id)
-    .then(function (result) {
-        $scope.organization_id = result.organization.id;
-        // console.log(results);
-    });
+// alert($stateParams.projectId);
+$scope.project_id = $stateParams.projectId;
+OrganizationService.GetByProjectId($scope.project_id)
+.then(function (result) {
+    $scope.organization_id = result.organization.id;
+// console.log(results);
+});
 
-    $('#modal-space-add').modal('show');
+$('#modal-space-add').modal('show');
 });
 
 $(document).on("click", ".view-space", function () {
@@ -138,14 +138,14 @@ $(document).on("click", ".view-space-add-image", function () {
 
 $scope.spaceslist = [];
 
- $scope.loadSpaces = function () {
-            console.log('loading spaces');
-            SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (response) {
-                console.log('from spaces service--->');
-                console.log(response.spaces);
-                $scope.spaceslist = response.spaces;
-            });
-        };
+$scope.loadSpaces = function () {
+    console.log('loading spaces');
+    SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (response) {
+        console.log('from spaces service--->');
+        console.log(response.spaces);
+        $scope.spaceslist = response.spaces;
+    });
+};
 
 $(document).on("click", ".view-space-edit", function () {
     var spaceid = $(this).data('id');
@@ -199,11 +199,11 @@ $('#modal-spaces-delete').modal('show');
 *Function Update Space
 */
 $scope.updateSpace = function (spaceid) {
-    // var isChecked = $('#val-active').prop("checked");
+// var isChecked = $('#val-active').prop("checked");
 
-    if ($scope.space.id && $scope.space.name)
-    {
-        var activation = 0;
+if ($scope.space.id && $scope.space.name)
+{
+    var activation = 0;
 
 // use $.param jQuery function to serialize data from JSON 
 var space = $.param({
@@ -223,28 +223,28 @@ SpaceService.Update(space, $scope.space.id)
         localStorageService.remove('spaces');
         swal("Space has been updated", "", "success");
 
-        // var oTable = $('.js-dataTable-full').dataTable();
-        // oTable.fnClearTable();
-        // oTable.fnDestroy();
-        // spaces.fetchSpaces(function (data) {
-        //     if (AuthenticationService.userHasRole(["super"])){
-        //         localStorageService.set('spaces', data);
-        //     } else {
-        //         var filteredspaces = data.filter(function (space){
-        //             return space.organization_id == $rootScope.loggeduser.user.organization_id;
-        //         });
-        //         localStorageService.set('spaces', filteredspaces);
-        //     }
+// var oTable = $('.js-dataTable-full').dataTable();
+// oTable.fnClearTable();
+// oTable.fnDestroy();
+// spaces.fetchSpaces(function (data) {
+//     if (AuthenticationService.userHasRole(["super"])){
+//         localStorageService.set('spaces', data);
+//     } else {
+//         var filteredspaces = data.filter(function (space){
+//             return space.organization_id == $rootScope.loggeduser.user.organization_id;
+//         });
+//         localStorageService.set('spaces', filteredspaces);
+//     }
 
-        // });
-        $timeout(function () {
+// });
+$timeout(function () {
 
-            $state.reload();
-        }, 1000);
+    $state.reload();
+}, 1000);
 
-        $('#modal-space-edit').modal('hide');
+$('#modal-space-edit').modal('hide');
 
-    }
+}
 });
 }
 };
@@ -266,11 +266,11 @@ var space = $.param({
 });
 SpaceService.Create(space)
 .then(function (response) {
-   //console.log(response);
-    if (response.success == false) {
-        swal("Error creating Space", "", "error");
-    } else {
-        swal("New Space created!", "", "success");
+//console.log(response);
+if (response.success == false) {
+    swal("Error creating Space", "", "error");
+} else {
+    swal("New Space created!", "", "success");
 //         var oTable = $('.js-dataTable-full-2').dataTable();
 //         oTable.fnClearTable();
 //     oTable.fnDestroy();
@@ -283,13 +283,13 @@ SpaceService.Create(space)
 
 // //   //$scope.organizationslist = data;
 // });
-    $timeout(function () {
+$timeout(function () {
 //initDataTableFull();
 $state.reload();
 }, 1000);
 
-        $('#modal-space-add').modal('hide');
-    }
+$('#modal-space-add').modal('hide');
+}
 });
 
 }
@@ -328,32 +328,32 @@ $scope.deleteSpace = function () {
                                     swal("Error Deleting this space", "Triggers already created to this space.", "error");
                                     $('#modal-spaces-delete').modal('hide');
                                 } else {
-                                   SpaceService.Delete($scope.space.id)
-                                   .then(function (response) {
-                                    if (response.success == false) {
-                                        swal("Error Deleting This Space", "", "error");
-                                    } else {
-                //$state.reload();
-                localStorageService.remove('spaces');
-                swal("This Space has been deleted", "", "success");
+                                    SpaceService.Delete($scope.space.id)
+                                    .then(function (response) {
+                                        if (response.success == false) {
+                                            swal("Error Deleting This Space", "", "error");
+                                        } else {
+//$state.reload();
+localStorageService.remove('spaces');
+swal("This Space has been deleted", "", "success");
 
-                var oTable = $('.js-dataTable-full-2').dataTable();
-                oTable.fnClearTable();
-                oTable.fnDestroy();
-                spaces.fetchSpaces(function (data) {
-                    localStorageService.set('spaces', data);
-                    spacelist = data;
-                });
+var oTable = $('.js-dataTable-full-2').dataTable();
+oTable.fnClearTable();
+oTable.fnDestroy();
+spaces.fetchSpaces(function (data) {
+    localStorageService.set('spaces', data);
+    spacelist = data;
+});
 
-                $timeout(function () {
+$timeout(function () {
 //initDataTableFull();
 $state.reload();
 }, 1000);
-                $('#modal-spaces-delete').modal('hide');
-            }
-        });
-                               }
-                           });
+$('#modal-spaces-delete').modal('hide');
+}
+});
+                                }
+                            });
 
                         }
                     });
@@ -592,184 +592,184 @@ $state.reload();
 // }
 // };
 
- var initDataTableFull = function () {
-            jQuery('.js-dataTable-full').dataTable({
-                columnDefs: [{orderable: false, targets: [4]}],
-                pageLength: 10,
-                lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]]
-            });
-        };
-        var initDataTableSimple = function () {
-            jQuery('.js-dataTable-simple').dataTable({
-                columnDefs: [{orderable: false, targets: [4]}],
-                pageLength: 10,
-                lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]],
-                searching: false,
-                oLanguage: {
-                    sLengthMenu: ""
-                },
-                dom:
-                        "<'row'<'col-sm-12'tr>>" +
-                        "<'row'<'col-sm-6'i><'col-sm-6'p>>"
-            });
-        };
-        var bsDataTables = function () {
-            var DataTable = jQuery.fn.dataTable;
+var initDataTableFull = function () {
+    jQuery('.js-dataTable-full').dataTable({
+        columnDefs: [{orderable: false, targets: [4]}],
+        pageLength: 10,
+        lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]]
+    });
+};
+var initDataTableSimple = function () {
+    jQuery('.js-dataTable-simple').dataTable({
+        columnDefs: [{orderable: false, targets: [4]}],
+        pageLength: 10,
+        lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]],
+        searching: false,
+        oLanguage: {
+            sLengthMenu: ""
+        },
+        dom:
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-6'i><'col-sm-6'p>>"
+    });
+};
+var bsDataTables = function () {
+    var DataTable = jQuery.fn.dataTable;
 
 // Set the defaults for DataTables init
-            jQuery.extend(true, DataTable.defaults, {
-                dom:
-                        "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
-                        "<'row'<'col-sm-12'tr>>" +
-                        "<'row'<'col-sm-6'i><'col-sm-6'p>>",
-                renderer: 'bootstrap',
-                oLanguage: {
-                    sLengthMenu: "_MENU_",
-                    sInfo: "Showing <strong>_START_</strong>-<strong>_END_</strong> of <strong>_TOTAL_</strong>",
-                    oPaginate: {
-                        sPrevious: '<i class="fa fa-angle-left"></i>',
-                        sNext: '<i class="fa fa-angle-right"></i>'
-                    }
-                }
-            });
+jQuery.extend(true, DataTable.defaults, {
+    dom:
+    "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-6'i><'col-sm-6'p>>",
+    renderer: 'bootstrap',
+    oLanguage: {
+        sLengthMenu: "_MENU_",
+        sInfo: "Showing <strong>_START_</strong>-<strong>_END_</strong> of <strong>_TOTAL_</strong>",
+        oPaginate: {
+            sPrevious: '<i class="fa fa-angle-left"></i>',
+            sNext: '<i class="fa fa-angle-right"></i>'
+        }
+    }
+});
 
 // Default class modification
-            jQuery.extend(DataTable.ext.classes, {
-                sWrapper: "dataTables_wrapper form-inline dt-bootstrap",
-                sFilterInput: "form-control",
-                sLengthSelect: "form-control"
-            });
+jQuery.extend(DataTable.ext.classes, {
+    sWrapper: "dataTables_wrapper form-inline dt-bootstrap",
+    sFilterInput: "form-control",
+    sLengthSelect: "form-control"
+});
 
 // Bootstrap paging button renderer
-            DataTable.ext.renderer.pageButton.bootstrap = function (settings, host, idx, buttons, page, pages) {
-                var api = new DataTable.Api(settings);
-                var classes = settings.oClasses;
-                var lang = settings.oLanguage.oPaginate;
-                var btnDisplay, btnClass;
+DataTable.ext.renderer.pageButton.bootstrap = function (settings, host, idx, buttons, page, pages) {
+    var api = new DataTable.Api(settings);
+    var classes = settings.oClasses;
+    var lang = settings.oLanguage.oPaginate;
+    var btnDisplay, btnClass;
 
-                var attach = function (container, buttons) {
-                    var i, ien, node, button;
-                    var clickHandler = function (e) {
-                        e.preventDefault();
-                        if (!jQuery(e.currentTarget).hasClass('disabled')) {
-                            api.page(e.data.action).draw(false);
-                        }
-                    };
-
-                    for (i = 0, ien = buttons.length; i < ien; i++) {
-                        button = buttons[i];
-
-                        if (jQuery.isArray(button)) {
-                            attach(container, button);
-                        } else {
-                            btnDisplay = '';
-                            btnClass = '';
-
-                            switch (button) {
-                                case 'ellipsis':
-                                    btnDisplay = '&hellip;';
-                                    btnClass = 'disabled';
-                                    break;
-
-                                case 'first':
-                                    btnDisplay = lang.sFirst;
-                                    btnClass = button + (page > 0 ? '' : ' disabled');
-                                    break;
-
-                                case 'previous':
-                                    btnDisplay = lang.sPrevious;
-                                    btnClass = button + (page > 0 ? '' : ' disabled');
-                                    break;
-
-                                case 'next':
-                                    btnDisplay = lang.sNext;
-                                    btnClass = button + (page < pages - 1 ? '' : ' disabled');
-                                    break;
-
-                                case 'last':
-                                    btnDisplay = lang.sLast;
-                                    btnClass = button + (page < pages - 1 ? '' : ' disabled');
-                                    break;
-
-                                default:
-                                    btnDisplay = button + 1;
-                                    btnClass = page === button ?
-                                            'active' : '';
-                                    break;
-                            }
-
-                            if (btnDisplay) {
-                                node = jQuery('<li>', {
-                                    'class': classes.sPageButton + ' ' + btnClass,
-                                    'aria-controls': settings.sTableId,
-                                    'tabindex': settings.iTabIndex,
-                                    'id': idx === 0 && typeof button === 'string' ?
-                                            settings.sTableId + '_' + button :
-                                            null
-                                })
-                                        .append(jQuery('<a>', {
-                                            'href': '#'
-                                        })
-                                                .html(btnDisplay)
-                                                )
-                                        .appendTo(container);
-
-                                settings.oApi._fnBindAction(
-                                        node, {action: button}, clickHandler
-                                        );
-                            }
-                        }
-                    }
-                };
-
-                attach(
-                        jQuery(host).empty().html('<ul class="pagination"/>').children('ul'),
-                        buttons
-                        );
-            };
-
-// TableTools Bootstrap compatibility - Required TableTools 2.1+
-            if (DataTable.TableTools) {
-// Set the classes that TableTools uses to something suitable for Bootstrap
-                jQuery.extend(true, DataTable.TableTools.classes, {
-                    "container": "DTTT btn-group",
-                    "buttons": {
-                        "normal": "btn btn-default",
-                        "disabled": "disabled"
-                    },
-                    "collection": {
-                        "container": "DTTT_dropdown dropdown-menu",
-                        "buttons": {
-                            "normal": "",
-                            "disabled": "disabled"
-                        }
-                    },
-                    "print": {
-                        "info": "DTTT_print_info"
-                    },
-                    "select": {
-                        "row": "active"
-                    }
-                });
-
-// Have the collection use a bootstrap compatible drop down
-                jQuery.extend(true, DataTable.TableTools.DEFAULTS.oTags, {
-                    "collection": {
-                        "container": "ul",
-                        "button": "li",
-                        "liner": "a"
-                    }
-                });
+    var attach = function (container, buttons) {
+        var i, ien, node, button;
+        var clickHandler = function (e) {
+            e.preventDefault();
+            if (!jQuery(e.currentTarget).hasClass('disabled')) {
+                api.page(e.data.action).draw(false);
             }
         };
 
+        for (i = 0, ien = buttons.length; i < ien; i++) {
+            button = buttons[i];
+
+            if (jQuery.isArray(button)) {
+                attach(container, button);
+            } else {
+                btnDisplay = '';
+                btnClass = '';
+
+                switch (button) {
+                    case 'ellipsis':
+                    btnDisplay = '&hellip;';
+                    btnClass = 'disabled';
+                    break;
+
+                    case 'first':
+                    btnDisplay = lang.sFirst;
+                    btnClass = button + (page > 0 ? '' : ' disabled');
+                    break;
+
+                    case 'previous':
+                    btnDisplay = lang.sPrevious;
+                    btnClass = button + (page > 0 ? '' : ' disabled');
+                    break;
+
+                    case 'next':
+                    btnDisplay = lang.sNext;
+                    btnClass = button + (page < pages - 1 ? '' : ' disabled');
+                    break;
+
+                    case 'last':
+                    btnDisplay = lang.sLast;
+                    btnClass = button + (page < pages - 1 ? '' : ' disabled');
+                    break;
+
+                    default:
+                    btnDisplay = button + 1;
+                    btnClass = page === button ?
+                    'active' : '';
+                    break;
+                }
+
+                if (btnDisplay) {
+                    node = jQuery('<li>', {
+                        'class': classes.sPageButton + ' ' + btnClass,
+                        'aria-controls': settings.sTableId,
+                        'tabindex': settings.iTabIndex,
+                        'id': idx === 0 && typeof button === 'string' ?
+                        settings.sTableId + '_' + button :
+                        null
+                    })
+                    .append(jQuery('<a>', {
+                        'href': '#'
+                    })
+                    .html(btnDisplay)
+                    )
+                    .appendTo(container);
+
+                    settings.oApi._fnBindAction(
+                        node, {action: button}, clickHandler
+                        );
+                }
+            }
+        }
+    };
+
+    attach(
+        jQuery(host).empty().html('<ul class="pagination"/>').children('ul'),
+        buttons
+        );
+};
+
+// TableTools Bootstrap compatibility - Required TableTools 2.1+
+if (DataTable.TableTools) {
+// Set the classes that TableTools uses to something suitable for Bootstrap
+jQuery.extend(true, DataTable.TableTools.classes, {
+    "container": "DTTT btn-group",
+    "buttons": {
+        "normal": "btn btn-default",
+        "disabled": "disabled"
+    },
+    "collection": {
+        "container": "DTTT_dropdown dropdown-menu",
+        "buttons": {
+            "normal": "",
+            "disabled": "disabled"
+        }
+    },
+    "print": {
+        "info": "DTTT_print_info"
+    },
+    "select": {
+        "row": "active"
+    }
+});
+
+// Have the collection use a bootstrap compatible drop down
+jQuery.extend(true, DataTable.TableTools.DEFAULTS.oTags, {
+    "collection": {
+        "container": "ul",
+        "button": "li",
+        "liner": "a"
+    }
+});
+}
+};
+
 // Init Datatables
 bsDataTables();
-        initDataTableSimple();
-        initDataTableFull();
-        // $scope.loadDatasources();
+initDataTableSimple();
+initDataTableFull();
+// $scope.loadDatasources();
 
- $scope.loadSpaces();
+$scope.loadSpaces();
 
 }]);
 
@@ -784,40 +784,59 @@ App.controller('SpaceViewCtrl', ['$scope', 'spaces', '$localStorage', '$window',
 // alert('hello');
 $scope.project_id = $stateParams.projectId;
 $scope.space_id = $stateParams.spaceId;
-$scope.gaugeSensorData = 25;
+$scope.gaugeSensorData_0 = 25;
+$scope.topics = [];
+// $scope.gaugeSensorData_1 = 26;
 $scope.reload = function () {
     $state.reload();
 };
 
- SpaceService.GetById($scope.space_id)
-    .then(function (data) {
-        $scope.space = data;
-        console.log($scope.space);
-        console.log($scope.space.datasources);
-        angular.forEach($scope.space.datasources, function (datasource) {
-    console.log(datasource);
-    if (datasource.type === 'Monitor: Temperature Sensor (Celsius)') {
-        //connect to MQTT Client
-        var Mqttconnection;
-        var host = datasource.options_array.broker;
-        var port = Number(datasource.options_array.port);
-        var id = "js_paho_id_" + parseInt(Math.random() * 100, 10);
-        var path = "/ws";
-    }
-    function updateSensorData(message){
-        // alert(message.payloadString);
-    $scope.gaugeSensorData = message.payloadString;
-}
-    function onConnectionLost(message){
-    console.log("connection lost");
-        $.notify({
-            message: 'Connection Lost. '+message.errorCode+': '+message.errorMessage,
-        },{     
-            type: 'danger'
-        });
-    }
+SpaceService.GetById($scope.space_id)
+.then(function (data) {
+    $scope.space = data;
+    console.log($scope.space);
+    console.log($scope.space.datasources);
+    $spacecount = 0;
+    $mqttconnected = false;
+    angular.forEach($scope.space.datasources, function (datasource) {
+//connect to MQTT Client , if not connected
+if ($mqttconnected == false){
+    $mqttconnected = true;
+    var Mqttconnection;
+    var host = datasource.options_array.broker;
+    var port = Number(datasource.options_array.port);
+    var id = "js_paho_id_" + parseInt(Math.random() * 100, 10);
+    var path = "/ws";
 
-    function sonFailure(message){
+    mqtt = new Paho.MQTT.Client(host,port,path,id);
+options = {
+    useSSL: true,
+    timeout: 3,
+    onSuccess: onConnect,
+    onFailure: failureCallback,
+    userName: "kike",
+    password: "K1k3355453",
+
+};
+
+mqtt.onMessageArrived = onMessageArrived;
+mqtt.onConnectionLost = onConnectionLost;
+// mqtt.onConnected = onConnected;
+// connect the client
+mqtt.connect(options);
+    
+}
+
+function onConnectionLost(message){
+    console.log("connection lost");
+    $.notify({
+        message: 'Connection Lost. '+message.errorCode+': '+message.errorMessage,
+    },{     
+        type: 'danger'
+    });
+}
+
+function sonFailure(message){
     $.notify({
         message: 'messageerrorCode: '+message.errorCode+': '+message.errorMessage,
     },{     
@@ -827,7 +846,7 @@ $scope.reload = function () {
 
 function sonSuccess(){
     $.notify({
-    message: 'MQTT connected.'
+        message: 'MQTT connected.'
     },{     
         type: 'success'
     });
@@ -837,18 +856,24 @@ function sonSuccess(){
         type: 'success'
     });
 }
+var soptions={
+        onSuccess:sonSuccess,
+        onFailure: sonFailure
+    };
+function onConnect() {
+    
+    // mqtt.subscribe(datasource.options_array.topic, soptions);
+    if (datasource.type === 'Monitor: Temperature Sensor (Celsius)') {
 
-    function onConnect() {
-        var soptions={
-            onSuccess:sonSuccess,
-            onFailure: sonFailure
-        };
+mqtt.subscribe(datasource.options_array.topic, soptions);
 
-        mqtt.subscribe(datasource.options_array.topic, soptions);
 
-        }
 
-        function failureCallback(message) {
+}
+
+}
+
+function failureCallback(message) {
     console.log('Connection Failed- Retrying')
     $.notify({
         message: 'Connection Failed- Retrying in 30sg'
@@ -868,6 +893,7 @@ console.log("Topic:     " + message.destinationName);
 console.log("en el scope");
 $scope.$apply(function () {
     updateSensorData(message);
+    // updateSensorData1(message);
 
 });
 
@@ -875,60 +901,71 @@ console.log("onMessageArrivedCB:"+message.payloadString);
 // loadData(message.payloadString);
 }
 
-
-    mqtt = new Paho.MQTT.Client(host,port,path,id);
-    options = {
-        useSSL: true,
-        timeout: 3,
-        onSuccess: onConnect,
-        onFailure: failureCallback,
-        userName: "kike",
-        password: "K1k3355453",
-
-    };
-
-    mqtt.onMessageArrived = onMessageArrived;
-    mqtt.onConnectionLost = onConnectionLost;
-// mqtt.onConnected = onConnected;
-// connect the client
- mqtt.connect(options);
+function updateSensorData(message){
+// alert(message.payloadString);
+$scope.gaugeSensorData_0 = message.payloadString;
+}
 
 
-    if (datasource.type === 'Control: Smart Switch (Light)') {
+
+console.log(datasource);
+if (datasource.type === 'Monitor: Temperature Sensor (Celsius)') {
+
+// mqtt.subscribe(datasource.options_array.topic, soptions);
+// onConnect();
+$scope.topics.push(datasource.options_array.topic);
+console.log($scope.topics);
 
 
 
 
-    }
+}
+
+
+
+
+
+
+
+
+
+
+if (datasource.type === 'Control: Smart Switch (Light)') {
+
+
+
+
+}
+$spacecount = $spacecount +1;
 });
-    });
+});
 
 $scope.switch = function(datasource){
     if (datasource.type === 'Control: Smart Switch (Light)') {
 
-var isChecked = jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
-    if (isChecked) {
-        $scope.activate = "ON";
-    } else {
-        $scope.activate = "OFF";
-    }
-    console.log('switch');
-    console.log(datasource);
-    // var topic = document.forms["smessage"]["Ptopic"].value;
-    var topic = datasource.options_array.topic;
-    // var msg = document.forms["smessage"]["message"].value;
-    var msg = $scope.activate;
-    console.log(msg);
-    message = new Paho.MQTT.Message(msg);
-    if (topic=="")
-        message.destinationName = "test-topic"
-    else
-        message.destinationName = topic;
-    mqtt.send(message);
+        var isChecked = jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
+        if (isChecked) {
+            $scope.activate = "ON";
+        } else {
+            $scope.activate = "OFF";
+        }
+        console.log('switch');
+        console.log(datasource);
+// var topic = document.forms["smessage"]["Ptopic"].value;
+var topic = datasource.options_array.topic;
+// var msg = document.forms["smessage"]["message"].value;
+var msg = $scope.activate;
+console.log(msg);
+message = new Paho.MQTT.Message(msg);
+if (topic=="")
+    message.destinationName = "test-topic"
+else
+    message.destinationName = topic;
+mqtt.send(message);
 
 
-    }
-    
+}
+
 
 }
 
@@ -979,9 +1016,9 @@ templateUrl: '/assets/js/modules/space/views/space_add_image.html'
 App.directive('spaceDeleteModal', function () {
     return {
 //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
-        restrict: "EA",
-        scope: false,
-        templateUrl: '/assets/js/modules/space/views/space_delete.html'
-        // templateUrl: '/src/assets/js/modules/organization/views/organization-modal-delete.html'
-    };
+restrict: "EA",
+scope: false,
+templateUrl: '/assets/js/modules/space/views/space_delete.html'
+// templateUrl: '/src/assets/js/modules/organization/views/organization-modal-delete.html'
+};
 });
