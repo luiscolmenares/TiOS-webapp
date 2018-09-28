@@ -952,7 +952,7 @@ $scope.switch = function(datasource){
         console.log('switch');
         console.log(datasource);
 // var topic = document.forms["smessage"]["Ptopic"].value;
-var topic = datasource.options_array.topic;
+var topic = datasource.options_array.topic+'/power';
 // var msg = document.forms["smessage"]["message"].value;
 var msg = $scope.activate;
 console.log(msg);

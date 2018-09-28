@@ -611,6 +611,9 @@ SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (respons
         };
 
 // Datasource form creation
+        $scope.enableVerification = function(){
+            $scope.show_verification = true;
+        }
         $scope.thingDatasource = function(){
         var isChecked = $('#val-thing').prop("checked");
         if (isChecked) {
@@ -643,13 +646,19 @@ SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (respons
         //         });
         $scope.createDatasource = function () {
             var isChecked = $('#val-activate').prop("checked");
+            var isCheckedVerification = $('#val-verification').prop("checked");
             //$scope.data = "{}";
             console.log('saving Datasource...');
             if ($scope.datasourcename){
                 var activation = 0;
+                var verification = 0;
                  if (isChecked) {
                     console.log('activado');
                     activation = 1;
+                }
+                if (isCheckedVerification) {
+                    console.log('activado');
+                    verification = 1;
                 }
                
                 var selectedoptions = {
@@ -672,7 +681,10 @@ SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (respons
                     data: $scope.data,
                     active: activation,
                     project_id: $stateParams.projectId,
-                    space_id: $scope.space_id
+                    space_id: $scope.space_id,
+                    toggle: 0,
+                    verification_enable: verification,
+                    verification_digits: $scope.digits,
                 });
                 console.log('datasource-->');
                 console.log(datasource);

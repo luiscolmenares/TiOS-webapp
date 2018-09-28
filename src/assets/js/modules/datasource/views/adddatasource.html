@@ -98,7 +98,7 @@
                             </div>                                 
                         </div>
                         <div class="form-group" ng-show="!thing">
-                            <div class="col-sm-3 col-sm-offset-2">
+                            <div class="col-sm-8 col-sm-offset-2">
                                 <label for="simple-classic-progress-host">TOPIC</label>
                                 <input class="form-control" type="text" id="val-topic" name="val-topic" ng-model="topic" placeholder="Ex: facility1/room2/bulb1">
                             </div>                               
@@ -138,6 +138,22 @@
                                     <label for="val-select2">Select Space (Optional)</label>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <label class="css-input css-checkbox css-checkbox-default"  ng-show="!thing">
+                                    <input type="checkbox" id="val-verification" ng-model="verification" data-ng-change="enableVerification()"><span></span> Enable 4-digit verification.
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group" ng-show="show_verification">
+                            <div class="col-sm-3 col-sm-offset-2">
+                                <label for="simple-classic-progress-host">4 DIGITS VERIFICATION</label>
+                                <input class="form-control" style="width: 50% !important; font-size: 30px !important" type="password" id="val-topic" name="val-topic" ng-model="digits"  maxlength="4">
+                            </div>                               
                         </div>
 
                         <div class="form-group">

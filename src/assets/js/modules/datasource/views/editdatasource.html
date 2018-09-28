@@ -124,6 +124,22 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <label class="css-input css-checkbox css-checkbox-default">
+                                    <input type="checkbox" id="val-verification" ng-model="datasource.verification" data-ng-change="enableVerification()"><span></span> Enable 4-digit verification.
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group" ng-show="show_verification">
+                            <div class="col-sm-3 col-sm-offset-2">
+                                <label for="simple-classic-progress-host">4 DIGITS VERIFICATION</label>
+                                <input class="form-control" style="width: 50% !important; font-size: 30px !important" type="password" id="val-ds-digits" name="val-topic" ng-model="datasource.digits"  maxlength="4">
+                            </div>                               
+                        </div>
+
 <div class="form-group">
     <div class="col-sm-8 col-sm-offset-2">
         <label for="simple-classic-progress-notes">Notes</label>
