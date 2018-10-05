@@ -46,7 +46,7 @@ App.constant('urls', {
 //prod
 BASE_API_SERVER: 'https://api.tiosplatform.com/',
 BASE_API: 'https://api.tiosplatform.com/api/',
-BASE_NR: 'http://node-red.tiosplatform.com:1880/',
+BASE_NR: 'https://node-red.tiosplatform.com:1080/',
 MQTT_BROKER: 'mqtt.tiosplatform.com',
 MQTT_BROKER_PORT: 8083,
 
@@ -630,6 +630,27 @@ App.config(['$stateProvider', '$urlRouterProvider',
                                 });
                             }]
                     },
+                    
+                })
+
+                .state('nodered', {
+                    url: '/nodered',
+                    templateUrl: 'assets/js/modules/dashboard/views/nodered.html',
+                    // controller: 'NoderedCtrl',
+                    // resolve: {
+                    //     deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    //             return $ocLazyLoad.load({
+                    //                 insertBefore: '#css-bootstrap',
+                    //                 serie: true,
+                    //                 files: [
+                    //                     'assets/js/plugins/slick/slick.min.css',
+                    //                     'assets/js/plugins/slick/slick-theme.min.css',
+                    //                     'assets/js/plugins/slick/slick.min.js',
+                    //                     // 'assets/js/plugins/chartjs/Chart.min.js'
+                    //                 ]
+                    //             });
+                    //         }]
+                    // },
                     
                 })
 
