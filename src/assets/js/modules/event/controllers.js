@@ -563,7 +563,7 @@ var isCheckedRepeat = $('#val-repeat-check').prop("checked");
                     var event = $.param({
                                      title: $scope.title,
                                      description: JSON.stringify(description),
-                                     action: JSON.stringify(action_array),
+                                     action: JSON.stringify(action_array[0]),
                                      //valueFrom: from_timestamp,                   
                                      allday: allDay,
                                      color: '#fac5a5',

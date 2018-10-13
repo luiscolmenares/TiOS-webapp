@@ -1191,17 +1191,17 @@ $('.js-dataTable-full-events').dataTable({
 {"data": "action", 
 "render": function(data, type, row){
  var obj = JSON.parse(data);
- if(obj[0]['action']=="turn-on")
+ if(obj['action']=="turn-on")
   {return "<i class='list-timeline-icon fa fa-power-off' style='border-radius: 50%;padding: 8px; color: #ffffff; background-color: #46c37b'></i>";}
-else if(obj[0]['action']=="turn-off")
+else if(obj['action']=="turn-off")
   {return "<i class='list-timeline-icon fa fa-power-off' style='border-radius: 50%;padding: 8px; color: #ffffff; background-color: #d26a5c'></i>";}
-else if(obj[0]['action']=="sms-message")
+else if(obj['action']=="sms-message")
   {return "<i class='si si-screen-smartphone bg-default' style='border-radius: 50%;padding: 8px; color: #ffffff;'></i>";}
-else if(obj[0]['action']=="send-email")
+else if(obj['action']=="send-email")
   {return "<i class='list-timeline-icon si si-envelope bg-flat' style='border-radius: 50%;padding: 8px; color: #ffffff;'></i>";}
-else if(obj[0]['action']=="system-notification")
+else if(obj['action']=="system-notification")
   {return "<i class='list-timeline-icon si si-bell bg-smooth' style='border-radius: 50%;padding: 8px; color: #ffffff;'></i>";}
-else if(obj[0]['action']=="new-value")
+else if(obj['action']=="new-value")
   {return "<i class='list-timeline-icon fa fa-power-off bg-default' style='border-radius: 50%;padding: 8px; color: #ffffff;'></i>";}
 else
   {return "<i class='list-timeline-icon fa fa-power-off bg-default' style='border-radius: 50%;padding: 8px; color: #ffffff;'></i>"}
