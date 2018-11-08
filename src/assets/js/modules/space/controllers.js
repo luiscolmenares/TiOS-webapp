@@ -77,7 +77,7 @@ $state.reload();
     console.info('onSuccessItem', fileItem, response, status, headers);
 };
 uploader.onErrorItem = function(fileItem, response, status, headers) {
-    swal("Error subiendo imagen de la promocion", "", "error");
+    swal("Error uploading space image", "", "error");
     console.info('onErrorItem', fileItem, response, status, headers);
 };
 uploader.onCancelItem = function(fileItem, response, status, headers) {
@@ -810,7 +810,7 @@ if ($mqttconnected == false){
 
     mqtt = new Paho.MQTT.Client(host,port,path,id);
 options = {
-    useSSL: true,
+    // useSSL: true,
     timeout: 3,
     onSuccess: onConnect,
     onFailure: failureCallback,
