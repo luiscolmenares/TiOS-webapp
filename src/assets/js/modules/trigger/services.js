@@ -32,7 +32,7 @@
         return service;
 
         function GetAll() {
-            return $http.get(urls.BASE_API + "triggers").then(handleSuccess, handleError('Error getting all Triggers'));
+            return $http.get(urls.BASE_API + "nopagination/triggers").then(handleSuccess, handleError('Error getting all Triggers'));
         }
 
         function GetTriggersCount() {
@@ -133,7 +133,7 @@ App.factory('triggers', ['$http', 'urls', function ($http, urls) {
 
         return {
             fetchTriggers: function (callback) {
-                $http.get(urls.BASE_API + "triggers")
+                $http.get(urls.BASE_API + "nopagination/triggers")
                         .then(function (response) {
                             console.log('fetching triggers');
                             console.log(response);
