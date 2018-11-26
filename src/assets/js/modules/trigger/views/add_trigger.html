@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" ng-show="false">
                                 <div class="col-sm-8 col-sm-offset-2">
                                     <div class="form-material">
                                         <select data-js-select2 class="form-control" id="validation-datapoint" name="validation-datapoint" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatapoint" data-ng-options="datapoint.id as datapoint.name for datapoint in datapoints" ng-show='datapoints.length'>
@@ -98,7 +98,7 @@
                                 <div class="col-sm-2  col-sm-offset-2" ng-show="operator">
                                     <div class="form-material">
                                         <input class="form-control" type="text" id="validation-value" name="validation-value" placeholder="Enter value" ng-model="value">
-                                        <label for="validation-value">Value</label>
+                                        <label for="validation-value">Value(0=OFF, 1=OFF) </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-2  col-sm-offset-2" ng-show="operator == '> <'">
@@ -117,6 +117,26 @@
                                         <label for="validation-action">Action</label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group" ng-show="datasources_act.length">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-material">
+                                        <select data-js-select2 class="form-control" id="validation-datasource-act" name="validation-datasource-act" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatasourceAct" data-ng-options="datasource.id as datasource.name for datasource in datasources_act"  data-ng-change="getDatapointsOptions()">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        </select>
+                                        <label for="validation-datasource">Datasource</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2  col-sm-offset-2" ng-show="showNewValue">
+                                    <div class="form-material">
+                                        <input class="form-control" type="text" id="validation-value-act" name="validation-value-act" placeholder="Enter value" ng-model="value_act">
+                                        <label for="validation-value">New Value</label>
+                                    </div>
+                                </div>
+                                
                             </div>
                             <div class="form-group">
                                 <div class="form-group" ng-show="recipients.length">

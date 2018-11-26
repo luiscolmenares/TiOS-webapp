@@ -733,6 +733,9 @@ App.controller('TablesTriggerTablesCtrl', ['$scope', '$localStorage', '$state', 
                     notes: $scope.notes,
                     active: activation,
                     custommesage: $scope.custommessage,
+                    act_datasource_id: $scope.selectedDatasourceAct,
+                    // datapoint_id: $scope.selectedDatapointAct,
+                    act_new_value: $scope.value_act,
                 });
 
                 console.log(trigger);
@@ -784,6 +787,7 @@ App.controller('TablesTriggerTablesCtrl', ['$scope', '$localStorage', '$state', 
 App.controller('TriggerFormsWizardCtrl', ['$scope', '$localStorage', '$window', 'DatasourceService', '$state', '$stateParams', 'ProjectService', 'TriggerService',
     function ($scope, $localStorage, $window, DatasourceService, $state, $stateParams, ProjectService, TriggerService) {
          $scope.projectId = $stateParams.projectId;
+         $scope.showNewValue = false;
 // Init simple wizard, for more examples you can check out http://vadimg.com/twitter-bootstrap-wizard-example/
         var initWizardSimple = function () {
             jQuery('.js-wizard-simple').bootstrapWizard({
@@ -868,7 +872,7 @@ App.controller('TriggerFormsWizardCtrl', ['$scope', '$localStorage', '$window', 
                     },
                     'validation-value': {
                         required: true,
-                        integer: true,
+                        // integer: true,
                     },
                     'validation-action': {
                         required: true,
@@ -988,11 +992,16 @@ App.controller('TriggerFormsWizardCtrl', ['$scope', '$localStorage', '$window', 
                     trigger_action_type_id: $scope.selectedAction,
                     project_id: $scope.projectId, 
                     datasource_id: $scope.selectedDatasource,
-                    datapoint_id: $scope.selectedDatapoint,
+                    // datapoint_id: $scope.selectedDatapoint,
+                    datapoint_id: 1,
                     notes: $scope.notes,
                     active: activation,
                     recipients: myJsonRecipients,
                     custommessage: $scope.custommessage,
+                    act_datasource_id: $scope.selectedDatasourceAct,
+                    // act_datapoint_id: $scope.selectedDatapointAct,
+                    act_datapoint_id: 0,
+                    act_new_value: $scope.value_act,
                 });
 
                 console.log(trigger);
@@ -1022,7 +1031,11 @@ App.controller('TriggerFormsWizardCtrl', ['$scope', '$localStorage', '$window', 
       
         $scope.getRecipients = function () {
 
-            ProjectService.GetUsersByProjectId($stateParams.projectId).
+            if(($scope.selectedAction == 1) || ($scope.selectedAction == 2)|| ($scope.selectedAction == 3)) {
+                console.log("$scope.datasources_act");
+                console.log($scope.datasources_act);
+                $scope.datasources_act = [];
+                ProjectService.GetUsersByProjectId($stateParams.projectId).
                     then(
                             function (response) {
                                 console.log('$stateParams.projectId');
@@ -1032,6 +1045,24 @@ App.controller('TriggerFormsWizardCtrl', ['$scope', '$localStorage', '$window', 
                                 $scope.recipients = response.users;
                             });
 
+
+            } else{
+
+                ProjectService.GetDatasourcesByProjectId($stateParams.projectId).
+                    then(
+                            function (response) {
+
+                                console.log(response.datasources);
+                                $scope.datasources_act = response.datasources;
+                            });
+
+            }
+            if ($scope.selectedAction == 6){
+                $scope.showNewValue = true;
+
+            }
+
+            
         };
 
          $scope.addToList = function () {
