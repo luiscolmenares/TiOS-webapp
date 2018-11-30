@@ -624,8 +624,9 @@ App.controller('ProjectDashboardCtrl', ['$scope',
     '$timeout', 
     '$state', 
     '$http',
+    '$interval',
 // 'MqttClient',
-function ($scope, $stateParams, ProjectService, $filter, urlBuilder, urls, DatasourceService, DatapointService, DashboardService, $timeout, $state, $http) {
+function ($scope, $stateParams, ProjectService, $filter, urlBuilder, urls, DatasourceService, DatapointService, DashboardService, $timeout, $state, $http, $interval) {
 
 // $scope.mqttdata = "NA";
 
@@ -1089,33 +1090,35 @@ $state.reload();
 
 /*
 *  Panels Type
-* +----+-----------------------------------+------------+------------+------------+
-* | id | name                              | created_at | updated_at | deleted_at |
-* +----+-----------------------------------+------------+------------+------------+
-* |  1 | Chart - Lines - Temperature       | NULL       | NULL       | NULL       |
-* |  2 | Chart - Bars - Temperature        | NULL       | NULL       | NULL       |
-* |  3 | Widget - Temperature              | NULL       | NULL       | NULL       |
-* |  4 | Widget - Humidity                 | NULL       | NULL       | NULL       |
-* |  5 | History Log - Temperature         | NULL       | NULL       | NULL       |
-* |  6 | History Log - Humidity            | NULL       | NULL       | NULL       |
-* |  7 | Widget - Gauge - Temperature      | NULL       | NULL       | NULL       |
-* |  8 | Widget - Gauge - Humidity         | NULL       | NULL       | NULL       |
-* |  9 | Widget - Gauge - Power(Kwh)       | NULL       | NULL       | NULL       |
-* | 10 | Widget - Power Switch             | NULL       | NULL       | NULL       |
-* | 11 | Chart - Lines - Humidity          | NULL       | NULL       | NULL       |
-* | 12 | Chart - Bars - Humidity           | NULL       | NULL       | NULL       |
-* | 13 | Widget - Gauge - Voltage          | NULL       | NULL       | NULL       |
-* | 14 | Chart - Lines - Voltage           | NULL       | NULL       | NULL       |
-* | 15 | Chart - Bars - Voltage            | NULL       | NULL       | NULL       |
-* | 16 | History Log - Voltage             | NULL       | NULL       | NULL       |
-* | 17 | Chart - Lines - Power(Kwh)        | NULL       | NULL       | NULL       |
-* | 18 | Chart - Bars - Power(Kwh)         | NULL       | NULL       | NULL       |
-* | 19 | History Log - Power(Kwh)          | NULL       | NULL       | NULL       |
-* | 20 | Widget - Gauge - Electric Current | NULL       | NULL       | NULL       |
-* | 21 | Chart - Lines - Electric Current  | NULL       | NULL       | NULL       |
-* | 22 | Chart - Bars - Electric Current   | NULL       | NULL       | NULL       |
-* | 23 | History Log - Electric Current    | NULL       | NULL       | NULL       |
-* +----+-----------------------------------+------------+------------+------------+
++----+-----------------------------------+------------+------------+------------+
+| id | name                              | created_at | updated_at | deleted_at |
++----+-----------------------------------+------------+------------+------------+
+|  1 | Chart - Lines - Temperature       | NULL       | NULL       | NULL       |
+|  2 | Chart - Bars - Temperature        | NULL       | NULL       | NULL       |
+|  3 | Widget - Temperature              | NULL       | NULL       | NULL       |
+|  4 | Widget - Humidity                 | NULL       | NULL       | NULL       |
+|  5 | History Log - Temperature         | NULL       | NULL       | NULL       |
+|  6 | History Log - Humidity            | NULL       | NULL       | NULL       |
+|  7 | Widget - Gauge - Temperature      | NULL       | NULL       | NULL       |
+|  8 | Widget - Gauge - Humidity         | NULL       | NULL       | NULL       |
+|  9 | Widget - Gauge - Power(Kwh)       | NULL       | NULL       | NULL       |
+| 10 | Widget - Power Switch             | NULL       | NULL       | NULL       |
+| 11 | Chart - Lines - Humidity          | NULL       | NULL       | NULL       |
+| 12 | Chart - Bars - Humidity           | NULL       | NULL       | NULL       |
+| 13 | Widget - Gauge - Voltage          | NULL       | NULL       | NULL       |
+| 14 | Chart - Lines - Voltage           | NULL       | NULL       | NULL       |
+| 15 | Chart - Bars - Voltage            | NULL       | NULL       | NULL       |
+| 16 | History Log - Voltage             | NULL       | NULL       | NULL       |
+| 17 | Chart - Lines - Power(Kwh)        | NULL       | NULL       | NULL       |
+| 18 | Chart - Bars - Power(Kwh)         | NULL       | NULL       | NULL       |
+| 19 | History Log - Power(Kwh)          | NULL       | NULL       | NULL       |
+| 20 | Widget - Gauge - Electric Current | NULL       | NULL       | NULL       |
+| 21 | Chart - Lines - Electric Current  | NULL       | NULL       | NULL       |
+| 22 | Chart - Bars - Electric Current   | NULL       | NULL       | NULL       |
+| 23 | History Log - Electric Current    | NULL       | NULL       | NULL       |
+| 24 | MQTT Widget - Gauge - Temperature | NULL       | NULL       | NULL       |
+| 25 | MQTT Widget - Temperature         | NULL       | NULL       | NULL       |
++----+-----------------------------------+------------+------------+------------+
 */
 
 var generateChartData = function (panels) {
@@ -1132,9 +1135,27 @@ var generateChartData = function (panels) {
             }
         }
         if (panel.type === '3') {
-// console.log('panle');
-// console.log(panel);
+console.log('panle');
+console.log(panel);
+var count = 0;// this is default cont value.
+// $scope.$apply(function () {
+    // The  $interval function is used to auto refresh the count div.
+      // var auto = $interval(function() {
+      //   // panel.sensorData.data = count ;
+      //   // count++;
+      //   init();
+      // }, 3000);
+    // setTimeout(function () {
+    //     $scope.$apply(function () {
+    //         // $scope.message = "Timeout called!";
+    //         console.log('update!');
+    //     });
+    // }, 2000);
+
+// });
 angular.extend($scope.widgetTemperatureChart, panel.sensorData);
+//
+
 }
 if (panel.type === '4') {
     angular.extend($scope.widgetHumidityChart, panel.sensorData);
@@ -1367,6 +1388,12 @@ ProjectService.GetPanelsByDashboardId($stateParams.dashboardId).then(function (d
 });
 };
 init();
+ var auto = $interval(function() {
+        // panel.sensorData.data = count ;
+        // count++;
+        init();
+      }, 10000);
+// init();
 }
 ]);
 
