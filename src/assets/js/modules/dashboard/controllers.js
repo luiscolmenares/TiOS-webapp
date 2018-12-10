@@ -1413,8 +1413,8 @@ initDataTableFull();
 ]);
 
 // System Reports controller
-App.controller('SystemReportsCtrl', ['$scope', '$stateParams', '$filter', 'urlBuilder', 'urls', '$state', '$timeout', '$sessionStorage', 'organizations', 'AuthenticationService', 'OrganizationService', 'ProjectService', 'DatapointService',
-  function ($scope, $stateParams, $filter, urlBuilder, urls, $state, $timeout, $sessionStorage, organizations, AuthenticationService, OrganizationService, ProjectService, DatapointService) {
+App.controller('SystemReportsCtrl', ['$scope', '$stateParams', '$filter', 'urlBuilder', 'urls', '$state', '$timeout', '$sessionStorage', 'organizations', 'AuthenticationService', 'OrganizationService', 'ProjectService', 'DatapointService', 'DatasourceService',
+  function ($scope, $stateParams, $filter, urlBuilder, urls, $state, $timeout, $sessionStorage, organizations, AuthenticationService, OrganizationService, ProjectService, DatapointService, DatasourceService) {
     $scope.disabled = true;
     $scope.getProjectsOptions = function (){
       ProjectService.GetProjectsByOrganizationId($scope.selectedOrganization).then(function (response) {
@@ -1542,13 +1542,33 @@ console.log(dateObject2);
   var dateObject2 = 0;
 }
 
-
-if($scope.selectedDatapoint != null){
-  DatapointService.GetById($scope.selectedDatapoint)
+if($scope.selectedDatasource != null){
+  DatasourceService.GetById($scope.selectedDatasource)
   .then(function(data){
-    $scope.datapoint = data.datapoint;
+    $scope.datasource = data.datasource;
+    console.log('data.datasource');
+    console.log(data.datasource);
+
+//Get Datasource Values
+
+
+
   });
-  DatapointService.getDatapointValuesByDateRange($scope.selectedDatapoint, dateObject1, dateObject2)
+}
+
+// if($scope.selectedDatapoint != null){
+if($scope.selectedDatasource != null){
+  // DatapointService.GetById($scope.selectedDatapoint)
+  // .then(function(data){
+  //   $scope.datapoint = data.datapoint;
+  // });
+  DatasourceService.GetById($scope.selectedDatasource)
+  .then(function(data){
+    $scope.datasource = data.datasource;
+  });
+  // DatapointService.getDatapointValuesByDateRange($scope.selectedDatapoint, dateObject1, dateObject2)
+  // .then(function(response){
+     DatasourceService.getDatasourceValuesByDateRange($scope.selectedDatasource, dateObject1, dateObject2)
   .then(function(response){
     if (response.success == false) {
       $.notify({
@@ -1571,11 +1591,14 @@ if($scope.selectedDatapoint != null){
     }
     console.log('datapointvalues----->');
     console.log(response);
-    $scope.datapointvalues = response;
+    // $scope.datapointvalues = response;
+    $scope.datasourcevalues = response;
 ///get last read
 console.log('last read------>');
-console.log($scope.datapointvalues.sensordata[0].created_at);
-$scope.lastread = $scope.datapointvalues.sensordata[0].created_at;
+// console.log($scope.datapointvalues.sensordata[0].created_at);
+// $scope.lastread = $scope.datapointvalues.sensordata[0].created_at;
+console.log($scope.datasourcevalues.sensordata[0].created_at);
+$scope.lastread = $scope.datasourcevalues.sensordata[0].created_at;
 //////
 //Line Chart
 var initChartsChartJS = function () {
@@ -1611,7 +1634,8 @@ var globalOptions = {
 //Mock Data
 // Lines/Bar/Radar Chart Data
 var chartLinesBarsRadarData = {
-  labels: _.pluck($scope.datapointvalues.sensordata, '_blank'),
+  // labels: _.pluck($scope.datapointvalues.sensordata, '_blank'),
+  labels: _.pluck($scope.datasourcevalues.sensordata, '_blank'),
 //labels: ["", "", "", "", "", "", ""], // To hide horizontal labels
 datasets: [
 // {
@@ -1632,7 +1656,8 @@ datasets: [
   pointStrokeColor: '#fff',
   pointHighlightFill: '#fff',
   pointHighlightStroke: 'rgba(171, 227, 125, 1)',
-  data: _.pluck($scope.datapointvalues.sensordata, 'data')
+  // data: _.pluck($scope.datapointvalues.sensordata, 'data')
+  data: _.pluck($scope.datasourcevalues.sensordata, 'data')
 }
 ]
 };
@@ -1647,30 +1672,36 @@ chartLines = new Chart(chartLinesCon).Line(chartLinesBarsRadarData, globalOption
 //Pie Chart
 var initChartsFlot = function () {
   console.log('pie config....');
-  console.log($scope.datapointvalues.triggersnotifications);
+  // console.log($scope.datapointvalues.triggersnotifications);
+    console.log($scope.datasourcevalues.triggersnotifications);
   var flotPie = jQuery('.js-flot-pie-report');
 // Pie Chart
 jQuery.plot(flotPie,
   [
   {
     label: 'SMS',
-    data: $scope.datapointvalues.triggersnotifications.sms_count
+    // data: $scope.datapointvalues.triggersnotifications.sms_count
+    data: $scope.datasourcevalues.triggersnotifications.sms_count
   },
   {
     label: 'Email',
-    data: $scope.datapointvalues.triggersnotifications.email_count
+    // data: $scope.datapointvalues.triggersnotifications.email_count
+    data: $scope.datasourcevalues.triggersnotifications.email_count
   },
   {
     label: 'System Notification',
-    data: $scope.datapointvalues.triggersnotifications.push_count
+    // data: $scope.datapointvalues.triggersnotifications.push_count
+    data: $scope.datasourcevalues.triggersnotifications.push_count
   },
   {
     label: 'On Trigger',
-    data: $scope.datapointvalues.triggersnotifications.on_count
+    // data: $scope.datapointvalues.triggersnotifications.on_count
+    data: $scope.datasourcevalues.triggersnotifications.on_count
   },
   {
     label: 'Off Trigger',
-    data: $scope.datapointvalues.triggersnotifications.off_count
+    // data: $scope.datapointvalues.triggersnotifications.off_count
+    data: $scope.datasourcevalues.triggersnotifications.off_count
   }
   ],
   {

@@ -20,6 +20,7 @@
         service.GetDatasourceTypeById = GetDatasourceTypeById;
         service.GetDatasourceProtocolTypeById = GetDatasourceProtocolTypeById;
         service.GetDatasourceProtocolTypes = GetDatasourceProtocolTypes;
+        service.getDatasourceValuesByDateRange = getDatasourceValuesByDateRange;
         service.AttachProject = AttachProject;
         service.GetProjectByDatasourceId = GetProjectByDatasourceId;
 
@@ -80,6 +81,9 @@
             };
             return $http.get(urls.BASE_API + 'datasource/' + datasourceId + '/project', config).then(handleSuccess, handleError('Error getting project by id'));
 
+        }
+        function getDatasourceValuesByDateRange(datapointId, fromdate, todate) {
+            return $http.get(urls.BASE_API + 'datasource/' + datapointId + '/fromdate/' + fromdate + '/todate/' + todate).then(handleSuccess, handleError('Error getting datasource values'));
         }
 
         function AttachProject(datasourceId, projectId) {

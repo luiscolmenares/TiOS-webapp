@@ -71,7 +71,7 @@
                                             <select data-js-select2 class="form-control" id="validation-project" name="validation-project" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedProject" data-ng-options="project.id as project.name for project in projects"  data-ng-change="getDatasourcesOptions()">
                                                 <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                                             </select>
-                                            <label for="validation-project">Projects</label>
+                                            <label for="validation-project">Project</label>
 
                                         </div>
                                     </div>
@@ -79,7 +79,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-9">
                                         <div class="form-material">
-                                            <select data-js-select2 class="form-control" id="validation-datasource" name="validation-datasource" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatasource" data-ng-options="datasource.id as datasource.name for datasource in datasources"  data-ng-change="getDatapointsOptions()">
+                                            <select data-js-select2 class="form-control" id="validation-datasource" name="validation-datasource" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatasource" data-ng-options="datasource.id as datasource.name for datasource in datasources" data-ng-change="enableGenerateButton()">
                                                 <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                                             </select>
                                             <label for="validation-datasource">Datasource</label>
@@ -87,16 +87,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <div class="col-sm-9">
                                         <div class="form-material">
-                                            <select data-js-select2 class="form-control" id="validation-datapoint" name="validation-datapoint" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatapoint" data-ng-options="datapoint.id as datapoint.name for datapoint in datapoints" ng-show='datapoints.length' data-ng-change="enableGenerateButton()">
-                                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                            </select>
+                                            <select data-js-select2 class="form-control" id="validation-datapoint" name="validation-datapoint" style="width: 100%;" data-placeholder="Choose one.." data-ng-model="selectedDatapoint" data-ng-options="datapoint.id as datapoint.name for datapoint in datapoints" ng-show='datapoints.length' >
+                                                <option></option>--><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                            <!--</select>
                                             <label for="validation-datapoint">Datapoint</label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <button class="btn btn-sm btn-primary" type="submit"  ng-disabled='disabled'>Generate Online Report</button>
@@ -108,7 +108,8 @@
                     <!-- END Material Forms Validation -->
                 </div>
             </div>
-            <div class="row" ng-show="datapointvalues">
+            <!-- <div class="row" ng-show="datapointvalues"> -->
+                <div class="row" ng-show="datasourcevalues">
                 <div class="col-lg-12">
                     <div class="block">
                         <div class="block-content"> 
@@ -126,11 +127,11 @@
                             <div id="printableArea">
                             <div  class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <label>{{datapoint.name}} </label><br>
-                                    <label>Project: {{datapointvalues.project_name}}</label><br>
-                                    <label>Organization: {{datapointvalues.organization_name}}</label><br>
-                                    <label>Type: {{datapoint.type}} </label><br>
-                                    <label>Creation date: {{datapoint.created_at}}</label><br><br>
+                                    <label>{{datasource.name}} </label><br>
+                                    <label>Project: {{datasourcevalues.project_name}}</label><br>
+                                    <label>Organization: {{datasourcevalues.organization_name}}</label><br>
+                                    <label>Type: {{datasource.type}} </label><br>
+                                    <label>Creation date: {{datasource.created_at}}</label><br><br>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 text-right">
                                     <label ng-show="daterange1">Date range: {{daterange1}} to {{daterange2}}</label><br>
@@ -141,45 +142,45 @@
                                 <div class="col-sm-6 col-lg-3">
                                     <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
                                         <div class="block-content block-content-full bg-gray-lighter border-b">
-                                            <!-- <div class="h1 font-w700"><span class="h2 text-muted"></span> {{datapointvalues.count}}</div> -->
-                                            <div class="h1 font-w700" data-toggle="countTo" data-to="{{datapointvalues.count}}">{{datapointvalues.count}}</div>
+                                            <!-- <div class="h1 font-w700"><span class="h2 text-muted"></span> {{datasourcevalues.count}}</div> -->
+                                            <div class="h1 font-w700" data-toggle="countTo" data-to="{{datasourcevalues.count}}">{{datasourcevalues.count}}</div>
                                             <div class="h5 text-muted text-uppercase push-5-t"># readings</div>
                                         </div>
                                         <div class="block-content block-content-full block-content-mini">
-                                            <!-- <i class="fa fa-arrow-up text-success"></i> --> {{datapointvalues.totalcount}} Total readings
+                                            <!-- <i class="fa fa-arrow-up text-success"></i> --> {{datasourcevalues.totalcount}} Total readings
                                         </div>
                                     </a>
                                 </div>
                                 <div class="col-sm-6 col-lg-3">
                                     <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
                                         <div class="block-content block-content-full bg-gray-lighter border-b">
-                                            <div class="h1 font-w700">{{datapointvalues.average | number : 2}}<span class="h2 text-muted" ng-if="datapoint.type === 'Temperature'" > &deg;C</span></div>
+                                            <div class="h1 font-w700">{{datasourcevalues.average | number : 2}}<span class="h2 text-muted" ng-if="datapoint.type === 'Temperature'" > &deg;C</span></div>
                                             <div class="h5 text-muted text-uppercase push-5-t">Average</div>
                                         </div>
                                         <div class="block-content block-content-full block-content-mini">
-                                            <!-- <i class="fa fa-arrow-down text-danger"> </i>-->{{datapointvalues.totalaverage | number : 2}} <span ng-if="datapoint.type === 'Temperature'" >&deg;C</span> Total average
+                                            <!-- <i class="fa fa-arrow-down text-danger"> </i>-->{{datasourcevalues.totalaverage | number : 2}} <span ng-if="datapoint.type === 'Temperature'" >&deg;C</span> Total average
                                         </div>
                                     </a>
                                 </div>
                                 <div class="col-sm-6 col-lg-3">
                                     <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
                                         <div class="block-content block-content-full bg-gray-lighter border-b">
-                                            <div class="h1 font-w700"><!-- <span class="h2 text-muted">+</span> --> {{datapointvalues.highest}}</div>
+                                            <div class="h1 font-w700"><!-- <span class="h2 text-muted">+</span> --> {{datasourcevalues.highest}}</div>
                                             <div class="h5 text-muted text-uppercase push-5-t">Max Value</div>
                                         </div>
                                         <div class="block-content block-content-full block-content-mini">
-                                            <!-- <i class="fa fa-chevron-up text-success"></i> -->  Max value recorded: {{datapointvalues.totalhighest}}
+                                            <!-- <i class="fa fa-chevron-up text-success"></i> -->  Max value recorded: {{datasourcevalues.totalhighest}}
                                         </div>
                                     </a>
                                 </div>
                                 <div class="col-sm-6 col-lg-3">
                                     <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
                                         <div class="block-content block-content-full bg-gray-lighter border-b">
-                                            <div class="h1 font-w700"><!-- <span class="h2 text-muted">+</span> --> {{datapointvalues.lowest}}</div>
+                                            <div class="h1 font-w700"><!-- <span class="h2 text-muted">+</span> --> {{datasourcevalues.lowest}}</div>
                                             <div class="h5 text-muted text-uppercase push-5-t">Min Value</div>
                                         </div>
                                         <div class="block-content block-content-full block-content-mini">
-                                            <!-- <i class="fa fa-chevron-down text-danger"></i> -->  Min value recorded: {{datapointvalues.totallowest}}
+                                            <!-- <i class="fa fa-chevron-down text-danger"></i> -->  Min value recorded: {{datasourcevalues.totallowest}}
                                         </div>
                                     </a>
                                 </div>
@@ -204,7 +205,7 @@
                                     <!-- END Lines Chart -->
                                 </div>
                             </div>
-                            <div class="row" ng-show="datapointvalues.toptriggersnotifications.length">
+                            <div class="row" ng-show="datasourcevalues.toptriggersnotifications.length">
                                 <div class="col-lg-6">
                                     <!-- Pie Chart -->
                                     <div class="block">
@@ -239,7 +240,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat="toptriggersnotification in datapointvalues.toptriggersnotifications | orderBy:'-count' | limitTo : 5">
+                                                    <tr ng-repeat="toptriggersnotification in datasourcevalues.toptriggersnotifications | orderBy:'-count' | limitTo : 5">
                                                         <td class="text-center">{{toptriggersnotification.count}}</td>
                                                         <td class="text-center"><i ng-class='whatClassIsIt(toptriggersnotification.trigger_action_type_id)' style="border-radius: 50%;padding: 8px; color: #ffffff;"></i>
                                                         </td>
