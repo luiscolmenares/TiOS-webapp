@@ -1,7 +1,7 @@
 /*
 *  Document   : controllers.js
-*  Author     : kikecolmenares
-*  Description: project controllers
+*  Author     : @kikecolmenares
+*  Description: projects controller
 *
 */
 App.controller('ProjectCtrl', ['$scope', '$localStorage', '$window', 'OrganizationService', 'ProjectService', '$http', '$state', 'AuthenticationService', '$rootScope', 'organizations', '$timeout', 'localStorageService',

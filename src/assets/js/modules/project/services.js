@@ -41,6 +41,7 @@
         service.GetSensorByPanel = GetSensorByPanel;
         service.ThingDiscreteStatus = ThingDiscreteStatus;
         service.RemoveUserFromProject = RemoveUserFromProject;
+        service.CreateMobileNotification = CreateMobileNotification;
 
         return service;
 
@@ -111,7 +112,6 @@
 
         }
 
-        GetSpacesCountByProjectId
 
         function GetSpacesCountByProjectId(projectId) {
             var config = {
@@ -275,13 +275,13 @@
             return $http.get(urls.BASE_API + 'user/' + userId + '/project/' + projectId).then(handleSuccess, handleError('Error attaching user'));
         }
 
-        function CreateDashboard(dasboard) {
+        function CreateDashboard(dashboard) {
             var config = {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                 }
             };
-            return $http.post(urls.BASE_API + 'dashboard/create', dasboard, config).then(handleSuccess, handleError('Error creating dashboard'));
+            return $http.post(urls.BASE_API + 'dashboard/create', dashboard, config).then(handleSuccess, handleError('Error creating dashboard'));
         }
 
         function DeleteDashboard(id) {
@@ -330,6 +330,15 @@
             };
             return $http.get(urls.BASE_API + 'remove/user/' + userId + '/project/' + projectId, config).then(handleSuccess, handleError('Error sending request to API'));
 
+        }
+
+        function CreateMobileNotification(mobilenotification) {
+            var config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            };
+            return $http.post(urls.BASE_API + 'mobile/notification/create', mobilenotification, config).then(handleSuccess, handleError('Error creating mobilenotification'));
         }
 
 // private functions

@@ -776,169 +776,158 @@ $scope.loadSpaces();
 /*
 *  Description: spaces list controller
 */
-App.controller('SpaceViewCtrl', ['$scope', 'spaces', '$localStorage', '$window', '$http', 'localStorageService', 'ProjectService', '$state', 'OrganizationService', 'AuthenticationService', '$rootScope', '$timeout', 'SpaceService', '$stateParams',
-    function ($scope, spaces, $localStorage, $window, $http, localStorageService, ProjectService, $state, OrganizationService, AuthenticationService, $rootScope, $timeout, SpaceService, $stateParams) {
+App.controller('SpaceViewCtrl', ['$scope', 'spaces', '$localStorage', '$window', '$http', 'localStorageService', 'ProjectService', '$state', 'OrganizationService', 'AuthenticationService', '$rootScope', '$timeout', 'SpaceService', '$stateParams', '$interval', 'urls',
+    function ($scope, spaces, $localStorage, $window, $http, localStorageService, ProjectService, $state, OrganizationService, AuthenticationService, $rootScope, $timeout, SpaceService, $stateParams, $interval, urls) {
 /*
 *Function Reload
 */
 // alert('hello');
 $scope.project_id = $stateParams.projectId;
 $scope.space_id = $stateParams.spaceId;
-$scope.gaugeSensorData_0 = 25;
-$scope.topics = [];
+// $scope.gaugeSensorData = 25;
+// $scope.topics = [];
 // $scope.gaugeSensorData_1 = 26;
 $scope.reload = function () {
     $state.reload();
 };
 
-SpaceService.GetById($scope.space_id)
-.then(function (data) {
-    $scope.space = data;
-    console.log($scope.space);
-    console.log($scope.space.datasources);
-    $spacecount = 0;
-    $mqttconnected = false;
-    angular.forEach($scope.space.datasources, function (datasource) {
-//connect to MQTT Client , if not connected
-if ($mqttconnected == false){
-    $mqttconnected = true;
-    var Mqttconnection;
-    var host = datasource.options_array.broker;
-    var port = Number(datasource.options_array.port);
-    var id = "js_paho_id_" + parseInt(Math.random() * 100, 10);
-    var path = "/ws";
+var init = function () {
+    SpaceService.GetById($scope.space_id)
+    .then(function (data) {
+        $scope.space = data;
+        console.log($scope.space);
+        console.log($scope.space.datasources);
+        $datasourcecount = 0;
+// $mqttconnected = false;
+angular.forEach($scope.space.datasources, function (datasource) {
 
-    mqtt = new Paho.MQTT.Client(host,port,path,id);
-options = {
-    // useSSL: true,
-    timeout: 3,
-    onSuccess: onConnect,
-    onFailure: failureCallback,
-    userName: "kike",
-    password: "K1k3355453",
-
-};
-
-mqtt.onMessageArrived = onMessageArrived;
-mqtt.onConnectionLost = onConnectionLost;
-// mqtt.onConnected = onConnected;
-// connect the client
-mqtt.connect(options);
-    
-}
-
-function onConnectionLost(message){
-    console.log("connection lost");
-    $.notify({
-        message: 'Connection Lost. '+message.errorCode+': '+message.errorMessage,
-    },{     
-        type: 'danger'
-    });
-}
-
-function sonFailure(message){
-    $.notify({
-        message: 'messageerrorCode: '+message.errorCode+': '+message.errorMessage,
-    },{     
-        type: 'danger'
-    });
-}
-
-function sonSuccess(){
-    $.notify({
-        message: 'MQTT connected.'
-    },{     
-        type: 'success'
-    });
-    $.notify({
-        message: 'topico: '+datasource.options_array.topic,
-    },{     
-        type: 'success'
-    });
-}
-var soptions={
-        onSuccess:sonSuccess,
-        onFailure: sonFailure
-    };
-function onConnect() {
-    
-    // mqtt.subscribe(datasource.options_array.topic, soptions);
+    console.log(datasource);
     if (datasource.type === 'Monitor: Temperature Sensor (Celsius)') {
-
-mqtt.subscribe(datasource.options_array.topic, soptions);
-
-
-
+// alert('count afuera: ' + $datasourcecount);
+if($datasourcecount == 0){
+    $scope.gaugeSensorData_0 = datasource.data.data;
+}
+if($datasourcecount == 1){
+    $scope.gaugeSensorData_1 = datasource.data.data;
+}
+if($datasourcecount == 2){
+    $scope.gaugeSensorData_2 = datasource.data.data;
+}
+if($datasourcecount == 3){
+    $scope.gaugeSensorData_3 = datasource.data.data;
+}
+if($datasourcecount == 4){
+    $scope.gaugeSensorData_4 = datasource.data.data;
+}
+if($datasourcecount == 5){
+    $scope.gaugeSensorData_5 = datasource.data.data;
+}
+if($datasourcecount == 6){
+    $scope.gaugeSensorData_6 = datasource.data.data;
+}
+if($datasourcecount == 7){
+    $scope.gaugeSensorData_7 = datasource.data.data;
+}
+if($datasourcecount == 8){
+    $scope.gaugeSensorData_8 = datasource.data.data;
+}
+if($datasourcecount == 9){
+    $scope.gaugeSensorData_9 = datasource.data.data;
+}
+$datasourcecount = $datasourcecount + 1;
 }
 
+if (datasource.type === 'Control: Smart Switch (Light)'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Control: Smart Switch (Water Valve)'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Control: Smart Switch (Gas Valve)'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Control: Smart Switch (Lock)'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Control: Smart Switch (Power)'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Control: Smart Bulb'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Monitor: Temperature Sensor (Farenheit)'){
+    if($datasourcecount == 0){
+        $scope.gaugeSensorData_0 = datasource.data.data;
+    }
+    if($datasourcecount == 1){
+        $scope.gaugeSensorData_1 = datasource.data.data;
+    }
+    if($datasourcecount == 2){
+        $scope.gaugeSensorData_2 = datasource.data.data;
+    }
+    if($datasourcecount == 3){
+        $scope.gaugeSensorData_3 = datasource.data.data;
+    }
+    if($datasourcecount == 4){
+        $scope.gaugeSensorData_4 = datasource.data.data;
+    }
+    if($datasourcecount == 5){
+        $scope.gaugeSensorData_5 = datasource.data.data;
+    }
+    if($datasourcecount == 6){
+        $scope.gaugeSensorData_6 = datasource.data.data;
+    }
+    if($datasourcecount == 7){
+        $scope.gaugeSensorData_7 = datasource.data.data;
+    }
+    if($datasourcecount == 8){
+        $scope.gaugeSensorData_8 = datasource.data.data;
+    }
+    if($datasourcecount == 9){
+        $scope.gaugeSensorData_9 = datasource.data.data;
+    }
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Monitor: Humidity Sensor'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Monitor: Proximity Sensor'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Monitor: Door Sensor'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Monitor: Flood Sensor'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Voltage (V)'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Electric Current (A)'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Electric Power (W)'){
+    $datasourcecount = $datasourcecount + 1;
+}
+if (datasource.type === 'Electric Energy (E)'){
+    $datasourcecount = $datasourcecount + 1;
 }
 
-function failureCallback(message) {
-    console.log('Connection Failed- Retrying')
-    $.notify({
-        message: 'Connection Failed- Retrying in 30sg'
-    },{     
-        type: 'warning'
-    });
-    setTimeout($scope.MQTTconnect(), 3000000);
-
-}
-
-function onMessageArrived(message) {
-//chequear los panels que usen MQTT Broker
-console.log("Topic:     " + message.destinationName);
-// mqtt.subscribe(message.destinationName);
-
-
-console.log("en el scope");
-$scope.$apply(function () {
-    updateSensorData(message);
-    // updateSensorData1(message);
-
+// $spacecount = $spacecount +1;
+});
 });
 
-console.log("onMessageArrivedCB:"+message.payloadString);
-// loadData(message.payloadString);
-}
-
-function updateSensorData(message){
-// alert(message.payloadString);
-$scope.gaugeSensorData_0 = message.payloadString;
-}
-
-
-
-console.log(datasource);
-if (datasource.type === 'Monitor: Temperature Sensor (Celsius)') {
-
-// mqtt.subscribe(datasource.options_array.topic, soptions);
-// onConnect();
-$scope.topics.push(datasource.options_array.topic);
-console.log($scope.topics);
-
-
 
 
 }
+init();
 
+var auto = $interval(function() {
+// panel.sensorData.data = count ;
+// count++;
+init();
+}, 10000);
 
-
-
-
-
-
-
-
-
-if (datasource.type === 'Control: Smart Switch (Light)') {
-
-
-
-
-}
-$spacecount = $spacecount +1;
-});
-});
 
 $scope.switch = function(datasource){
     if (datasource.type === 'Control: Smart Switch (Light)') {
@@ -949,19 +938,73 @@ $scope.switch = function(datasource){
         } else {
             $scope.activate = "OFF";
         }
-        console.log('switch');
-        console.log(datasource);
-// var topic = document.forms["smessage"]["Ptopic"].value;
-var topic = datasource.options_array.topic+'/control';
-// var msg = document.forms["smessage"]["message"].value;
-var msg = $scope.activate;
-console.log(msg);
-message = new Paho.MQTT.Message(msg);
-if (topic=="")
-    message.destinationName = "test-topic"
-else
-    message.destinationName = topic;
-mqtt.send(message);
+
+/*
+* This is the API way.
+*/
+
+console.log('datasource topic');
+console.log(datasource.options_array.topic);
+ProjectService.ThingDiscreteStatus(urls.BASE_NR, datasource.options_array.topic, $scope.activate).
+then(function(response){
+    if (response.success != null){
+        $.notify({
+            message : 'Something went wrong - '+response.message
+        }, {
+            type : 'danger'
+        });
+    } else {
+        var mobilenotification = $.param({
+            name: datasource.name,
+            space: datasource.space_id,
+            topic: datasource.options_array.topic,
+            value: $scope.activate,
+            project_id: datasource.project_id,
+            data: 0
+        });
+        ProjectService.CreateMobileNotification(mobilenotification)
+        .then(function (response) {
+            if (response.success == false) {
+                
+
+            } else {
+                        var message = 'Succesfully switched ';
+                if ($scope.activate == 0){
+                    message = message + 'OFF';
+                } 
+                if ($scope.activate == 1){
+                    message = message + 'ON';
+                } 
+                $.notify({
+                    message: message
+                },{     
+                    type: 'success'
+                });
+
+
+            }
+        });
+        
+    }
+
+});   
+
+
+/*
+* This is the MQTT way. Commented out for the moment
+*/
+
+// var topic = datasource.options_array.topic+'/control';
+// var msg = $scope.activate;
+// console.log(msg);
+// message = new Paho.MQTT.Message(msg);
+// if (topic=="")
+//     message.destinationName = "test-topic"
+// else
+//     message.destinationName = topic;
+// mqtt.send(message);
+
+
 
 
 }
