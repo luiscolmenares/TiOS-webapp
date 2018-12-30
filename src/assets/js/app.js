@@ -46,7 +46,7 @@ App.constant('urls', {
 //prod
 BASE_API_SERVER: 'https://api.tiosplatform.com/',
 BASE_API: 'https://api.tiosplatform.com/api/',
-BASE_NR: 'https://node-red.tiosplatform.com:1080/',
+BASE_NR: 'https://node-red.tiosplatform.com:1080',
 MQTT_BROKER: 'mqtt.tiosplatform.com',
 MQTT_BROKER_PORT: 9001,
 
