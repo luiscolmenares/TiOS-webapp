@@ -838,7 +838,13 @@ $datasourcecount = $datasourcecount + 1;
 }
 
 if (datasource.type === 'Control: Smart Switch (Light)'){
-    $datasourcecount = $datasourcecount + 1;
+    if(datasource.toggle == 1){
+// jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
+$scope.activate = 1;
+} else {
+    $scope.activate = 0;
+}
+$datasourcecount = $datasourcecount + 1;
 }
 if (datasource.type === 'Control: Smart Switch (Water Valve)'){
     $datasourcecount = $datasourcecount + 1;
@@ -930,22 +936,32 @@ init();
 
 
 $scope.switch = function(datasource){
-    if (datasource.type === 'Control: Smart Switch (Light)') {
+// alert('swotch activated');
+if ((datasource.type === 'Control: Smart Switch (Light)') || 
+    (datasource.type === 'Control: Smart Switch (Water Valve)') ||
+    (datasource.type === 'Control: Smart Switch (Gas Valve)') ||
+    (datasource.type === 'Control: Smart Switch (AC)') ||
+    (datasource.type === 'Control: Smart Switch (Power)') ||
+    (datasource.type === 'Control: Smart Bulb')){
 
-        var isChecked = jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
-        if (isChecked) {
-            $scope.activate = "ON";
-        } else {
-            $scope.activate = "OFF";
-        }
+    var isChecked = jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
+    if (isChecked) {
+        $scope.activate = "ON";
+    } else {
+        $scope.activate = "OFF";
+    }
 
 /*
 * This is the API way.
 */
+var thing = $.param({
+    base_nr: urls.BASE_NR,
+    topic: datasource.options_array.topic,
+    value: $scope.activate,
+});
 
-console.log('datasource topic');
-console.log(datasource.options_array.topic);
-ProjectService.ThingDiscreteStatus(urls.BASE_NR, datasource.options_array.topic, $scope.activate).
+// ProjectService.ThingDiscreteStatus(urls.BASE_NR, datasource.options_array.topic, $scope.activate).
+ProjectService.ThingDiscreteStatusApi(thing).
 then(function(response){
     if (response.success != null){
         $.notify({
@@ -965,26 +981,46 @@ then(function(response){
         ProjectService.CreateMobileNotification(mobilenotification)
         .then(function (response) {
             if (response.success == false) {
-                
+
+                $.notify({
+                    message: 'Error'
+                },{     
+                    type: 'danger'
+                });
+
 
             } else {
-                        var message = 'Succesfully switched ';
-                if ($scope.activate == 0){
-                    message = message + 'OFF';
-                } 
-                if ($scope.activate == 1){
-                    message = message + 'ON';
-                } 
-                $.notify({
-                    message: message
-                },{     
-                    type: 'success'
+                var sensordata = $.param({
+                    topic: datasource.options_array.topic,
+                    value: $scope.activate,
                 });
+
+
+                ProjectService.CreateDatasourceSensorData(sensordata)
+                .then(function (response){
+
+                    var message = 'Succesfully switched ';
+                    if ($scope.activate == 0){
+                        message = message + 'OFF';
+                    } 
+                    if ($scope.activate == 1){
+                        message = message + 'ON';
+                    } 
+                    $.notify({
+                        message: message
+                    },{     
+                        type: 'success'
+                    });
+
+
+                });
+
+
 
 
             }
         });
-        
+
     }
 
 });   

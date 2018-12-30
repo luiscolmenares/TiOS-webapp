@@ -40,8 +40,10 @@
         service.GetPanelsByDashboardId = GetPanelsByDashboardId;
         service.GetSensorByPanel = GetSensorByPanel;
         service.ThingDiscreteStatus = ThingDiscreteStatus;
+        service.ThingDiscreteStatusApi = ThingDiscreteStatusApi;
         service.RemoveUserFromProject = RemoveUserFromProject;
         service.CreateMobileNotification = CreateMobileNotification;
+        service.CreateDatasourceSensorData = CreateDatasourceSensorData;
 
         return service;
 
@@ -204,7 +206,6 @@
 
         }
 
-        GetActiveDatasourcesByProjectId
 
         function GetDatapointsByDatasourceId(datasourceId) {
             var config = {
@@ -322,6 +323,18 @@
             return $http.get(broker + '/thingstatus?topic='+ topic + '&value=' + value, config).then(handleSuccess, handleError('Error sending request to API'));
         }
 
+        function ThingDiscreteStatusApi(thing) {
+            var config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            };
+            return $http.post(urls.BASE_API + 'thingstatus', thing, config).then(handleSuccess, handleError('Error creating thing status'));
+        
+            //return $http.get(urls.BASE_NR + 'thingstatus?topic='+ topic + '&value=' + value, config).then(handleSuccess, handleError('Error sending request to API'));
+            // return $http.get(broker + '/thingstatus?topic='+ topic + '&value=' + value, config).then(handleSuccess, handleError('Error sending request to API'));
+        }
+
         function RemoveUserFromProject (userId, projectId){
             var config = {
                 headers: {
@@ -339,6 +352,15 @@
                 }
             };
             return $http.post(urls.BASE_API + 'mobile/notification/create', mobilenotification, config).then(handleSuccess, handleError('Error creating mobilenotification'));
+        }
+
+        function CreateDatasourceSensorData(sensordata) {
+            var config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            };
+            return $http.post(urls.BASE_API + 'datasourcesensordata/create', sensordata, config).then(handleSuccess, handleError('Error creating sensordata'));
         }
 
 // private functions
