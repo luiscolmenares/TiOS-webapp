@@ -10,6 +10,10 @@ $scope.reload = function () {
     $state.reload();
 };
 $scope.project = [];
+ProjectService.GetById($stateParams.projectId).
+then(function (result){
+    $scope.project = result.project;
+});
 $scope.organizations = [];
 //Obtenemos las organizaciones y los mandamos al scope
 OrganizationService.GetAll()
@@ -838,13 +842,20 @@ $datasourcecount = $datasourcecount + 1;
 }
 
 if (datasource.type === 'Control: Smart Switch (Light)'){
-    if(datasource.toggle == 1){
-// jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
-$scope.activate = 1;
-} else {
-    $scope.activate = 0;
-}
-$datasourcecount = $datasourcecount + 1;
+        // alert(datasource.toggle);
+//     if(datasource.toggle == 1){
+// // jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
+// // jQuery('#val-activate-datasource_' + datasource.id).attr('Checked','Checked');
+// // jQuery('#val-activate-datasource_' + datasource.id).prop("checked", true);
+// jQuery('#val-activate-datasource_' + datasource.id).attr('checked', true);
+
+
+//         // $scope.activate = 1;
+//         } else {
+//             // $scope.activate = 0;
+//             jQuery('#val-activate-datasource_' + datasource.id).removeAttr('Checked','Checked');
+//     }
+    $datasourcecount = $datasourcecount + 1;
 }
 if (datasource.type === 'Control: Smart Switch (Water Valve)'){
     $datasourcecount = $datasourcecount + 1;
@@ -853,6 +864,17 @@ if (datasource.type === 'Control: Smart Switch (Gas Valve)'){
     $datasourcecount = $datasourcecount + 1;
 }
 if (datasource.type === 'Control: Smart Switch (Lock)'){
+
+    // alert(datasource.toggle);
+
+//      if(datasource.toggle == 1){
+// // jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
+// jQuery('#val-activate-datasource_' + datasource.id).attr('Checked','Checked');
+//         // $scope.activate = 1;
+//         } else {
+//             // $scope.activate = 0;
+//             jQuery('#val-activate-datasource_' + datasource.id).removeAttr('Checked','Checked');
+//     }
     $datasourcecount = $datasourcecount + 1;
 }
 if (datasource.type === 'Control: Smart Switch (Power)'){
@@ -932,16 +954,17 @@ var auto = $interval(function() {
 // panel.sensorData.data = count ;
 // count++;
 init();
-}, 10000);
+}, 60000);
 
 
 $scope.switch = function(datasource){
-// alert('swotch activated');
+// alert('switch activated');
 if ((datasource.type === 'Control: Smart Switch (Light)') || 
     (datasource.type === 'Control: Smart Switch (Water Valve)') ||
     (datasource.type === 'Control: Smart Switch (Gas Valve)') ||
     (datasource.type === 'Control: Smart Switch (AC)') ||
     (datasource.type === 'Control: Smart Switch (Power)') ||
+    (datasource.type === 'Control: Smart Switch (Lock)') ||
     (datasource.type === 'Control: Smart Bulb')){
 
     var isChecked = jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
@@ -1007,7 +1030,7 @@ then(function(response){
                         message = message + 'ON';
                     } 
                     $.notify({
-                        message: message
+                        message: datasource.name + ' ' + message + $scope.activate
                     },{     
                         type: 'success'
                     });

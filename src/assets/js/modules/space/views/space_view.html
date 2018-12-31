@@ -3,7 +3,7 @@
     <div class="row items-push">
         <div class="col-sm-7">
             <h1 class="page-heading animated fadeIn text-white"">
-                <i class="si si-frame"></i> <img src="{{space.icon_image_url}}" style="height: 23px; padding-right: 5px" />{{space.name}}
+                <i class="si si-frame"></i> <img src="{{space.icon_image_url}}" style="height: 23px; padding-right: 5px" /><a style="color: white" data-ui-sref="spaces({projectId: space.project_id})">{{space.project_name}}</a> {{' > ' + space.name}}
             </h1>
         </div>
         <div class="col-sm-5 text-right hidden-xs"> 
@@ -372,7 +372,7 @@
                                             <td class="bg-gray-lighter" style="width: 50%;">
                                                 <label class="css-input switch switch-square switch-lg switch-default">
                                                  <!--<span ng-bind="panel.id"></span> -->
-                                                <input ng-checked="activate == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate" ng-model="activate" ng-value="off" ng-change="switch(datasource)"><span></span> 
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activatedatasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
                                             </label>
                                                 <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
                                             </td>
@@ -380,6 +380,86 @@
                                     </tbody>
                                 </table>
                 <!-- Control: Smart Switch (Light) -->
+                <!-- Control: Smart Switch (Lock) -->
+                    <table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Lock)'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <!--<span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">CLOSE/OPEN</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                <!-- Control: Smart Switch (Lock) -->
+                <!-- Control: Smart Switch (Gas Valve) -->
+                    <table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Gas Valve)'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <!--<span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">CLOSE/OPEN</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                <!-- Control: Smart Switch (Gas Valve) -->
+                <!-- Control: Smart Switch (Water Valve) -->
+                    <table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Water Valve)'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <!--<span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">CLOSE/OPEN</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                <!-- Control: Smart Switch (Water Valve) -->
+                <!-- Control: Smart Switch (Power) -->
+                    <table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Power)'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <!--<span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                <!-- Control: Smart Switch (Power) -->
             </div>  
         </div>
         <!-- <div class="col-lg-6 col-xs-12">  
