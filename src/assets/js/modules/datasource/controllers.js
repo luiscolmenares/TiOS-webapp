@@ -6,9 +6,9 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
         $scope.datasourceslist = [];
         $scope.datasourcetypes = [];
         ProjectService.GetById($stateParams.projectId).
-then(function (result){
-    $scope.project = result.project;
-});
+        then(function (result){
+            $scope.project = result.project;
+        });
         
 
         function myIndexOfTypes(o, arr) {

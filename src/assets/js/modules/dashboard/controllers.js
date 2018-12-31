@@ -1635,7 +1635,7 @@ var globalOptions = {
 // Lines/Bar/Radar Chart Data
 var chartLinesBarsRadarData = {
   // labels: _.pluck($scope.datapointvalues.sensordata, '_blank'),
-  labels: _.pluck($scope.datasourcevalues.sensordata, '_blank'),
+  labels: _.pluck($scope.datasourcevalues.sensordata, 'created_at'),
 //labels: ["", "", "", "", "", "", ""], // To hide horizontal labels
 datasets: [
 // {
@@ -1649,6 +1649,10 @@ datasets: [
 //     data: [30, 32, 40, 45, 43, 38, 55]
 // },
 {
+  title: {
+            display: true,
+            text: 'Custom Chart Title'
+        },
   label: 'Selected Period',
   fillColor: 'rgba(171, 227, 125, .3)',
   strokeColor: 'rgba(171, 227, 125, 1)',

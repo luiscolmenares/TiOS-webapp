@@ -29,6 +29,11 @@ App.controller('TablesTriggerTablesCtrl', ['$scope', '$localStorage', '$state', 
             });
         };
         $scope.projectId = $stateParams.projectId;
+        ProjectService.GetById($stateParams.projectId).
+        then(function (result){
+            $scope.project = result.project;
+        });
+
          /*
          *Function Reload
          */
