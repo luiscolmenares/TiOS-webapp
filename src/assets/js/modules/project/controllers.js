@@ -791,17 +791,29 @@ DashboardService.GetPanelsType()
 $scope.switch = function(panel){
     var isChecked = jQuery('#val-activate-panel_' + panel.id).prop("checked");
     if (isChecked) {
-        $scope.activate = 1;
+        $scope.activate = "ON";
     } else {
-        $scope.activate = 0;
+        $scope.activate = "OFF";
     }
     DatasourceService.GetById(panel.datasource_id)
     .then(function (resp){
+        var datasource = resp.datasource;
         var optionsStr = JSON.parse(resp.datasource.options);
         $scope.broker = urls.BASE_NR;
 //$scope.broker = optionsStr.broker;d
 $scope.topic = optionsStr.topic;
-ProjectService.ThingDiscreteStatus($scope.broker, $scope.topic, $scope.activate).
+/*
+* This is the API way.
+*/
+var thing = $.param({
+    base_nr: urls.BASE_NR,
+    topic: optionsStr.topic,
+    value: $scope.activate,
+});
+
+
+// ProjectService.ThingDiscreteStatus($scope.broker, $scope.topic, $scope.activate).
+ProjectService.ThingDiscreteStatusApi(thing).
 then(function(response){
     if (response.success != null){
         $.notify({
@@ -810,17 +822,59 @@ then(function(response){
             type : 'danger'
         });
     } else {
-        var message = 'Succesfully switched ';
-        if ($scope.activate == 0){
-            message = message + 'OFF';
-        } 
-        if ($scope.activate == 1){
-            message = message + 'ON';
-        } 
-        $.notify({
-            message: message
-        },{     
-            type: 'success'
+
+        var mobilenotification = $.param({
+            name: datasource.name,
+            space: datasource.space_id,
+            topic: optionsStr.topic,
+            value: $scope.activate,
+            project_id: datasource.project_id,
+            data: 0
+        });
+        console.log('mobilenotification');
+        console.log(mobilenotification);
+
+        ProjectService.CreateMobileNotification(mobilenotification)
+        .then(function (response) {
+            if (response.success == false) {
+
+                $.notify({
+                    message: 'Error'
+                },{     
+                    type: 'danger'
+                });
+
+
+            } else {
+                var sensordata = $.param({
+                    topic: optionsStr.topic,
+                    value: $scope.activate,
+                });
+
+
+                ProjectService.CreateDatasourceSensorData(sensordata)
+                .then(function (response){
+
+                    var message = 'Succesfully switched ';
+                    if ($scope.activate == 0){
+                        message = message + 'OFF';
+                    } 
+                    if ($scope.activate == 1){
+                        message = message + 'ON';
+                    } 
+                    $.notify({
+                        message: datasource.name + ' ' + message + $scope.activate
+                    },{     
+                        type: 'success'
+                    });
+
+
+                });
+
+
+
+
+            }
         });
     }
 
@@ -1392,7 +1446,7 @@ init();
         // panel.sensorData.data = count ;
         // count++;
         init();
-      }, 10000);
+      }, 60000);
 // init();
 }
 ]);

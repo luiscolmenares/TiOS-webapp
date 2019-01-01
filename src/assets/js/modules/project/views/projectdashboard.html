@@ -308,7 +308,7 @@
                                             <td class="bg-gray-lighter" style="width: 50%;">
                                                 <label class="css-input switch switch-square switch-lg switch-default">
                                                 <!-- <span ng-bind="panel.id"></span> -->
-                                                <input ng-checked="activate == 1 ? true : false" type="checkbox" id="val-activate-panel_{{panel.id}}" name="val-activate" ng-model="activate" ng-value="off" ng-change="switch(panel)"><span></span> 
+                                                <input ng-checked="panel.datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-panel_{{panel.id}}" name="val-activate" ng-model="activate" ng-value="off" ng-change="switch(panel)"><span></span> 
                                             </label>
                                                 <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
                                             </td>
