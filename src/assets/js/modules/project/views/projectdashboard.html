@@ -25,18 +25,22 @@
         <!-- Main Container -->
         <main id="content">
             <!-- Page Header -->
-            <div class="bg-image overflow-hidden" style="background-image: url('assets/img/photos/photo31@2x.jpg');">
-                <div class="bg-black-op">
-                    <div class="content">
-                        <div class="block block-transparent">
-                            <div class="block-content block-content-full">
-                                <h1 class="h1 font-w300 text-white animated fadeInDown">{{dashboard.name}}</h1>
-                                <a class="link-effect" style="color: white" data-ui-sref="projectsettings({projectId: project.id})">{{project.name}}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="bg-black-op content bg-gray-lighter bg-image overflow-hidden" style="background-image: url('assets/img/photos/photo31@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white">
+                <i class="si si-speedometer" aria-hidden="true"></i>&nbsp;&nbsp;<a style="color: white" data-ui-sref="projectsettings({projectId: project.id})" class="animated fadeIn">{{project.name}}</a> > {{dashboard.name}}&nbsp;&nbsp;<small></small>
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <li><a class="link-effect" style="color: white" data-ui-sref="projectdashboards({projectId: project.id})">Back to Dashboards</a></li>
+                <!-- <li><a class="link-effect" href="">Project Settings</a></li> -->
+            </ol>
+        </div>
+    </div>
+</div>
+            
             <div class="content">
                 <div class="row">
                     <div class="col-sm-7">
