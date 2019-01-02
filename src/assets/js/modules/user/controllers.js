@@ -4,26 +4,79 @@
  *  Description: User controllers
  *
  */
-App.controller('UserCtrl', ['$scope', '$localStorage', '$window', 'UserService', 'OrganizationService', 'RoleService', 'ProjectService', 'DatasourceService', '$http', '$state', '$timeout',
-    function ($scope, $localStorage, $window, UserService, OrganizationService, RoleService, ProjectService, DatasourceService, $http, $state, $timeout) {
+App.controller('UserCtrl', ['$scope', '$localStorage', '$window', 'UserService', 'OrganizationService', 'RoleService', 'ProjectService', 'DatasourceService', '$http', '$state', '$timeout', 'AuthenticationService', 'organizations', '$rootScope',
+    function ($scope, $localStorage, $window, UserService, OrganizationService, RoleService, ProjectService, DatasourceService, $http, $state, $timeout, AuthenticationService, organizations, $rootScope) {
 
         $scope.selectedOrganization = null;
         $scope.organizations = [];
-        OrganizationService.GetAll()
-                .then(function (result) {
-                    console.log(result);
-                    $scope.organizations = result.organizations;
-                    //$scope.organizations = result;
-                });
+        organizations.fetchOrganizations(function (data) {
+        if (AuthenticationService.userHasRole(["super"])){
+            OrganizationService.GetAll()
+            .then(function (data) {
+                $scope.organizations = data.organizations;
+            });
+        } else {
+            var filteredorganizations = data.filter(function (organization){
+                return organization.id == $rootScope.loggeduser.user.organization_id;
+            });
+            $scope.organizations = filteredorganizations;
+        }
+    });
+
+    //     if (AuthenticationService.userHasRole(["super"])){
+    //     OrganizationService.GetAll()
+    //     .then(function (data) {
+    //         $scope.organizations = data.organizations;
+    //     });
+    // } else {
+    //      OrganizationService.GetAll()
+    //     .then(function (data) {
+    //         // $scope.organizations = data.organizations;
+    //         var filteredorganizations = data.filter(function (organization){
+    //         return organization.id == $rootScope.loggeduser.user.organization_id;
+    //     });
+    //         $scope.organizations = filteredorganizations;
+    //     });
+        
+        
+    // }
+// });
+        // OrganizationService.GetAll()
+        //         .then(function (result) {
+        //             console.log(result);
+        //             $scope.organizations = result.organizations;
+        //             //$scope.organizations = result;
+        //         });
 
         $scope.selectedRole = null;
         $scope.roles = [];
-        RoleService.GetAll()
+
+        if (AuthenticationService.userHasRole(["super"])){
+            RoleService.GetAll()
                 .then(function (result) {
                     console.log("roles!");
                     $scope.roles = result.roles;
                     //$scope.roles = result;
                 });
+
+        } else {
+             RoleService.GetAll()
+                .then(function (result) {
+                    // console.log("roles!");
+                    result.roles.shift();
+                    $scope.roles = result.roles;
+                    //$scope.roles = result;
+                });
+
+
+        }
+
+        // RoleService.GetAll()
+        //         .then(function (result) {
+        //             console.log("roles!");
+        //             $scope.roles = result.roles;
+        //             //$scope.roles = result;
+        //         });
 
 
         $scope.createUser = function () {
