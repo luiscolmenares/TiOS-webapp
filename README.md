@@ -1,15 +1,8 @@
 # TIoS-webapp
 
 # Related files
-## OneUI Admin Theme: 
-https://drive.google.com/file/d/0B831LR5fwh_GZzFUV2NzeFFJOGM/view?usp=sharing
-TIoS Requirements Document:
-## Project Proposal:
-https://docs.google.com/document/d/1EyxAHjh2J7lTs-quEpsDaMUH5Mu49hx0ECvIRzFwT5U/edit?usp=sharing
-## Task list
-https://docs.google.com/spreadsheets/d/1bHKVaUCtBeiFVc5izvpr0lLjVo51hoWfSqfG21l6OQY/edit?usp=sharing
 
-TIoS is a tool designed for administrators of organizations. It is a computerized system for the management of organizations and their IOT projects.
+TIoS is a tool designed for administrators of internet connected organizations. It is a computerized system for the management of organizations and their IoT projects.
 Organization Projects will display a set of graphs and reports based on data pulled from a restful API. This data comes from devices(sensors) connected to the cloud directly to a Mysql Database and serve to the application using API endpoints.
 
 ## Main Features:
@@ -26,16 +19,23 @@ Organizations Dashboard
 
 Triggers
 
-# PROJECT GOAL
+Scheduled Actions
 
-Finish TIoS Web application administration.
+Billing
 
-Continue integration of TIoS web application to TIoS API implementation.
+## Installation
+
+Dowload or clone this repository
+
+```
+cd TiOS-webapp
+npm install
+```
+
 
 # SPECIFICATIONS
 ## Functional Requirements
 ## Business Rules
-TIoS Web Application must have multi language options.
 
 An Organization is an entity within the system. Organization contains Projects and Users (Organization Managers and Organization Members). Projects contains Datapoints. A User can be part of multiple Projects, but only part of one Organization. 
 
@@ -81,10 +81,6 @@ Standard Authorization Protocols are required. Oauth 2.0 is preferred.
 ## Certification Requirements
 
 Secure Socket Layer (SSL) .
-
-## Reporting Requirements
-
-Reports that must be included:
 
 ## For System Administrators:
 
