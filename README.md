@@ -91,3 +91,7 @@ Users with their related Organization, status of the user, role and CRUD options
 
 ## For Organization Managers
 Users with their related Projects, status of the user, role 
+
+** Google maps UI implemetation from UI Theme **
+- [Example](https://app.tiosplatform.com/#/components/maps/google)
+- [Example Full Screen](https://app.tiosplatform.com/#/components/maps/google-full)

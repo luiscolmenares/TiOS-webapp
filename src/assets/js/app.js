@@ -1602,7 +1602,7 @@ App.config(['$stateProvider', '$urlRouterProvider',
                                          * Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps)
                                          * For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key
                                          */
-                                        {type: 'js', path: '//maps.googleapis.com/maps/api/js?key='},
+                                        {type: 'js', path: '//maps.googleapis.com/maps/api/js?key=AIzaSyBetY7CSB_5cohAvLJmsFmUOp-grgezi_c'},
                                         'assets/js/plugins/gmapsjs/gmaps.min.js'
                                     ]
                                 });
@@ -1623,7 +1623,7 @@ App.config(['$stateProvider', '$urlRouterProvider',
                                          * Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps)
                                          * For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key
                                          */
-                                        {type: 'js', path: '//maps.googleapis.com/maps/api/js?key='},
+                                        {type: 'js', path: '//maps.googleapis.com/maps/api/js?key=AIzaSyBetY7CSB_5cohAvLJmsFmUOp-grgezi_c'},
                                         'assets/js/plugins/gmapsjs/gmaps.min.js'
                                     ]
                                 });
