@@ -45,6 +45,13 @@ var project = $.param({
     notes: $scope.notes,
     active: activation,
     organization_id: $scope.selectedOrganization,
+    address_1: $scope.address_1,
+    address_2: $scope.address_2,
+    city: $scope.city,
+    state: $scope.state,
+    zip: $scope.zip,
+    photo: $scope.photo,
+    website: $scope.website,
 });
 ProjectService.Create(project)
 .then(function (response) {
@@ -171,6 +178,34 @@ $scope.organization = result.organization;
 $scope.project.organization = $scope.organization.name;
 
 });
+//         var initMapSearch = function(){
+// // Init Map
+// var mapSearch = new GMaps({
+//     div: '#js-map-search',
+//     lat: 20,
+//     lng: 0,
+//     zoom: 2,
+//     scrollwheel: false
+// });
+
+// GMaps.geocode({
+//     address: data.project.address_1 + data.project.city + data.project.zip,
+//     callback: function (results, status) {
+//         if ((status === 'OK') && results) {
+//             var latlng = results[0].geometry.location;
+
+//             mapSearch.removeMarkers();
+//             mapSearch.addMarker({ lat: latlng.lat(), lng: latlng.lng() });
+//             mapSearch.fitBounds(results[0].geometry.viewport);
+//         } else {
+//             alert('Address not found!');
+//         }
+//     }
+// });
+
+
+// };
+// initMapSearch();
         $('#modal-project').modal('show');
     });
 });
@@ -242,7 +277,14 @@ var project = $.param({
     name: $scope.project.name,
     notes: $scope.project.notes,
     active: activation,
-    organization_id: $scope.selectOrganizationObject.id
+    organization_id: $scope.selectOrganizationObject.id,
+    address_1: $scope.project.address_1,
+    address_2: $scope.project.address_2,
+    city: $scope.project.city,
+    state: $scope.project.state,
+    zip: $scope.project.zip,
+    photo: $scope.project.photo,
+    website: $scope.project.website
 });
 ProjectService.Update(project, $scope.project.id)
 .then(function (response) {
@@ -370,10 +412,18 @@ var initDataTableFull = function () {
         pageLength: 10,
         lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]],
         data: localStorageService.get('projects'),
+        // console.log(data);
 //data: dataset,
 "columns": [
 {"data": "id"},
-{"data": "name"},
+{"data": "name",
+"render": function (data, type, row) {
+
+  return "<a href='#/project/" + row.id + "/view' data-ui-sref='projectview({projectId:" + row.id + "})'>"+data+"</a>";
+
+
+}
+},
 {"data": "organization_name"},
 {"data": "notes",
 "className": "hidden-xs sorting"},
@@ -396,9 +446,9 @@ return "<span class='label label-danger'>disabled</span>";
 "render": function (data, type, row) {
     var actions = "";
     if (AuthenticationService.userHasRole(["super", "admin", "owner"])){
-        actions = "<div class='btn-group'><a class='btn btn-xs btn-default' href='#/project/" + data + "/settings' data-ui-sref='projectsettings({projectId:" + data + "})'><i class='fa fa-gear'></i></a><button class='btn btn-xs btn-default view-project' data-toggle='modal' data-id='" + data + "' href='#modal-project' type='button' ng-click='initModalData()'><i class='fa fa-eye'></i></button><button class='btn btn-xs btn-default view-project-edit' data-toggle='modal' data-id='" + data + "' href='#modal-project-edit' type='button'><i class='fa fa-pencil'></i></button><button class='btn btn-xs btn-default view-project-delete' data-toggle='modal' data-id='" + data + "' href='#modal-project-delete' type='button' ng-click='initModalData()'><i class='fa fa-times'></i></button></div>";
+        actions = "<div class='btn-group'><a class='btn btn-xs btn-default' href='#/project/" + data + "/settings' data-ui-sref='projectsettings({projectId:" + data + "})'><i class='fa fa-gear'></i></a><a class='btn btn-xs btn-default' href='#/project/" + data + "/view' data-ui-sref='projectview({projectId:" + data + "})'><i class='fa fa-eye'></i></a></button><button class='btn btn-xs btn-default view-project-edit' data-toggle='modal' data-id='" + data + "' href='#modal-project-edit' type='button'><i class='fa fa-pencil'></i></button><button class='btn btn-xs btn-default view-project-delete' data-toggle='modal' data-id='" + data + "' href='#modal-project-delete' type='button' ng-click='initModalData()'><i class='fa fa-times'></i></button></div>";
     } else {
-        actions = "<div class='btn-group'><a class='btn btn-xs btn-default' href='#/project/" + data + "/settings' data-ui-sref='projectsettings({projectId:" + data + "})'><i class='fa fa-gear'></i></a><button class='btn btn-xs btn-default view-project' data-toggle='modal' data-id='" + data + "' href='#modal-project' type='button' ng-click='initModalData()'><i class='fa fa-eye'></i></button><button class='btn btn-xs btn-default view-project-edit' data-toggle='modal' data-id='" + data + "' href='#modal-project-edit' type='button'><i class='fa fa-pencil'></i></button></div>";
+        actions = "<div class='btn-group'><a class='btn btn-xs btn-default' href='#/project/" + data + "/settings' data-ui-sref='projectsettings({projectId:" + data + "})'><i class='fa fa-gear'></i></a><a class='btn btn-xs btn-default' href='#/project/" + data + "/view' data-ui-sref='projectview({projectId:" + data + "})'><i class='fa fa-eye'></i></a></button><button class='btn btn-xs btn-default view-project-edit' data-toggle='modal' data-id='" + data + "' href='#modal-project-edit' type='button'><i class='fa fa-pencil'></i></button></div>";
 
     }
     return actions;
@@ -1798,6 +1848,34 @@ trglist = data;
 ProjectService.GetById($stateParams.projectId).then(function (data) {
     console.log(data);
     $scope.project = data.project;
+            var initMapSearch = function(){
+// Init Map
+var mapSearch = new GMaps({
+    div: '#js-map-search',
+    lat: 20,
+    lng: 0,
+    zoom: 2,
+    scrollwheel: false
+});
+
+GMaps.geocode({
+    address: data.project.address_1 + data.project.city + data.project.zip,
+    callback: function (results, status) {
+        if ((status === 'OK') && results) {
+            var latlng = results[0].geometry.location;
+
+            mapSearch.removeMarkers();
+            mapSearch.addMarker({ lat: latlng.lat(), lng: latlng.lng() });
+            mapSearch.fitBounds(results[0].geometry.viewport);
+        } else {
+            alert('Address not found!');
+        }
+    }
+});
+
+
+};
+initMapSearch();
 });
 ProjectService.GetDashboardCountByProjectId($stateParams.projectId).then(function (data) {
     console.log(data);
@@ -1819,6 +1897,8 @@ ProjectService.GetSpacesCountByProjectId($stateParams.projectId).then(function (
     console.log(data);
     $scope.spacescount = data;
 });
+
+
 }
 ]);
 

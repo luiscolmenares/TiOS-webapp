@@ -1,0 +1,216 @@
+<div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading animated fadeIn text-white">
+                <i class="fa fa-cogs" aria-hidden="true"></i><span class="animated fadeIn">&nbsp;&nbsp;{{project.name}}</span><small></small>
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <li><a class="link-effect" style="color: white" data-ui-sref="projects">Back to Projects</a></li>
+                <!-- <li><a class="link-effect" href="">Project Settings</a></li> -->
+            </ol>
+        </div>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Map Markers Map -->
+            <div class="block">
+                <div class="block-header">
+                    <ul class="block-options">
+                        <li>
+                            <button type="button"><i ng-click="refreshMap()" class="si si-refresh"></i></button>
+                        </li>
+                    </ul>
+                    <span ng-bind="project.address_1"></span>
+                            <span ng-bind="project.address_2"></span>
+                            <span ng-bind="project.city"></span>
+                            <span ng-bind="project.state"></span>
+                            <span ng-bind="project.zip"></span>
+                            
+                </div>
+                <!-- Markers Map Container -->
+                <div id="js-map-search" style="height: 350px;"></div>
+            </div>
+            <!-- END Map Markers Map -->
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-3">
+            <a class="block block-bordered block-link-hover3" data-ui-sref="spaces({projectId: project.id})">
+                <table class="block-table text-center">
+                    <tbody>
+                        <tr>
+                            <td class="bg-gray-lighter border-r" style="width: 50%;">
+                                <div class="push-30 push-30-t">
+                                    <i class="si si-frame fa-3x text-black-op"></i>
+                                </div>
+                            </td>
+                            <td style="width: 50%;">
+                                <div class="h1 font-w700"><span class="h2 text-muted">+</span> <span ng-bind="spacescount"></span></div>
+                                <div class="h5 text-muted text-uppercase push-5-t">Spaces</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </a>
+        </div>
+    <div class="col-sm-12 col-md-12 col-lg-3">
+            <a class="block block-bordered block-link-hover3" data-ui-sref="datasources({projectId: project.id})">
+                <table class="block-table text-center">
+                    <tbody>
+                        <tr>
+                            <td class="bg-gray-lighter border-r" style="width: 50%;">
+                                <div class="push-30 push-30-t">
+                                    <i class="fa fa-server fa-3x text-black-op"></i>
+                                </div>
+                            </td>
+                            <td style="width: 50%;">
+                                <div class="h1 font-w700"><span class="h2 text-muted">+</span> <span ng-bind="datasourcecount"></span></div>
+                                <div class="h5 text-muted text-uppercase push-5-t">DataSources</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </a>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-3">
+            <a class="block block-bordered block-link-hover3"  data-ui-sref="projectusers({projectId: project.id})">
+                <table class="block-table text-center">
+                    <tbody>
+                        <tr>
+                            <td class="bg-gray-lighter border-r" style="width: 50%;">
+                                <div class="push-30 push-30-t">
+                                    <i class="si si-users fa-3x text-black-op"></i>
+                                </div>
+                            </td>
+                            <td style="width: 50%;">
+                                <div class="h1 font-w700"><span class="h2 text-muted">+</span> <span ng-bind="usercount"></span></div>
+                                <div class="h5 text-muted text-uppercase push-5-t">Users</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </a>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-3">
+        <a class="block block-bordered block-link-hover3"  data-ui-sref="projectdashboards({projectId: project.id})">
+                <table class="block-table text-center">
+                    <tbody>
+                        <tr>
+                            <td class="bg-gray-lighter border-r" style="width: 50%;">
+                                <div class="push-30 push-30-t">
+                                    <i class="si si-speedometer fa-3x text-black-op"></i>
+                                </div>
+                            </td>
+                            <td style="width: 50%;">
+                                <div class="h1 font-w700"><span class="h2 text-muted">+</span> <span ng-bind="dashboardcount"></span></div>
+                                <div class="h5 text-muted text-uppercase push-5-t">Dashboards</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </a>
+        </div>
+
+        
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-3">
+            <a class="block block-bordered block-link-hover3" data-ui-sref="triggers({projectId: project.id})">
+                <table class="block-table text-center">
+                    <tbody>
+                        <tr>
+                            <td class="bg-gray-lighter border-r" style="width: 50%;">
+                                <div class="push-30 push-30-t">
+                                    <i class="fa fa-flash fa-3x text-black-op"></i>
+                                </div>
+                            </td>
+                            <td style="width: 50%;">
+                                <div class="h1 font-w700"><span class="h2 text-muted">+</span> <span ng-bind="triggercount"></span></div>
+                                <div class="h5 text-muted text-uppercase push-5-t">Triggers</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </a>
+        </div>
+        
+        
+<!-- <div class="col-sm-12 col-lg-4">
+<a class="block block-bordered block-link-hover3" href="javascript:void(0)">
+<table class="block-table text-center">
+<tbody>
+<tr>
+<td style="width: 50%;">
+<div class="h1 font-w700"><span class="h2 text-muted">+</span> 3</div>
+<div class="h5 text-muted text-uppercase push-5-t">DataPoints</div>
+</td>
+<td class="bg-gray-lighter border-l" style="width: 50%;">
+<div class="push-30 push-30-t">
+<i class="si si-bulb fa-3x text-black-op"></i>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</a>
+</div> -->
+<!--<div class="col-sm-6 col-lg-3">
+<a class="block block-bordered block-link-hover3" href="javascript:void(0)">
+<table class="block-table text-center">
+<tbody>
+<tr>
+<td style="width: 50%;">
+<div class="h1 font-w700"><span class="h2 text-muted">+</span> 10</div>
+<div class="h5 text-muted text-uppercase push-5-t">New Followers</div>
+</td>
+<td class="bg-gray-lighter border-l" style="width: 50%;">
+<div class="push-30 push-30-t">
+<i class="si si-social-dribbble fa-3x text-black-op"></i>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</a>
+</div>-->
+</div>
+
+<!-- <div class="col-xs-6 col-sm-4 col-lg-4">
+    <a class="block block-link-hover3 text-center" data-ui-sref="projectdashboards({projectId: project.id})">
+        <div class="block-content block-content-full">
+            <i class="si si-speedometer fa-4x text-danger"></i>
+            <div class="font-w600 push-15-t">Dashboards</div>
+        </div>
+    </a>
+</div> -->
+
+<!-- <div class="col-xs-6 col-sm-4 col-lg-4">
+<a class="block block-link-hover3 text-center" href="javascript:void(0)">
+<div class="block-content block-content-full">
+<i class="si si-support fa-4x text-muted"></i>
+<div class="font-w600 push-15-t">Support</div>
+</div>
+</a>
+</div>
+<div class="col-xs-6 col-sm-4 col-lg-4">
+<a class="block block-link-hover3 text-center" href="javascript:void(0)">
+<div class="block-content block-content-full">
+<i class="si si-bar-chart fa-4x text-success"></i>
+<div class="font-w600 push-15-t">Sales</div>
+</div>
+</a>
+</div> -->
+
+
+
+</div>
+
+
+
+</div>
+<!-- END Page Content

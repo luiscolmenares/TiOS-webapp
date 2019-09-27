@@ -357,6 +357,12 @@ App.config(['$stateProvider', '$urlRouterProvider',
                                     insertBefore: '#css-bootstrap',
                                     serie: true,
                                     files: [
+                                        /*
+                                         * Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps)
+                                         * For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key
+                                         */
+                                        {type: 'js', path: '//maps.googleapis.com/maps/api/js?key=AIzaSyBetY7CSB_5cohAvLJmsFmUOp-grgezi_c'},
+                                        'assets/js/plugins/gmapsjs/gmaps.min.js',
                                         'assets/js/plugins/datatables/jquery.dataTables.min.css',
                                         'assets/js/plugins/datatables/jquery.dataTables.min.js',
                                         'assets/js/plugins/datatables/dataTables.buttons.min.js',
@@ -673,6 +679,29 @@ App.config(['$stateProvider', '$urlRouterProvider',
 //         });
 //     }]
 // }
+                })
+
+                .state('projectview', {
+                    url: '/project/:projectId/view',
+                    templateUrl: 'assets/js/modules/project/views/project-view.html',
+                    controller: 'ProjectSettingsCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    insertBefore: '#css-bootstrap',
+                                    serie: true,
+                                    files: [
+                                        /*
+                                         * Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps)
+                                         * For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key
+                                         */
+                                        {type: 'js', path: '//maps.googleapis.com/maps/api/js?key=AIzaSyBetY7CSB_5cohAvLJmsFmUOp-grgezi_c'},
+                                        'assets/js/plugins/gmapsjs/gmaps.min.js'
+                                    ]
+                                });
+                            }]
+                    }
+
                 })
 
                 .state('websocket', {
