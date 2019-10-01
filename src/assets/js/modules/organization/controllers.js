@@ -5,6 +5,106 @@
  *
  */
 
+App.controller('OrganizationViewCtrl', ['$scope', '$localStorage', '$window', 'UserService', 'OrganizationService', '$http', '$state', '$timeout', '$stateParams', 'ProjectService',
+    function ($scope, $localStorage, $window, UserService, OrganizationService, $http, $state, $timeout, $stateParams, ProjectService) {
+        var organizationid = $stateParams.organizationId;
+        var markers = [];
+        // ProjectService.GetProjectsByOrganizationId($stateParams.organizationId)
+        //             .then(function(data) {
+        //                 console.log('GetProjectsByOrganizationId');
+        //                 console.log(data);
+
+        //             });
+        // OrganizationService.GetById($stateParams.organizationId)
+         ProjectService.GetProjectsByOrganizationId($stateParams.organizationId)
+                    .then(function (data) {
+                        $scope.projects = data.projects;
+                        // Init Markers Map
+                        var initMapMarkers = function () {
+                            var mapMarkers =new GMaps({
+                                div: '#js-map-markers',
+                                lat: 41.850033,
+                                lng: -87.6500523,
+                                zoom: 3,
+                                scrollwheel: false
+                            });
+                            
+                            for (var i = 0; i < data.projects.length; i++) {
+                                if (data.projects[i].address_1 != null) {
+                                    // console.log(data.projects[i].name);
+                                    var name = data.projects[i].name;
+                                    
+                                    GMaps.geocode({
+                                        address: data.projects[i].address_1 + data.projects[i].city + data.projects[i].zip,
+                                        callback: function (results, status) {
+                                            if ((status === 'OK') && results) {
+
+                                                var latlng = results[0].geometry.location;
+                                                console.log(name);
+
+                                                // mapSearch.removeMarkers();
+                                                // mapSearch.addMarker({ lat: latlng.lat(), lng: latlng.lng() });
+                                                 mapMarkers.addMarker({ lat: latlng.lat(), lng: latlng.lng() , title: name, animation: google.maps.Animation.DROP, infoWindow: {content: '<strong>'+name+'</strong>'}});
+                                                // markers.push({ lat: latlng.lat(), lng: latlng.lng() , title: name, animation: google.maps.Animation.DROP, infoWindow: {content: '<strong>'+name+'</strong>'}});
+                                                 mapMarkers.fitBounds(results[0].geometry.viewport);
+                                            } else {
+                                                alert('Address not found!');
+                                            }
+
+                                        }
+                                    });
+                                }
+                            }
+
+                            
+
+                            //add Markers
+                           // mapMarkers.addMarkers(markers);
+                            // mapMarkers.addMarkers([
+                            //     {lat: 37.70, lng: -122.49, title: 'Marker #1', animation: google.maps.Animation.DROP, infoWindow: {content: '<strong>Marker #1</strong>'}},
+                            //     {lat: 37.76, lng: -122.46, title: 'Marker #2', animation: google.maps.Animation.DROP, infoWindow: {content: '<strong>Marker #2</strong>'}},
+                            //     {lat: 37.72, lng: -122.41, title: 'Marker #3', animation: google.maps.Animation.DROP, infoWindow: {content: '<strong>Marker #3</strong>'}},
+                            //     {lat: 37.78, lng: -122.39, title: 'Marker #4', animation: google.maps.Animation.DROP, infoWindow: {content: '<strong>Marker #4</strong>'}},
+                            //     {lat: 37.74, lng: -122.46, title: 'Marker #5', animation: google.maps.Animation.DROP, infoWindow: {content: '<strong>Marker #5</strong>'}}
+                            // ]);
+
+                        };
+
+// console.log('markers----');
+//                             console.log(markers);
+                        // // var initMapSearch = function(){
+                        // // // Init Map
+                        // // var mapSearch = new GMaps({
+                        // //     div: '#js-map-search',
+                        // //     lat: 20,
+                        // //     lng: 0,
+                        // //     zoom: 2,
+                        // //     scrollwheel: false
+                        // // });
+
+                        // // GMaps.geocode({
+                        // //     address: data.project.address + data.project.city + data.project.zip,
+                        // //     callback: function (results, status) {
+                        // //         if ((status === 'OK') && results) {
+                        // //             var latlng = results[0].geometry.location;
+
+                        // //             mapSearch.removeMarkers();
+                        // //             mapSearch.addMarker({ lat: latlng.lat(), lng: latlng.lng() });
+                        // //             mapSearch.fitBounds(results[0].geometry.viewport);
+                        // //         } else {
+                        // //             alert('Address not found!');
+                        // //         }
+                        // //     }
+                        // // });
+
+
+                        // };
+                        // initMapSearch();
+                        initMapMarkers();
+                    });
+
+
+    }]);
 
 App.controller('OrganizationCtrl', ['$scope', '$localStorage', '$window', 'UserService', 'OrganizationService', '$http', '$state', '$timeout',
     function ($scope, $localStorage, $window, UserService, OrganizationService, $http, $state, $timeout) {
@@ -355,7 +455,14 @@ App.controller('OrganizationTablesCtrl', ['$scope', 'organizations', '$localStor
 //data: dataset,
                 "columns": [
                     //{"data": "id"},
-                    {"data": "name"},
+                    {"data": "name",
+                    "render": function (data, type, row) {
+
+                      return "<a href='#/organization/" + row.id + "/view' data-ui-sref='organizationview({organizationId:" + row.id + "})'>"+data+"</a>";
+
+
+                    }
+                    },
                     {"data": "phone",
                         "className": "hidden-xs sorting"},
                     {"data": "notes",
