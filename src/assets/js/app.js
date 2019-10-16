@@ -2729,8 +2729,8 @@ App.controller('HeaderCtrl', ['$scope', '$localStorage', '$window', '$location',
 
             // Method to reconnect mqtt
             function reConnect(){
-                // setTimeout(client.connect(options), 30000);
-                // mqttConnected = true;
+                setTimeout(client.connect(options), 30000);
+                mqttConnected = true;
             }
             
             return client,currentState;
