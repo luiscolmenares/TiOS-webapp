@@ -56,6 +56,7 @@ angular.module('Authentication')
               // data: {grant_type: 'password', client_id: '2', client_secret: 'vrRb128Iq24zxDUh70hBxHzufs3YcfS506sJOxpM', username: username, password: password },
               //web api DIGITALOCEAN
               data: {grant_type: 'password', client_id: '2', client_secret: 'zmO6BEWZ74aG4RybIHVAVDHlki8JOl2DrkauMY0W', username: username, password: password },
+            // data: {grant_type: 'password', client_id: '4', client_secret: 'weBQ4kDmDsVDDba3Scj9aaLAOGcNDPDd5GI0mtKj', username: username, password: password },
               
               //withCredentials: true,
               headers: {

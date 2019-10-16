@@ -780,219 +780,120 @@ $scope.loadSpaces();
 /*
 *  Description: spaces list controller
 */
-App.controller('SpaceViewCtrl', ['$scope', 'spaces', '$localStorage', '$window', '$http', 'localStorageService', 'ProjectService', '$state', 'OrganizationService', 'AuthenticationService', '$rootScope', '$timeout', 'SpaceService', '$stateParams', '$interval', 'urls',
-    function ($scope, spaces, $localStorage, $window, $http, localStorageService, ProjectService, $state, OrganizationService, AuthenticationService, $rootScope, $timeout, SpaceService, $stateParams, $interval, urls) {
-/*
-*Function Reload
-*/
-// alert('hello');
-$scope.project_id = $stateParams.projectId;
-$scope.space_id = $stateParams.spaceId;
-// $scope.gaugeSensorData = 25;
-// $scope.topics = [];
-// $scope.gaugeSensorData_1 = 26;
-$scope.reload = function () {
-    $state.reload();
-};
+App.controller('SpaceViewCtrl', ['$scope', 'spaces', '$localStorage', '$window', '$http', 'localStorageService', 'ProjectService', '$state', 'OrganizationService', 'AuthenticationService', '$rootScope', '$timeout', 'SpaceService', '$stateParams', '$interval', 'urls','MqttConnection',
+    function ($scope, spaces, $localStorage, $window, $http, localStorageService, ProjectService, $state, OrganizationService, AuthenticationService, $rootScope, $timeout, SpaceService, $stateParams, $interval, urls, MqttConnection) {
+    
+    // variable declear 
+    var totalTopics = [];    
+    
+    /*
+        *Function Reload
+    */
+    $scope.project_id = $stateParams.projectId;
+    $scope.space_id = $stateParams.spaceId;
+    // $scope.gaugeSensorData = 25;
+    // $scope.topics = [];
+    // $scope.gaugeSensorData_1 = 26;
+    $scope.reload = function () {
+        $state.reload();
+    };
 
-var init = function () {
-    SpaceService.GetById($scope.space_id)
-    .then(function (data) {
-        $scope.space = data;
-        console.log($scope.space);
-        console.log($scope.space.datasources);
-        $datasourcecount = 0;
-// $mqttconnected = false;
-angular.forEach($scope.space.datasources, function (datasource) {
+    var init = function () {
+        SpaceService.GetById($scope.space_id)
+        .then(function (data) {
+            $scope.space = data;
+            // $datasourcecount = 0;
 
-    console.log(datasource);
-    if (datasource.type === 'Monitor: Temperature Sensor (Celsius)') {
-// alert('count afuera: ' + $datasourcecount);
-if($datasourcecount == 0){
-    $scope.gaugeSensorData_0 = datasource.data.data;
-}
-if($datasourcecount == 1){
-    $scope.gaugeSensorData_1 = datasource.data.data;
-}
-if($datasourcecount == 2){
-    $scope.gaugeSensorData_2 = datasource.data.data;
-}
-if($datasourcecount == 3){
-    $scope.gaugeSensorData_3 = datasource.data.data;
-}
-if($datasourcecount == 4){
-    $scope.gaugeSensorData_4 = datasource.data.data;
-}
-if($datasourcecount == 5){
-    $scope.gaugeSensorData_5 = datasource.data.data;
-}
-if($datasourcecount == 6){
-    $scope.gaugeSensorData_6 = datasource.data.data;
-}
-if($datasourcecount == 7){
-    $scope.gaugeSensorData_7 = datasource.data.data;
-}
-if($datasourcecount == 8){
-    $scope.gaugeSensorData_8 = datasource.data.data;
-}
-if($datasourcecount == 9){
-    $scope.gaugeSensorData_9 = datasource.data.data;
-}
-$datasourcecount = $datasourcecount + 1;
-}
+            // $mqttconnected = false;
+            angular.forEach($scope.space.datasources, function (datasource) {
 
-if (datasource.type === 'Control: Smart Switch (Light)'){
-        // alert(datasource.toggle);
-//     if(datasource.toggle == 1){
-// // jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
-// // jQuery('#val-activate-datasource_' + datasource.id).attr('Checked','Checked');
-// // jQuery('#val-activate-datasource_' + datasource.id).prop("checked", true);
-// jQuery('#val-activate-datasource_' + datasource.id).attr('checked', true);
-
-
-//         // $scope.activate = 1;
-//         } else {
-//             // $scope.activate = 0;
-//             jQuery('#val-activate-datasource_' + datasource.id).removeAttr('Checked','Checked');
-//     }
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Control: Smart Switch (Water Valve)'){
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Control: Smart Switch (Gas Valve)'){
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Control: Smart Switch (Lock)'){
-
-    // alert(datasource.toggle);
-
-//      if(datasource.toggle == 1){
-// // jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
-// jQuery('#val-activate-datasource_' + datasource.id).attr('Checked','Checked');
-//         // $scope.activate = 1;
-//         } else {
-//             // $scope.activate = 0;
-//             jQuery('#val-activate-datasource_' + datasource.id).removeAttr('Checked','Checked');
-//     }
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Control: Smart Switch (Power)'){
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Control: Smart Bulb'){
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Monitor: Temperature Sensor (Farenheit)'){
-    if($datasourcecount == 0){
-        $scope.gaugeSensorData_0 = datasource.data.data;
-    }
-    if($datasourcecount == 1){
-        $scope.gaugeSensorData_1 = datasource.data.data;
-    }
-    if($datasourcecount == 2){
-        $scope.gaugeSensorData_2 = datasource.data.data;
-    }
-    if($datasourcecount == 3){
-        $scope.gaugeSensorData_3 = datasource.data.data;
-    }
-    if($datasourcecount == 4){
-        $scope.gaugeSensorData_4 = datasource.data.data;
-    }
-    if($datasourcecount == 5){
-        $scope.gaugeSensorData_5 = datasource.data.data;
-    }
-    if($datasourcecount == 6){
-        $scope.gaugeSensorData_6 = datasource.data.data;
-    }
-    if($datasourcecount == 7){
-        $scope.gaugeSensorData_7 = datasource.data.data;
-    }
-    if($datasourcecount == 8){
-        $scope.gaugeSensorData_8 = datasource.data.data;
-    }
-    if($datasourcecount == 9){
-        $scope.gaugeSensorData_9 = datasource.data.data;
-    }
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Monitor: Humidity Sensor'){
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Monitor: Proximity Sensor'){
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Monitor: Door Sensor'){
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Monitor: Flood Sensor'){
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Voltage (V)'){
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Electric Current (A)'){
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Electric Power (W)'){
-    $datasourcecount = $datasourcecount + 1;
-}
-if (datasource.type === 'Electric Energy (E)'){
-    $datasourcecount = $datasourcecount + 1;
-}
-
-// $spacecount = $spacecount +1;
-});
-});
-
-
-
-}
-init();
-
-var auto = $interval(function() {
-// panel.sensorData.data = count ;
-// count++;
-init();
-}, 60000);
-
-
-$scope.switch = function(datasource){
-// alert('switch activated');
-if ((datasource.type === 'Control: Smart Switch (Light)') || 
-    (datasource.type === 'Control: Smart Switch (Water Valve)') ||
-    (datasource.type === 'Control: Smart Switch (Gas Valve)') ||
-    (datasource.type === 'Control: Smart Switch (AC)') ||
-    (datasource.type === 'Control: Smart Switch (Power)') ||
-    (datasource.type === 'Control: Smart Switch (Lock)') ||
-    (datasource.type === 'Control: Smart Bulb')){
-
-    var isChecked = jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
-    if (isChecked) {
-        $scope.activate = "ON";
-    } else {
-        $scope.activate = "OFF";
-    }
-
-/*
-* This is the API way.
-*/
-var thing = $.param({
-    base_nr: urls.BASE_NR,
-    topic: datasource.options_array.topic,
-    value: $scope.activate,
-});
-
-// ProjectService.ThingDiscreteStatus(urls.BASE_NR, datasource.options_array.topic, $scope.activate).
-ProjectService.ThingDiscreteStatusApi(thing).
-then(function(response){
-    if (response.success != null){
-        $.notify({
-            message : 'Something went wrong - '+response.message
-        }, {
-            type : 'danger'
+                subscribeTopic(datasource)
+                updateData(datasource);
+            
+            
+            // $spacecount = $spacecount +1;
+            });
         });
-    } else {
+
+
+
+    }
+init();
+
+// var auto = $interval(function() {
+// // panel.sensorData.data = count ;
+// // count++;
+// init();
+// }, 60000);
+
+    $scope.switch = function(datasource){
+
+        // alert('switch activated');
+        if ((datasource.type === 'Control: Smart Switch (Light)') || 
+            (datasource.type === 'Control: Smart Switch (Water Valve)') ||
+            (datasource.type === 'Control: Smart Switch (Gas Valve)') ||
+            (datasource.type === 'Control: Smart Switch (AC)') ||
+            (datasource.type === 'Control: Smart Switch (Power)') ||
+            (datasource.type === 'Control: Smart Switch (Lock)') ||
+            (datasource.type === 'Control: Smart Bulb')){
+               
+            var isChecked = jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
+            if (isChecked) {
+                $scope.activate = "ON";
+            } else {
+                $scope.activate = "OFF";
+            }
+
+            // /*
+            // * This is the API way.
+            // */
+            var thing = $.param({
+                base_nr: urls.BASE_NR,
+                topic: datasource.options_array.topic,
+                value: $scope.activate,
+            });
+
+            // ProjectService.ThingDiscreteStatus(urls.BASE_NR, datasource.options_array.topic, $scope.activate).
+            ProjectService.ThingDiscreteStatusApi(thing).
+            then(function(response){
+                if (response.success != null){
+                    $.notify({
+                        message : 'Something went wrong - '+response.message
+                    }, {
+                        type : 'danger'
+                    });
+                } else {
+                    
+                    // mobilenotification(datasource)
+                }
+
+            });
+            
+
+            /*
+            * This is the MQTT way. Commented out for the moment
+            */
+
+            // publish($scope.activate,datasource.options_array.topic+'/control');
+
+            // var topic = datasource.options_array.topic+'/control';
+            // var msg = $scope.activate;
+            // console.log(msg);
+            // message = new Paho.MQTT.Message(msg);
+            // if (topic=="")
+            //     message.destinationName = "test-topic"
+            // else
+            //     message.destinationName = topic;
+            // mqtt.send(message);
+
+
+
+        }
+
+
+    }
+    // method to send mobile notification
+    function mobilenotification(datasource){
         var mobilenotification = $.param({
             name: datasource.name,
             space: datasource.space_id,
@@ -1039,37 +940,218 @@ then(function(response){
                 });
 
 
-
-
             }
         });
-
     }
 
-});   
+    // method to update data after message recive
+    function updateData(datasource){
+        $datasourcecount = 0;
+
+        if (datasource.type === 'Monitor: Temperature Sensor (Celsius)' && datasource.data != undefined) {
+                if($datasourcecount == 0){
+                    $scope.gaugeSensorData_0 = datasource.data.data;
+                }
+                if($datasourcecount == 1){
+                    $scope.gaugeSensorData_1 = datasource.data.data;
+                }
+                if($datasourcecount == 2){
+                    $scope.gaugeSensorData_2 = datasource.data.data;
+                }
+                if($datasourcecount == 3){
+                    $scope.gaugeSensorData_3 = datasource.data.data;
+                }
+                if($datasourcecount == 4){
+                    $scope.gaugeSensorData_4 = datasource.data.data;
+                }
+                if($datasourcecount == 5){
+                    $scope.gaugeSensorData_5 = datasource.data.data;
+                }
+                if($datasourcecount == 6){
+                    $scope.gaugeSensorData_6 = datasource.data.data;
+                }
+                if($datasourcecount == 7){
+                    $scope.gaugeSensorData_7 = datasource.data.data;
+                }
+                if($datasourcecount == 8){
+                    $scope.gaugeSensorData_8 = datasource.data.data;
+                }
+                if($datasourcecount == 9){
+                    $scope.gaugeSensorData_9 = datasource.data.data;
+                }
+                $datasourcecount = $datasourcecount + 1;
+            }
+
+            if (datasource.type === 'Control: Smart Switch (Light)'){
+                    // alert(datasource.toggle);
+            //     if(datasource.toggle == 1){
+            // // jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
+            // // jQuery('#val-activate-datasource_' + datasource.id).attr('Checked','Checked');
+            // // jQuery('#val-activate-datasource_' + datasource.id).prop("checked", true);
+            // jQuery('#val-activate-datasource_' + datasource.id).attr('checked', true);
 
 
-/*
-* This is the MQTT way. Commented out for the moment
-*/
+            //         // $scope.activate = 1;
+            //         } else {
+            //             // $scope.activate = 0;
+            //             jQuery('#val-activate-datasource_' + datasource.id).removeAttr('Checked','Checked');
+            //     }
+                $datasourcecount = $datasourcecount + 1;
 
-// var topic = datasource.options_array.topic+'/control';
-// var msg = $scope.activate;
-// console.log(msg);
-// message = new Paho.MQTT.Message(msg);
-// if (topic=="")
-//     message.destinationName = "test-topic"
-// else
-//     message.destinationName = topic;
-// mqtt.send(message);
+            }
+            if (datasource.type === 'Control: Smart Switch (Water Valve)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Control: Smart Switch (Gas Valve)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Control: Smart Switch (Lock)'){
 
+                // alert(datasource.toggle);
 
+            //      if(datasource.toggle == 1){
+            // // jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
+            // jQuery('#val-activate-datasource_' + datasource.id).attr('Checked','Checked');
+            //         // $scope.activate = 1;
+            //         } else {
+            //             // $scope.activate = 0;
+            //             jQuery('#val-activate-datasource_' + datasource.id).removeAttr('Checked','Checked');
+            //     }
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Control: Smart Switch (Power)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Control: Smart Bulb'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Monitor: Temperature Sensor (Farenheit)'){
+                if($datasourcecount == 0){
+                    $scope.gaugeSensorData_0 = datasource.data.data;
+                }
+                if($datasourcecount == 1){
+                    $scope.gaugeSensorData_1 = datasource.data.data;
+                }
+                if($datasourcecount == 2){
+                    $scope.gaugeSensorData_2 = datasource.data.data;
+                }
+                if($datasourcecount == 3){
+                    $scope.gaugeSensorData_3 = datasource.data.data;
+                }
+                if($datasourcecount == 4){
+                    $scope.gaugeSensorData_4 = datasource.data.data;
+                }
+                if($datasourcecount == 5){
+                    $scope.gaugeSensorData_5 = datasource.data.data;
+                }
+                if($datasourcecount == 6){
+                    $scope.gaugeSensorData_6 = datasource.data.data;
+                }
+                if($datasourcecount == 7){
+                    $scope.gaugeSensorData_7 = datasource.data.data;
+                }
+                if($datasourcecount == 8){
+                    $scope.gaugeSensorData_8 = datasource.data.data;
+                }
+                if($datasourcecount == 9){
+                    $scope.gaugeSensorData_9 = datasource.data.data;
+                }
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Monitor: Humidity Sensor'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Monitor: Proximity Sensor'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Monitor: Door Sensor'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Monitor: Flood Sensor'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Voltage (V)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Electric Current (A)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Electric Power (W)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Electric Energy (E)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+    }
+    
+    // method to subscribe topics 
+    function subscribeTopic(datasource){
+        let topics = []    
+        if(datasource.options_array.topic != undefined){
+            topics = [datasource.options_array.topic + '/monitor', datasource.options_array.topic + '/control'];
+        }
+        if(topics.length > 0){
+            angular.forEach(topics, function (topic) {
+                totalTopics.push(topic);
+                MqttConnection.subscribeTopic(topic);
+            })    
+        }
+    }
 
+    // Method to recive changes
+    $scope.$on("ReciveMessage", function(evt,data){ 
+        angular.forEach(totalTopics, function (topic) {
+            if(topic == data.topic){
+                angular.forEach($scope.space.datasources, function (datasources) {
+                    let monitorTopic = datasources.options_array.topic + '/monitor'
+                    if(monitorTopic == data.topic){
+                        
+                        if((datasources.type === 'Control: Smart Switch (Light)') || 
+                            (datasources.type === 'Control: Smart Switch (Water Valve)') ||
+                            (datasources.type === 'Control: Smart Switch (Gas Valve)') ||
+                            (datasources.type === 'Control: Smart Switch (AC)') ||
+                            (datasources.type === 'Control: Smart Switch (Power)') ||
+                            (datasources.type === 'Control: Smart Switch (Lock)') ||
+                            (datasources.type === 'Control: Smart Bulb')){
+                                    if(data.payloadString == "OFF"){
+                                        datasources.toggle = 0;
+                                    }else{
+                                        datasources.toggle = 1;
+                                    } 
+                                    switchAction(datasources);
+                            }else{
+                                if(datasources.data != undefined){
+                                    datasources.data.data = data.payloadString;
+                                    updateData(datasources);
+                                }                                
+                            }
+                            $scope.$apply();
+                    }
+                })
+            }
+        })
+    })
 
-}
+    // method to send message in 
+    function publish(message,topic){
+        console.log(message,'message');
+        console.log(topic,'topic');
+        MqttConnection.publish(message,topic);
+    }
 
+    // method to handle switch action
+    function switchAction(datasource){
+            var isChecked = jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
+            if (isChecked) {
+                $scope.activate = "ON";
+            } else {
+                $scope.activate = "OFF";
+            }
+            
+            mobilenotification(datasource)
+    }
 
-}
+    
 
 
 }]);

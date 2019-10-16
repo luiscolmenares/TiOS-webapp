@@ -9,6 +9,7 @@ angular.module('Authentication', []);
 angular.module('Dashboard', []);
 angular.module('ngMaterial', []);
 angular.module('angularPaho', []);
+angular.module('angularPahoConnection', []);
 //Only for dev
 Pusher.logToConsole = true;
 var pusher = new Pusher('0cbe3c892f6f009260b0', {
@@ -30,25 +31,27 @@ var App = angular.module('app', [
     'ngMessages',
     'angularjs-gauge',
     'angularPaho',
-    'angularFileUpload'
+    'angularFileUpload',
+    'angularPahoConnection'
     //'AngularPrint'
     //,
     //'ngWebSocket'
 ]);
 App.constant('urls', {
 //Local
-// BASE_API_SERVER: 'http://127.0.0.1:5000/',
-// BASE_API: 'http://127.0.0.1:5000/api/',
-// BASE_NR: 'http://127.0.0.1:1880',
-// MQTT_BROKER: 'mqtt.tiosplatform.com',
-// MQTT_BROKER_PORT: 9001,
+BASE_API_SERVER: 'http://192.168.168.253:5000/',
+BASE_API: 'http://192.168.168.253:5000/api/',
+BASE_NR: 'http://192.168.168.253:1880',
+MQTT_BROKER: 'mqtt.tiosplatform.com',
+// MQTT_BROKER_PORT: 9001
+MQTT_BROKER_PORT: 8083
 
 //prod
-BASE_API_SERVER: 'https://api.tiosplatform.com/',
-BASE_API: 'https://api.tiosplatform.com/api/',
-BASE_NR: 'https://node-red.tiosplatform.com:1080',
-MQTT_BROKER: 'mqtt.tiosplatform.com',
-MQTT_BROKER_PORT: 9001,
+// BASE_API_SERVER: 'https://api.tiosplatform.com/',
+// BASE_API: 'https://api.tiosplatform.com/api/',
+// BASE_NR: 'https://node-red.tiosplatform.com:1080',
+// MQTT_BROKER: 'mqtt.tiosplatform.com',
+// MQTT_BROKER_PORT: 9001,
 
 });
 
@@ -2258,8 +2261,8 @@ if(is_recipient < 0){
 });
 
 // Application Main Controller
-App.controller('AppCtrl', ['$scope', '$localStorage', '$window',
-    function ($scope, $localStorage, $window) {
+App.controller('AppCtrl', ['$scope', '$localStorage', '$window','MqttConnection',
+    function ($scope, $localStorage, $window,MqttConnection) {
 // Template Settings
         $scope.oneui = {
             version: '3.0', // Template version
@@ -2621,3 +2624,115 @@ App.controller('HeaderCtrl', ['$scope', '$localStorage', '$window', '$location',
 
   }]);
 })();
+(function() {
+    angular.module('angularPahoConnection').factory('MqttConnection', [ 'urls','$rootScope', function(urls,$rootScope) {
+
+            // Variable declear
+            var host = urls.MQTT_BROKER;
+            var port = Number(urls.MQTT_BROKER_PORT);
+            var id = "js_paho_id_" + parseInt(Math.random() * 100, 10);
+            var path = "/ws";
+            var clientID = "clientID_" + parseInt(Math.random() * 100);
+            var client = undefined;
+            var currentState = {}; 
+
+            currentState.subscribeTopic = subscribeTopic; 
+            currentState.publish = publish;
+
+            if(mqttConnected == undefined){
+                var mqttConnected = false;
+            }
+
+            // Create a client instance
+            client = new Paho.MQTT.Client(host,port,path,id);
+
+            // set callback handlers
+            client.onConnectionLost = onConnectionLost;
+            client.onMessageArrived = onMessageArrived;
+
+            options = {
+                useSSL: true,
+                timeout: 3,
+                onSuccess: onConnect,
+                onFailure: failureCallback,
+                userName: "kike",
+                password: "K1k3355453",
+        
+            };
+
+            // connect the client
+            if(client != undefined && mqttConnected == false){
+                client.connect(options);
+                mqttConnected = true;
+            }
+            
+            // called when the client connects
+            function onConnect() {
+            // Once a connection has been made, make a subscription and send a message.
+                // console.log("onConnect");
+                mqttConnected = true;
+            }
+
+            // method to subscribe topic
+            function subscribeTopic(topic){
+                if(mqttConnected){
+                    setTimeout(function(){
+                        client.subscribe(topic);
+                    },1000);
+                }
+                else{
+                    reConnect();
+                }                
+            }
+
+            // Method to send message
+            function publish(message,topic){
+                if(mqttConnected && (message != undefined || message != null)){
+                    var messageSend = new Paho.MQTT.Message(message);
+                    messageSend.destinationName = topic;
+                    client.send(messageSend); 
+                }else{
+                    reConnect();
+                }
+            }
+
+            // called when a message arrives
+            function onMessageArrived(message) {
+                $rootScope.$broadcast("ReciveMessage",message)
+                // return message;
+            }
+
+            // called when the client loses its connection
+            function onConnectionLost(responseObject) {
+                if (responseObject.errorCode !== 0) {
+                    console.error("onConnectionLost:"+responseObject.errorMessage);
+                    mqttConnected = false;
+                    reConnect();
+                }
+            }
+
+            // method if disconnected
+            function failureCallback(message) {
+                console.log('Connection Failed- Retrying')
+                mqttConnected = false;
+                
+                
+                $.notify({
+                    message: 'Connection Failed- Retrying in 30s'
+                },{     
+                    type: 'warning'
+                });
+                reConnect();
+                // setTimeout($scope.MQTTconnect(), 3000000);
+            
+            }
+
+            // Method to reconnect mqtt
+            function reConnect(){
+                // setTimeout(client.connect(options), 30000);
+                // mqttConnected = true;
+            }
+            
+            return client,currentState;
+    }]);
+  })();

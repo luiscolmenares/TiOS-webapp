@@ -45,7 +45,7 @@ module.exports = function(grunt) {
     },
     connect: {
     webapp: {
-      port: 8080,
+      port: 8000,
       base: 'src'
     }
   }
@@ -56,7 +56,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-connect');
 
   // grunt.registerTask('default', ['jshint']);
-  // grunt.registerTask('serve', 'connect:webapp');
-    grunt.registerTask('default', 'connect:webapp');
+  grunt.registerTask('serve', 'connect:webapp');
+    // grunt.registerTask('default', 'connect:webapp');
 
 };
