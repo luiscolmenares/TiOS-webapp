@@ -850,86 +850,86 @@ $scope.switch = function(panel){
         var datasource = resp.datasource;
         var optionsStr = JSON.parse(resp.datasource.options);
         $scope.broker = urls.BASE_NR;
-//$scope.broker = optionsStr.broker;d
-$scope.topic = optionsStr.topic;
-/*
-* This is the API way.
-*/
-var thing = $.param({
-    base_nr: urls.BASE_NR,
-    topic: optionsStr.topic,
-    value: $scope.activate,
-});
-
-
-// ProjectService.ThingDiscreteStatus($scope.broker, $scope.topic, $scope.activate).
-ProjectService.ThingDiscreteStatusApi(thing).
-then(function(response){
-    if (response.success != null){
-        $.notify({
-            message : 'Something went wrong - '+response.message
-        }, {
-            type : 'danger'
-        });
-    } else {
-
-        var mobilenotification = $.param({
-            name: datasource.name,
-            space: datasource.space_id,
+        //$scope.broker = optionsStr.broker;d
+        $scope.topic = optionsStr.topic;
+        /*
+        * This is the API way.
+        */
+        var thing = $.param({
+            base_nr: urls.BASE_NR,
             topic: optionsStr.topic,
             value: $scope.activate,
-            project_id: datasource.project_id,
-            data: 0
         });
-        console.log('mobilenotification');
-        console.log(mobilenotification);
 
-        ProjectService.CreateMobileNotification(mobilenotification)
-        .then(function (response) {
-            if (response.success == false) {
 
+        // ProjectService.ThingDiscreteStatus($scope.broker, $scope.topic, $scope.activate).
+        ProjectService.ThingDiscreteStatusApi(thing).
+        then(function(response){
+            if (response.success != null){
                 $.notify({
-                    message: 'Error'
-                },{     
-                    type: 'danger'
+                    message : 'Something went wrong - '+response.message
+                }, {
+                    type : 'danger'
                 });
-
-
             } else {
-                var sensordata = $.param({
+
+                var mobilenotification = $.param({
+                    name: datasource.name,
+                    space: datasource.space_id,
                     topic: optionsStr.topic,
                     value: $scope.activate,
+                    project_id: datasource.project_id,
+                    data: 0
                 });
+                console.log('mobilenotification');
+                console.log(mobilenotification);
+
+                ProjectService.CreateMobileNotification(mobilenotification)
+                .then(function (response) {
+                    if (response.success == false) {
+
+                        $.notify({
+                            message: 'Error'
+                        },{     
+                            type: 'danger'
+                        });
 
 
-                ProjectService.CreateDatasourceSensorData(sensordata)
-                .then(function (response){
-
-                    var message = 'Succesfully switched ';
-                    if ($scope.activate == 0){
-                        message = message + 'OFF';
-                    } 
-                    if ($scope.activate == 1){
-                        message = message + 'ON';
-                    } 
-                    $.notify({
-                        message: datasource.name + ' ' + message + $scope.activate
-                    },{     
-                        type: 'success'
-                    });
+                    } else {
+                        var sensordata = $.param({
+                            topic: optionsStr.topic,
+                            value: $scope.activate,
+                        });
 
 
+                        ProjectService.CreateDatasourceSensorData(sensordata)
+                        .then(function (response){
+
+                            var message = 'Succesfully switched ';
+                            if ($scope.activate == 0){
+                                message = message + 'OFF';
+                            } 
+                            if ($scope.activate == 1){
+                                message = message + 'ON';
+                            } 
+                            $.notify({
+                                message: datasource.name + ' ' + message + $scope.activate
+                            },{     
+                                type: 'success'
+                            });
+
+
+                        });
+
+
+
+
+                    }
                 });
-
-
-
-
             }
-        });
-    }
 
-});   
-});
+        });   
+        });
 
 
 
@@ -1226,6 +1226,8 @@ $state.reload();
 */
 
 var generateChartData = function (panels) {
+    console.log(panels,'PPPPPPPPPPPPPPPPPPPPPPPPPPPP panels PPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
+
     $scope.connected_flag=0;
     angular.forEach(panels, function (panel) {
         if (panel.type === '1') {
@@ -1318,6 +1320,7 @@ $scope.connected_flag=0;
 
 // MqttClient.init(host, port, id);
 // $scope.MQTTconnect = function(){
+
     $scope.connected_flag=1;
 
     $scope.mqtt = new Paho.MQTT.Client(host,port,path,id);
