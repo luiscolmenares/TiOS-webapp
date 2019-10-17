@@ -1,0 +1,50 @@
+.interactive-image {
+  .text-item {
+    padding: 20px;
+    max-width: 210px;
+
+    .title {
+      font-size: 20px;
+      width: 100%;
+      text-align: left;
+      font-family: Lato, Arial, sans-serif;
+      font-weight: bold;
+      font-variant: small-caps;
+      display: inline-block;
+      color: $black-heading-text;
+    }
+
+    .description {
+      text-align: left;
+      font-size: 14px;
+      font-weight: normal;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+
+    .picture {
+      max-width: 210px;
+      max-height: 210px;
+      margin-top: 10px;
+    }
+
+    a {
+      text-decoration: underline;
+      color: black;
+      display: block;
+      margin-top: 10px;
+
+      &:visited {
+        color: $black-small-text;
+      }
+
+      &:hover {
+        color: $black-small-text;
+      }
+
+      &:active {
+        color: $black-small-text;
+      }
+    }
+  }
+}

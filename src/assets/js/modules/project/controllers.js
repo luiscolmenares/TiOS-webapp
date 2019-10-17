@@ -1827,6 +1827,7 @@ $state.reload();
 
 }
 ]);
+
 // Project settings controller
 App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService', 'triggers', 'localStorageService',
     function ($scope, $stateParams, ProjectService, triggers, localStorageService) {
@@ -1877,6 +1878,237 @@ GMaps.geocode({
 };
 initMapSearch();
 });
+ProjectService.GetDashboardCountByProjectId($stateParams.projectId).then(function (data) {
+    console.log(data);
+    $scope.dashboardcount = data;
+});
+ProjectService.GetUserCountByProjectId($stateParams.projectId).then(function (data) {
+    console.log(data);
+    $scope.usercount = data;
+});
+ProjectService.GetDatasourceCountByProjectId($stateParams.projectId).then(function (data) {
+    console.log(data);
+    $scope.datasourcecount = data;
+});
+ProjectService.GetTriggerCountByProjectId($stateParams.projectId).then(function (data) {
+    console.log(data);
+    $scope.triggercount = data;
+});
+ProjectService.GetSpacesCountByProjectId($stateParams.projectId).then(function (data) {
+    console.log(data);
+    $scope.spacescount = data;
+});
+
+
+}
+]);
+
+
+// Project settings controller
+App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectService', 'triggers', 'localStorageService',
+    function ($scope, $stateParams, ProjectService, triggers, localStorageService) {
+        console.log($stateParams);
+        $scope.project = [];
+//remove triggers on local storage
+localStorageService.remove('triggers');
+function isProject(value) {
+    return value.project_id == $stateParams.projectId;
+}
+triggers.fetchTriggers(function (data) {
+    var tgrlist = data.filter(isProject);
+// console.log('after filter');
+// console.log(tgrlist);
+localStorageService.set('triggers', tgrlist);
+trglist = data;
+});
+
+ProjectService.GetById($stateParams.projectId).then(function (data) {
+    console.log(data);
+    $scope.project = data.project;
+    var items = [
+            // Text items
+            {
+                type: "text",
+                title: "Text title",
+                description: "<b>Text item</b> with description. It has a <i>custom class name</i> " +
+                    "and the plugin option to allow <i>HTML markup</i>",
+                position: {
+                    left: 100,
+                    top: 50
+                },
+                customClassName: "custom-text"
+            },
+            {
+                type: "text",
+                title: "Text title",
+                description: "Text item with HTTP link and its label",
+                position: {
+                    left: 300,
+                    top: 50
+                },
+                link: {
+                    url: "https://www.jpchateau.com/demo/interactive-image",
+                    label: "Interactive Image Demo"
+                }
+            },
+            {
+                type: "text",
+                title: "Text title",
+                description: "Text item with picture",
+                position: {
+                    left: 500,
+                    top: 50
+                },
+                picturePath: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg"
+            },
+            {
+                type: "text",
+                title: "Text title",
+                description: "Text item with picture and HTTP link",
+                position: {
+                    left: 700,
+                    top: 50
+                },
+                picturePath: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
+                link: {
+                    url: "https://www.jpchateau.com/demo/interactive-image",
+                    label: "Interactive Image Demo"
+                },
+                sticky: true
+            },
+            // Picture items
+            {
+                type: "picture",
+                path: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
+                position: {
+                    left: 100,
+                    top: 150
+                }
+            },
+            {
+                type: "picture",
+                path: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
+                caption: "Picture with legend",
+                position: {
+                    left: 300,
+                    top: 150
+                }
+            },
+            {
+                type: "picture",
+                path: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
+                caption: "Picture with link",
+                linkUrl: "https://www.nationalgeographic.com",
+                position: {
+                    left: 500,
+                    top: 150
+                },
+                sticky: true
+            },
+            // Audio items
+            {
+                type: "audio",
+                path: "http://www.healthfreedomusa.org/downloads/iMovie.app/Contents/Resources/iMovie%20%2708%20Sound%20Effects/Leopard%20Snarl.mp3",
+                position: {
+                    left: 100,
+                    top: 250
+                }
+            },
+            {
+                type: "audio",
+                path: "http://www.bioacoustica.org/gallery/sounds/Panthera_pardus2_threat.wav",
+                caption: "Audio WAVE with caption and <i>not sticky</i> behavior",
+                position: {
+                    left: 300,
+                    top: 250
+                }
+            },
+            {
+                type: "audio",
+                path: "https://lasonotheque.org/UPLOAD/ogg/0935.ogg",
+                caption: "Audio Ogg with caption and <i>sticky</i> behavior",
+                position: {
+                    left: 500,
+                    top: 250
+                },
+                sticky: true
+            },
+            // Video items
+            {
+                type: "video",
+                path: "https://www.videvo.net/videvo_files/converted/2015_08/videos/Tiger.mp460597.mp4",
+                position: {
+                    left: 100,
+                    top: 350
+                }
+            },
+            {
+                type: "video",
+                path: "https://upload.wikimedia.org/wikipedia/commons/1/11/Le_regard_du_f%C3%A9lin.webm",
+                caption: "Video WebM with caption and <i>sticky</i> behavior",
+                position: {
+                    left: 300,
+                    top: 350
+                },
+                sticky: true
+            },
+            {
+                type: "video",
+                path: "https://www.videvo.net/videvo_files/converted/2015_08/videos/Tiger.mp460597.mp4",
+                caption: "Video with caption and poster and <i>sticky</i> behavior and a large description",
+                poster: "../docs/_static/poster.jpg",
+                position: {
+                    left: 500,
+                    top: 350
+                },
+                sticky: true
+            },
+            // Provider items
+            {
+                type: "provider",
+                providerName: "youtube",
+                parameters: {
+                    videoId: "iPRiQ6SBntQ"
+                },
+                position: {
+                    left: 100,
+                    top: 450
+                }
+            },
+            {
+                type: "provider",
+                providerName: "dailymotion",
+                parameters: {
+                    videoId: "x4i697s"
+                },
+                position: {
+                    left: 300,
+                    top: 450
+                },
+                sticky: true
+            }
+        ];
+
+        // Plugin configuration
+        var options = {
+            debug: true,     // console logs
+            allowHtml: true, // allow HTML markup
+            shareBox: true,  // display the social media share box
+            socialMedia: {   // configuration of the social media share box
+                url: "https://www.jpchateau.com/demo/interactive-image",
+                text: "Clouded Leopard",
+                hashtags: ["jQuery", "cloudedLeopard"],
+                twitterUsername: "jpchateau",
+            }
+        };
+
+        // Plugin activation
+        $(document).ready(function() {
+            $("#my-interactive-image").interactiveImage(items, options);
+        });
+});
+
+
 ProjectService.GetDashboardCountByProjectId($stateParams.projectId).then(function (data) {
     console.log(data);
     $scope.dashboardcount = data;

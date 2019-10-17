@@ -1,0 +1,123 @@
+{
+  "_from": "interactiveimagejs",
+  "_id": "interactiveimagejs@2.5.0",
+  "_inBundle": false,
+  "_integrity": "sha512-N0+LUpvyAFU77LWrZhwZ7D999zy/x+hjWN0Pi6+ZIXiCrIkyeUy+GGzOcvFgyqja+hw0l3ENSazB+XYaMY7JLw==",
+  "_location": "/interactiveimagejs",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "interactiveimagejs",
+    "name": "interactiveimagejs",
+    "escapedName": "interactiveimagejs",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/interactiveimagejs/-/interactiveimagejs-2.5.0.tgz",
+  "_shasum": "ec152372be7b4af7cd8af246e529da72c622aaa4",
+  "_spec": "interactiveimagejs",
+  "_where": "/Users/kike/Documents/Sites/interactive-image",
+  "author": {
+    "name": "Jean-Philippe Chateau"
+  },
+  "bugs": {
+    "url": "https://github.com/jpchateau/Interactive-Image/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "imagesloaded": "^4.1.4"
+  },
+  "deprecated": false,
+  "description": "A jQuery plugin to embed interactive images on your website",
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-core": "6.26.3",
+    "babel-loader": "7.1.5",
+    "babel-plugin-add-module-exports": "1.0.2",
+    "babel-plugin-istanbul": "5.1.1",
+    "babel-preset-env": "1.7.0",
+    "chai": "4.2.0",
+    "cross-env": "5.2.0",
+    "css-loader": "1.0.1",
+    "eslint": "5.16.0",
+    "file-loader": "4.1.0",
+    "html-webpack-plugin": "3.2.0",
+    "jquery": "3.4.1",
+    "jsdom": "15.1.1",
+    "jsdom-global": "3.0.2",
+    "mini-css-extract-plugin": "0.8.0",
+    "mocha": "6.2.0",
+    "node-sass": "4.12.0",
+    "nyc": "14.1.1",
+    "optimize-css-assets-webpack-plugin": "5.0.3",
+    "sass-lint": "1.13.1",
+    "sass-loader": "7.1.0",
+    "style-loader": "1.0.0",
+    "uglifyjs-webpack-plugin": "2.2.0",
+    "webpack": "4.39.1",
+    "webpack-cli": "3.3.6",
+    "webpack-dev-server": "3.7.2",
+    "webpack-merge": "4.2.1"
+  },
+  "homepage": "https://github.com/jpchateau/Interactive-Image#readme",
+  "keywords": [
+    "interactive",
+    "image",
+    "picture",
+    "photo",
+    "audio",
+    "sound",
+    "video",
+    "tooltip",
+    "image note",
+    "image marker",
+    "image effects",
+    "storytelling",
+    "media experience",
+    "interactive popover",
+    "interactive presentation",
+    "media links",
+    "multimedia content",
+    "rich content",
+    "jquery-plugin",
+    "plugin",
+    "ecosystem:jquery",
+    "youtube",
+    "dailymotion",
+    "twitter",
+    "javascript",
+    "es6",
+    "sass"
+  ],
+  "license": "MIT",
+  "main": "./src/js/index.js",
+  "name": "interactiveimagejs",
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpchateau/Interactive-Image.git"
+  },
+  "scripts": {
+    "build": "webpack --progress --colors --config webpack.prod.js",
+    "dev": "webpack --progress --colors --config webpack.dev.js",
+    "eslint": "eslint ./src/js/",
+    "sass-lint": "sass-lint --verbose --no-exit",
+    "start:dev": "webpack-dev-server --config webpack.dev.js",
+    "test": "mocha",
+    "test-with-coverage": "cross-env NODE_ENV=test ./node_modules/.bin/nyc ./node_modules/.bin/_mocha",
+    "watch": "webpack --watch --colors --config webpack.dev.js"
+  },
+  "version": "2.5.0"
+}

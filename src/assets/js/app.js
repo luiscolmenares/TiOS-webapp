@@ -681,6 +681,26 @@ App.config(['$stateProvider', '$urlRouterProvider',
 // }
                 })
 
+                .state('projectfloorplan', {
+                    url: '/project/:projectId/floorplan',
+                    templateUrl: 'assets/js/modules/project/views/project-floorplan.html',
+                    controller: 'ProjectFloorplanCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                insertBefore: '#css-bootstrap',
+                                serie: true,
+                                files: [
+                                    'assets/js/plugins/interactiveimagejs/dist/interactive-image.css',
+                                    'assets/js/plugins/imagesloaded/imagesloaded.js',
+                                    'assets/js/plugins/ev-emitter/ev-emitter.js',
+                                    'assets/js/plugins/interactiveimagejs/dist/interactive-image.js'
+                                ]
+                            });
+                        }]
+                    }
+                })
+
                 .state('projectview', {
                     url: '/project/:projectId/view',
                     templateUrl: 'assets/js/modules/project/views/project-view.html',

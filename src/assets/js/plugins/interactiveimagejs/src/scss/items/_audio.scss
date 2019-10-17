@@ -1,0 +1,18 @@
+.interactive-image {
+  .audio-item {
+    max-width: 280px;
+    padding: 20px;
+    text-align: left;
+
+    .caption {
+      display: block;
+      margin-top: 14px;
+      margin-bottom: -4px;
+    }
+
+    audio {
+      width: 280px;
+      margin-bottom: -4px;
+    }
+  }
+}
