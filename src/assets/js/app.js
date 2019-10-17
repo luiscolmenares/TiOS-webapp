@@ -39,12 +39,13 @@ var App = angular.module('app', [
 ]);
 App.constant('urls', {
 //Local
-BASE_API_SERVER: 'http://192.168.168.253:5000/',
-BASE_API: 'http://192.168.168.253:5000/api/',
-BASE_NR: 'http://192.168.168.253:1880',
+BASE_API_SERVER: 'http://192.168.168.243:5000/',
+BASE_API: 'http://192.168.168.243:5000/api/',
+BASE_NR: 'http://192.168.168.243:1880',
 MQTT_BROKER: 'mqtt.tiosplatform.com',
 // MQTT_BROKER_PORT: 9001
 MQTT_BROKER_PORT: 8083
+
 
 //prod
 // BASE_API_SERVER: 'https://api.tiosplatform.com/',
@@ -2656,7 +2657,7 @@ App.controller('HeaderCtrl', ['$scope', '$localStorage', '$window', '$location',
                 onSuccess: onConnect,
                 onFailure: failureCallback,
                 userName: "kike",
-                password: "K1k3355453",
+                password: "K1k3355453"
         
             };
 
@@ -2729,7 +2730,7 @@ App.controller('HeaderCtrl', ['$scope', '$localStorage', '$window', '$location',
 
             // Method to reconnect mqtt
             function reConnect(){
-                setTimeout(client.connect(options), 30000);
+                setTimeout(client.connect(options), 300000);
                 mqttConnected = true;
             }
             

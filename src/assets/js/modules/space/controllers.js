@@ -924,14 +924,17 @@ init();
                 .then(function (response){
 
                     var message = 'Succesfully switched ';
-                    if ($scope.activate == 0){
+                    
+                    if(datasource.toggle == 0){
                         message = message + 'OFF';
-                    } 
-                    if ($scope.activate == 1){
+                    }
+                    if(datasource.toggle == 1){
                         message = message + 'ON';
-                    } 
+                    }
+                    
                     $.notify({
-                        message: datasource.name + ' ' + message + $scope.activate
+                        // message: datasource.name + ' ' + message + $scope.activate
+                        message: datasource.name + ' ' + message
                     },{     
                         type: 'success'
                     });
@@ -1113,7 +1116,8 @@ init();
                             (datasources.type === 'Control: Smart Switch (Power)') ||
                             (datasources.type === 'Control: Smart Switch (Lock)') ||
                             (datasources.type === 'Control: Smart Bulb')){
-                                    if(data.payloadString == "OFF"){
+                                console.log(data.payloadString,'data.payloadString');    
+                                if(data.payloadString == "OFF"){
                                         datasources.toggle = 0;
                                     }else{
                                         datasources.toggle = 1;
