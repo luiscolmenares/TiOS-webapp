@@ -2719,19 +2719,20 @@ App.controller('HeaderCtrl', ['$scope', '$localStorage', '$window', '$location',
                 
                 
                 $.notify({
-                    message: 'Connection Failed- Retrying in 30s'
+                    message: 'Connection Failed- Retrying in 5 min'
                 },{     
                     type: 'warning'
                 });
                 reConnect();
-                // setTimeout($scope.MQTTconnect(), 3000000);
             
             }
 
             // Method to reconnect mqtt
             function reConnect(){
-                setTimeout(client.connect(options), 300000);
-                mqttConnected = true;
+                setTimeout(function(){
+                    client.connect(options); 
+                    mqttConnected = true;
+                },300000);
             }
             
             return client,currentState;
