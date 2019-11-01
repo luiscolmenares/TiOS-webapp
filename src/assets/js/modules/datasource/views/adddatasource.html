@@ -103,6 +103,18 @@
                                 <input class="form-control" type="text" id="val-topic" name="val-topic" ng-model="topic" placeholder="Ex: facility1/room2/bulb1">
                             </div>                               
                         </div>
+                        <div class="form-group" ng-show="!thing">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <label for="simple-classic-progress-host">LEFT COORDINATE</label>
+                                <input class="form-control" type="text" id="val-left" name="val-left" min="0" ng-model="leftcoordinate" placeholder="left coordinate">
+                            </div>                               
+                        </div>
+                        <div class="form-group" ng-show="!thing">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <label for="simple-classic-progress-host">TOP COORDINATE</label>
+                                <input class="form-control" type="text" id="val-top" name="val-top" min="0" ng-model="topcoordinate" placeholder="top coordinate">
+                            </div>                               
+                        </div>
                         <div class="form-group" ng-show="thing">
                             <div class="col-sm-3 col-sm-offset-2">
                                 <label for="val-unitid">Unit ID</label>                                 
