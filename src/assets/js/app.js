@@ -2760,7 +2760,9 @@ App.controller('HeaderCtrl', ['$scope', '$localStorage', '$window', '$location',
                 setTimeout(function(){
                     client.connect(options); 
                     mqttConnected = true;
+
                   },300000);
+
             }
             
             return client,currentState;
