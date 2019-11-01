@@ -52,6 +52,7 @@
                         <td class="text-center">
                             <div class="btn-group">                          
                                 <button class="btn btn-xs btn-default view-datasource-edit" type="button" data-toggle="modal" data-id="{{datasource.id}}" href="#modal-datasource-edit"><i class="fa fa-pencil"></i></button>
+                                <button class='btn btn-xs btn-default view-datasource-add-image' data-toggle='modal' data-id="{{datasource.id}}" href='#modal-datasource-add-image' type='button'><i class='fa fa-image'></i></button>
                                 <button class="btn btn-xs btn-default view-datasource-delete" type="button" data-toggle="modal" data-id="{{datasource.id}}" href="#modal-datasource-delete" ><i class="fa fa-times"></i></button>
                                 <a class="btn btn-xs btn-square btn-success" type="button" href="#/datasource/{{datasource.id}}/datapoint/add" ng-hide="datasource.ip == '0.0.0.0'">+ Add Datapoint</a>
                             </div>
@@ -63,7 +64,8 @@
     </div>
     <div datasource-edit-modal></div>
     <div datasource-delete-modal></div>
+    <div datasource-add-image-modal></div>
     <!-- END Dynamic Table Full -->
-
+    
 </div>
 <!-- END Page Content

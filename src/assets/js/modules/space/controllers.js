@@ -802,6 +802,8 @@ App.controller('SpaceViewCtrl', ['$scope', 'spaces', '$localStorage', '$window',
         SpaceService.GetById($scope.space_id)
         .then(function (data) {
             $scope.space = data;
+
+            console.log($scope.space,'$scope.space');
             // $datasourcecount = 0;
 
             // $mqttconnected = false;

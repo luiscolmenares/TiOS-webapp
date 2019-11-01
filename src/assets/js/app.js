@@ -46,19 +46,19 @@ App.constant('urls', {
 // MQTT_BROKER_PORT: 9001
 
 //Local: TechValens
-// BASE_API_SERVER: 'http://192.168.168.243:5000/',
-// BASE_API: 'http://192.168.168.243:5000/api/',
-// BASE_NR: 'http://192.168.168.243:1880',
-// MQTT_BROKER: 'mqtt.tiosplatform.com',
-// MQTT_BROKER_PORT: 8083
+BASE_API_SERVER: 'http://192.168.168.44:5000/',
+BASE_API: 'http://192.168.168.44:5000/api/',
+BASE_NR: 'http://192.168.168.44:1880',
+MQTT_BROKER: 'mqtt.tiosplatform.com',
+MQTT_BROKER_PORT: 8083
 
 
 //prod
-BASE_API_SERVER: 'https://api.tiosplatform.com/',
-BASE_API: 'https://api.tiosplatform.com/api/',
-BASE_NR: 'https://node-red.tiosplatform.com:1080',
-MQTT_BROKER: 'mqtt.tiosplatform.com',
-MQTT_BROKER_PORT: 9001,
+// BASE_API_SERVER: 'https://api.tiosplatform.com/',
+// BASE_API: 'https://api.tiosplatform.com/api/',
+// BASE_NR: 'https://node-red.tiosplatform.com:1080',
+// MQTT_BROKER: 'mqtt.tiosplatform.com',
+// MQTT_BROKER_PORT: 9001,
 
 });
 
@@ -725,8 +725,10 @@ App.config(['$stateProvider', '$urlRouterProvider',
                                          * Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps)
                                          * For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key
                                          */
+                                        'assets/js/plugins/interactiveimagejs/dist/interactive-image.css',
                                         {type: 'js', path: '//maps.googleapis.com/maps/api/js?key=AIzaSyBetY7CSB_5cohAvLJmsFmUOp-grgezi_c'},
-                                        'assets/js/plugins/gmapsjs/gmaps.min.js'
+                                        'assets/js/plugins/gmapsjs/gmaps.min.js',
+                                        'assets/js/plugins/interactiveimagejs/dist/interactive-image.js'
                                     ]
                                 });
                             }]
@@ -2745,19 +2747,20 @@ App.controller('HeaderCtrl', ['$scope', '$localStorage', '$window', '$location',
                 
                 
                 $.notify({
-                    message: 'Connection Failed- Retrying in 30s'
+                    message: 'Connection Failed- Retrying in 5 min'
                 },{     
                     type: 'warning'
                 });
                 reConnect();
-                // setTimeout($scope.MQTTconnect(), 3000000);
             
             }
 
             // Method to reconnect mqtt
             function reConnect(){
-                setTimeout(client.connect(options), 300000);
-                mqttConnected = true;
+                setTimeout(function(){
+                    client.connect(options); 
+                    mqttConnected = true;
+                  },300000);
             }
             
             return client,currentState;

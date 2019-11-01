@@ -44,6 +44,7 @@
         service.RemoveUserFromProject = RemoveUserFromProject;
         service.CreateMobileNotification = CreateMobileNotification;
         service.CreateDatasourceSensorData = CreateDatasourceSensorData;
+        service.GetDatasourceDetails = GetDatasourceDetails
 
         return service;
 
@@ -375,6 +376,16 @@
             return function () {
                 return {success: false, message: error};
             };
+        }
+
+        function GetDatasourceDetails(projectId) {
+            var config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            };
+            return $http.get(urls.BASE_API + 'project/' + projectId + '/hp/datasources', config).then(handleSuccess, handleError('Error getting dashboard count by id'));
+
         }
     }
 

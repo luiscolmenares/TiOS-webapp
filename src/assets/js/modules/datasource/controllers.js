@@ -1,6 +1,6 @@
 // Tables DataTables Controller
-App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeout', '$http', '$stateParams', '$state', 'DatasourceService', 'urls', 'ProjectService', 'SpaceService',
-    function ($scope, $localStorage, $timeout, $http, $stateParams, $state, DatasourceService, urls, ProjectService, SpaceService) {
+App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeout', '$http', '$stateParams', '$state', 'DatasourceService', 'urls', 'ProjectService', 'SpaceService','FileUploader',
+    function ($scope, $localStorage, $timeout, $http, $stateParams, $state, DatasourceService, urls, ProjectService, SpaceService,FileUploader) {
         console.log($stateParams);
         $scope.projectId = $stateParams.projectId;
         $scope.datasourceslist = [];
@@ -101,7 +101,7 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
                 sLengthSelect: "form-control"
             });
 
-// Bootstrap paging button renderer
+            // Bootstrap paging button renderer
             DataTable.ext.renderer.pageButton.bootstrap = function (settings, host, idx, buttons, page, pages) {
                 var api = new DataTable.Api(settings);
                 var classes = settings.oClasses;
@@ -238,7 +238,12 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
             DatasourceService.GetById(dataid)
                     .then(function (rest) {
                         console.log(rest);
+
                         $scope.datasource = rest.datasource;
+                        // $scope.datasource.left_coordinate = parseInt(rest.datasource.left_coordinate);
+                        // $scope.datasource.top_coordinate = parseInt(rest.datasource.top_coordinate);
+
+                        
                         $scope.thing = function(){
                         if ($scope.datasource.options !== "{}") {
                                     console.log("es true");
@@ -255,7 +260,7 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
                                     // console.log(result.organization);
                                     // console.log($scope.organizations);
                                     // $scope.organization = result.organization;
-//en el array de organization, poneos el role del user como default
+                                    //en el array de organization, poneos el role del user como default
                                     $scope.selectDatasourceTypeObject = $scope.datasourcetypes[myIndexOfTypes($scope.datasource, $scope.datasourcetypes)];
                                     console.log('selectDatasourceTypeObject type Objeto seleccionado ---');
                                     console.log(myIndexOfTypes($scope.datasource, $scope.datasourcetypes));
@@ -306,9 +311,10 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
                     space_id: $scope.datasource.space_id,
                     active: activation,
                     project_id: $scope.projectId,
+                    top_coordinate:$scope.datasource.top_coordinate,
+                    left_coordinate:$scope.datasource.left_coordinate
                 });
-            console.log('datasource to update');
-            console.log(datasource);
+
             DatasourceService.Update(datasource, $scope.datasource.id).
                 then(function (response) {
                     console.log('updating datasource');
@@ -349,6 +355,64 @@ App.controller('TablesDatasourceTablesCtrl', ['$scope', '$localStorage', '$timeo
             });
             
         };
+
+        $(document).on("click", ".view-datasource-add-image", function () {
+            var dataid = $(this).data('id');
+            DatasourceService.GetById(dataid)
+                    .then(function (rest) {
+                        console.log(rest);
+                        $scope.datasource = rest.datasource;
+                        $('#modal-datasource-add-image').modal('show');
+                    });
+        });
+
+        var uploader = $scope.uploader = new FileUploader({
+
+            url: urls.BASE_API + 'datasource/upload/'
+        });
+        // FILTERS
+
+        
+        uploader.filters.push({
+            name: 'imageFilter',
+            fn: function(item /*{File|FileLikeObject}*/, options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        });
+        // CALLBACKS
+        
+        uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) { };
+        uploader.onAfterAddingFile = function(fileItem) {
+            fileItem.url = urls.BASE_API + 'datasource/upload/' + $scope.datasource.id
+        };
+        uploader.onAfterAddingAll = function(addedFileItems) {
+            addedFileItems.url = urls.BASE_API + 'datasource/upload/' + $scope.datasource.id
+        };
+        uploader.onBeforeUploadItem = function(item) { };
+        uploader.onProgressItem = function(fileItem, progress) { };
+        uploader.onProgressAll = function(progress) { };
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+            swal("Space image updated!", "", "success");
+        
+        $timeout(function () {
+            //initDataTableFull();
+            $state.reload();
+        }, 1000);
+        
+        $('#modal-datasource-add-image').modal('hide');
+        };
+        uploader.onErrorItem = function(fileItem, response, status, headers) {
+            swal("Error uploading datasource image", "", "error");
+        };
+        uploader.onCancelItem = function(fileItem, response, status, headers) { };
+        uploader.onCompleteItem = function(fileItem, response, status, headers) { };
+        uploader.onCompleteAll = function() { };
+        
+        console.info('uploader', uploader);
+        
+
+
         bsDataTables();
         initDataTableSimple();
         initDataTableFull();
@@ -671,9 +735,9 @@ SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (respons
                     "port": $scope.brokerport,
                     "topic": $scope.topic,
                 };
-//var so = '{ "host": "190.72.231.86",  "port": "8899", "autoReconnect": "true", "reconnectTimeout": "1000", "timeout":  "5000", "unitId": "1" }';
+                //var so = '{ "host": "190.72.231.86",  "port": "8899", "autoReconnect": "true", "reconnectTimeout": "1000", "timeout":  "5000", "unitId": "1" }';
 
-// use $.param jQuery function to serialize data from JSON 
+                // use $.param jQuery function to serialize data from JSON 
                 var datasource = $.param({
                     name: $scope.datasourcename,
                     type: $scope.datasourcetype,
@@ -689,6 +753,8 @@ SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (respons
                     toggle: 0,
                     verification_enable: verification,
                     verification_digits: $scope.digits,
+                    left_coordinate: $scope.leftcoordinate,
+                    top_coordinate: $scope.topcoordinate
                 });
                 console.log('datasource-->');
                 console.log(datasource);
@@ -698,7 +764,7 @@ SpaceService.GetSpacesByProjectId($stateParams.projectId).then(function (respons
                             if (response.success == false) {
                                 swal("Error Creating new datasource", "", "error");
                             } else {
-// if ($scope.selectedOrganization){  
+                                // if ($scope.selectedOrganization){  
                                 // DatasourceService.AttachProject(response.id, $stateParams.projectId)
                                 //         .then(function (response) {
                                 //             console.log('Project Attached');
@@ -737,5 +803,13 @@ App.directive('datasourceDeleteModal', function () {
         scope: false,
         templateUrl: '/assets/js/modules/datasource/views/delete_datasource.html'
         //templateUrl: '/src/assets/js/modules/datasource/views/delete_datasource.html'
+    };
+});
+App.directive('datasourceAddImageModal', function () {
+    return {
+        //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+        restrict: "EA",
+        scope: false,
+        templateUrl: '/assets/js/modules/datasource/views/datasource_add_image.html'
     };
 });

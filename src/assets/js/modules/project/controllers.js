@@ -136,8 +136,8 @@ jQuery('[data-js-select2]').on('change', function () {
 /*
 *  Description: project list controller
 */
-App.controller('ProjectTablesCtrl', ['$scope', 'projects', '$localStorage', '$window', '$http', 'localStorageService', 'ProjectService', '$state', 'OrganizationService', 'AuthenticationService', '$rootScope', '$timeout',
-    function ($scope, projects, $localStorage, $window, $http, localStorageService, ProjectService, $state, OrganizationService, AuthenticationService, $rootScope, $timeout) {
+App.controller('ProjectTablesCtrl', ['$scope', 'projects', '$localStorage', '$window', '$http', 'localStorageService', 'ProjectService', '$state', 'OrganizationService', 'AuthenticationService', '$rootScope', '$timeout','FileUploader','urls',
+    function ($scope, projects, $localStorage, $window, $http, localStorageService, ProjectService, $state, OrganizationService, AuthenticationService, $rootScope, $timeout,FileUploader,urls) {
 /*
 *Function Reload
 */
@@ -210,28 +210,110 @@ $scope.project.organization = $scope.organization.name;
     });
 });
 
+
+
 $(document).on("click", ".view-project-edit", function () {
     var projectid = $(this).data('id');
+
     ProjectService.GetById(projectid)
     .then(function (data) {
-        $scope.project = data.project;
-//Obtenemos la organizacion
-OrganizationService.GetByProjectId(projectid)
-.then(function (result) {
-//Mandamos el organization al scope
-console.log(result.organization);
-console.log($scope.organizations);
-$scope.organization = result.organization;
-//en el array de organization, poneos el role del user como default
-$scope.selectOrganizationObject = $scope.organizations[myIndexOf($scope.organization, $scope.organizations)];
-console.log('organization Objeto selecceionado ---');
-console.log(myIndexOf($scope.organization, $scope.organizations));
-console.log($scope.selectOrganizationObject);
+            $scope.project = data.project;
+            //Obtenemos la organizacion
+            OrganizationService.GetByProjectId(projectid)
+            .then(function (result) {
+                //Mandamos el organization al scope
+                console.log(result.organization);
+                console.log($scope.organizations);
+                $scope.organization = result.organization;
+                //en el array de organization, poneos el role del user como default
+                $scope.selectOrganizationObject = $scope.organizations[myIndexOf($scope.organization, $scope.organizations)];
+                console.log('organization Objeto selecceionado ---');
+                console.log(myIndexOf($scope.organization, $scope.organizations));
+                console.log($scope.selectOrganizationObject);
 
+            });
+            $('#modal-project-edit').modal('show');
+            });
 });
-$('#modal-project-edit').modal('show');
+
+
+
+$(document).on("click", ".view-project-add-image", function () {
+    var projectid = $scope.selectedProject = $(this).data('id');
+    // console.log(projectid,'projectid');
+    // $scope.selectedProject = $(this).data('id');
+
+    $('#modal-project-add-image').modal('show');
 });
+
+/*
+*Function Upload Project Image
+*/
+
+var uploader = $scope.uploader = new FileUploader({
+
+    url: urls.BASE_API + 'project/upload/'
 });
+
+
+// FILTERS
+
+uploader.filters.push({
+    name: 'imageFilter',
+    fn: function(item /*{File|FileLikeObject}*/, options) {
+        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+    }
+});
+// CALLBACKS
+
+uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {};
+uploader.onAfterAddingFile = function(fileItem) {
+    fileItem.url = urls.BASE_API + 'project/upload/' + $scope.selectedProject 
+    
+};
+uploader.onAfterAddingAll = function(addedFileItems) {
+    addedFileItems.url =  urls.BASE_API + 'project/upload/' + $scope.selectedProject
+};
+uploader.onBeforeUploadItem = function(item) {};
+uploader.onProgressItem = function(fileItem, progress) {};
+uploader.onProgressAll = function(progress) {};
+uploader.onSuccessItem = function(fileItem, response, status, headers) {
+    swal("Project image updated!", "", "success");
+
+
+        localStorageService.remove('projects');
+        swal("Project has been updated", "", "success");
+
+        var oTable = $('.js-dataTable-full').dataTable();
+        oTable.fnClearTable();
+        oTable.fnDestroy();
+        projects.fetchProjects(function (data) {
+            if (AuthenticationService.userHasRole(["super"])){
+                localStorageService.set('projects', data);
+            } else {
+                var filteredprojects = data.filter(function (project){
+                    return project.organization_id == $rootScope.loggeduser.user.organization_id;
+                });
+                localStorageService.set('projects', filteredprojects);
+            }
+
+        });
+        $timeout(function () {
+
+            $state.reload();
+        }, 1000);
+
+        $('#modal-project-add-image').modal('hide');
+};
+uploader.onErrorItem = function(fileItem, response, status, headers) {
+    swal("Error uploading project image", "", "error");
+};
+uploader.onCancelItem = function(fileItem, response, status, headers) {};
+uploader.onCompleteItem = function(fileItem, response, status, headers) {};
+uploader.onCompleteAll = function() {};
+
+
 
 $(document).on("click", ".view-project-delete", function () {
     var projectid = $(this).data('id');
@@ -355,28 +437,28 @@ $scope.deleteProject = function () {
                                 } else {
                                     ProjectService.Delete($scope.project.id)
                                     .then(function (response) {
-                                        if (response.success == false) {
-                                            swal("Error Deleting This Project", "", "error");
-                                        } else {
-//$state.reload();
-localStorageService.remove('projects');
-swal("This Project has been deleted", "", "success");
+                                            if (response.success == false) {
+                                                swal("Error Deleting This Project", "", "error");
+                                            } else {
+                                                //$state.reload();
+                                                localStorageService.remove('projects');
+                                                swal("This Project has been deleted", "", "success");
 
-var oTable = $('.js-dataTable-full-2').dataTable();
-oTable.fnClearTable();
-oTable.fnDestroy();
-projects.fetchProjects(function (data) {
-    localStorageService.set('projects', data);
-    projectlist = data;
-});
+                                                var oTable = $('.js-dataTable-full-2').dataTable();
+                                                oTable.fnClearTable();
+                                                oTable.fnDestroy();
+                                                projects.fetchProjects(function (data) {
+                                                    localStorageService.set('projects', data);
+                                                    projectlist = data;
+                                                });
 
-$timeout(function () {
-//initDataTableFull();
-$state.reload();
-}, 1000);
-$('#modal-projects-delete').modal('hide');
-}
-});
+                                                $timeout(function () {
+                                                //initDataTableFull();
+                                                $state.reload();
+                                                }, 1000);
+                                                $('#modal-projects-delete').modal('hide');
+                                            }
+                                        });
                                 }
                             });
 
@@ -408,59 +490,68 @@ var initDataTableFull = function () {
 
     console.log('init datatable...');
     $('.js-dataTable-full-2').dataTable({
-        columnDefs: [{orderable: false, targets: [4]}],
-        pageLength: 10,
-        lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]],
-        data: localStorageService.get('projects'),
-        // console.log(data);
-//data: dataset,
-"columns": [
-{"data": "id"},
-{"data": "name",
-"render": function (data, type, row) {
+            columnDefs: [{orderable: false, targets: [4]}],
+            pageLength: 10,
+            lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]],
+            data: localStorageService.get('projects'),
+            // console.log(data);
+            //data: dataset,
+            "columns": [
+                {
+                    "data": "id"
+                },
+                {
+                    "data": "name",
+                    "render": function (data, type, row) 
+                    {
+                        return "<a href='#/project/" + row.id + "/view' data-ui-sref='projectview({projectId:" + row.id + "})'>"+data+"</a>";
+                    }
+                },
+                {
+                    "data": "organization_name"
+                },
+                {
+                    "data": "notes",
+                    "className": "hidden-xs sorting"
+                },
+                {
+                    "data": "active",
+                    "render": function (data, type, row) {
+                    // If display or filter data is requested, format the date
+                    if (data == '1') {
+                        return "<span class='label label-success'>enabled</span>";
+                    }
 
-  return "<a href='#/project/" + row.id + "/view' data-ui-sref='projectview({projectId:" + row.id + "})'>"+data+"</a>";
+                    // Otherwise the data type requested (`type`) is type detection or
+                    // sorting data, for which we want to use the integer, so just return
+                    // that, unaltered
+                    return "<span class='label label-danger'>disabled</span>";
 
+                    }
+                },
+                {
+                    "data": "id",
+                    "orderable": false,
+                    "render": function (data, type, row) {
+                        var actions = "";
+                        if (AuthenticationService.userHasRole(["super", "admin", "owner"])){
+                            actions = 
+                                "<div class='btn-group'><a class='btn btn-xs btn-default' href='#/project/" + data + "/settings' data-ui-sref='projectsettings({projectId:" + data + "})'><i class='fa fa-gear'></i></a><a class='btn btn-xs btn-default' href='#/project/" + data + "/view' data-ui-sref='projectview({projectId:" + data + "})'><i class='fa fa-eye'></i></a></button><button class='btn btn-xs btn-default view-project-edit' data-toggle='modal' data-id='" + data + "' href='#modal-project-edit' type='button'><i class='fa fa-pencil'></i></button><button class='btn btn-xs btn-default view-project-add-image' data-toggle='modal' data-id='" + data + "' href='#modal-project-add-image' type='button'><i class='fa fa-image'></i></button><button class='btn btn-xs btn-default view-project-delete' data-toggle='modal' data-id='" + data + "' href='#modal-project-delete' type='button' ng-click='initModalData()'><i class='fa fa-times'></i></button></div>";
+                        } else {
+                            actions = "<div class='btn-group'><a class='btn btn-xs btn-default' href='#/project/" + data + "/settings' data-ui-sref='projectsettings({projectId:" + data + "})'><i class='fa fa-gear'></i></a><a class='btn btn-xs btn-default' href='#/project/" + data + "/view' data-ui-sref='projectview({projectId:" + data + "})'><i class='fa fa-eye'></i></a></button><button class='btn btn-xs btn-default view-project-edit' data-toggle='modal' data-id='" + data + "' href='#modal-project-edit' type='button'><i class='fa fa-pencil'></i></button></div>";
 
-}
-},
-{"data": "organization_name"},
-{"data": "notes",
-"className": "hidden-xs sorting"},
-{"data": "active",
-"render": function (data, type, row) {
-// If display or filter data is requested, format the date
-if (data == '1') {
-    return "<span class='label label-success'>enabled</span>";
-}
+                        }
+                        return actions;
+                    }
+                },
+            ],
+            createdRow: function (row, data, index) {
+                if (data.deleted_at)
+            // $(row).addClass('trashed-data');
+            $(row).addClass('hide');
+            }
 
-// Otherwise the data type requested (`type`) is type detection or
-// sorting data, for which we want to use the integer, so just return
-// that, unaltered
-return "<span class='label label-danger'>disabled</span>";
-
-}
-},
-{"data": "id",
-"orderable": false,
-"render": function (data, type, row) {
-    var actions = "";
-    if (AuthenticationService.userHasRole(["super", "admin", "owner"])){
-        actions = "<div class='btn-group'><a class='btn btn-xs btn-default' href='#/project/" + data + "/settings' data-ui-sref='projectsettings({projectId:" + data + "})'><i class='fa fa-gear'></i></a><a class='btn btn-xs btn-default' href='#/project/" + data + "/view' data-ui-sref='projectview({projectId:" + data + "})'><i class='fa fa-eye'></i></a></button><button class='btn btn-xs btn-default view-project-edit' data-toggle='modal' data-id='" + data + "' href='#modal-project-edit' type='button'><i class='fa fa-pencil'></i></button><button class='btn btn-xs btn-default view-project-delete' data-toggle='modal' data-id='" + data + "' href='#modal-project-delete' type='button' ng-click='initModalData()'><i class='fa fa-times'></i></button></div>";
-    } else {
-        actions = "<div class='btn-group'><a class='btn btn-xs btn-default' href='#/project/" + data + "/settings' data-ui-sref='projectsettings({projectId:" + data + "})'><i class='fa fa-gear'></i></a><a class='btn btn-xs btn-default' href='#/project/" + data + "/view' data-ui-sref='projectview({projectId:" + data + "})'><i class='fa fa-eye'></i></a></button><button class='btn btn-xs btn-default view-project-edit' data-toggle='modal' data-id='" + data + "' href='#modal-project-edit' type='button'><i class='fa fa-pencil'></i></button></div>";
-
-    }
-    return actions;
-}},
-],
-createdRow: function (row, data, index) {
-    if (data.deleted_at)
-// $(row).addClass('trashed-data');
-$(row).addClass('hide');
-}
-
-});
+        });
 
 };
 
@@ -643,12 +734,22 @@ templateUrl: '/assets/js/modules/project/views/project-modal.html'
 
 App.directive('projectEditModal', function () {
     return {
-//template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
-restrict: "EA",
-scope: false,
-templateUrl: '/assets/js/modules/project/views/project-modal-edit.html'
-//templateUrl: '/src/assets/js/modules/project/views/project-modal-edit.html'
-};
+        //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+        restrict: "EA",
+        scope: false,
+        templateUrl: '/assets/js/modules/project/views/project-modal-edit.html'
+        //templateUrl: '/src/assets/js/modules/project/views/project-modal-edit.html'
+    };
+});
+
+App.directive('projectAddImageModal', function () {
+    return {
+        //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+        restrict: "EA",
+        scope: false,
+        templateUrl: '/assets/js/modules/project/views/project_add_image.html'
+        //templateUrl: '/src/assets/js/modules/project/views/project_add_image.html'
+    };
 });
 
 App.directive('projectDeleteModal', function () {
@@ -1226,7 +1327,6 @@ $state.reload();
 */
 
 var generateChartData = function (panels) {
-    console.log(panels,'PPPPPPPPPPPPPPPPPPPPPPPPPPPP panels PPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
 
     $scope.connected_flag=0;
     angular.forEach(panels, function (panel) {
@@ -1836,75 +1936,98 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
     function ($scope, $stateParams, ProjectService, triggers, localStorageService) {
         console.log($stateParams);
         $scope.project = [];
-//remove triggers on local storage
-localStorageService.remove('triggers');
-function isProject(value) {
-    return value.project_id == $stateParams.projectId;
-}
-triggers.fetchTriggers(function (data) {
-    var tgrlist = data.filter(isProject);
-// console.log('after filter');
-// console.log(tgrlist);
-localStorageService.set('triggers', tgrlist);
-trglist = data;
-});
-
-ProjectService.GetById($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.project = data.project;
-            var initMapSearch = function(){
-// Init Map
-var mapSearch = new GMaps({
-    div: '#js-map-search',
-    lat: 20,
-    lng: 0,
-    zoom: 2,
-    scrollwheel: false
-});
-
-GMaps.geocode({
-    address: data.project.address_1 + data.project.city + data.project.zip,
-    callback: function (results, status) {
-        if ((status === 'OK') && results) {
-            var latlng = results[0].geometry.location;
-
-            mapSearch.removeMarkers();
-            mapSearch.addMarker({ lat: latlng.lat(), lng: latlng.lng() });
-            mapSearch.fitBounds(results[0].geometry.viewport);
-        } else {
-            alert('Address not found!');
+        //remove triggers on local storage
+        localStorageService.remove('triggers');
+        function isProject(value) {
+            return value.project_id == $stateParams.projectId;
         }
-    }
-});
+        triggers.fetchTriggers(function (data) {
+            var tgrlist = data.filter(isProject);
+            // console.log('after filter');
+            // console.log(tgrlist);
+            localStorageService.set('triggers', tgrlist);
+            trglist = data;
+        });
+
+        ProjectService.GetById($stateParams.projectId).then(function (data) {
+            $scope.project = data.project;
+            var initMapSearch = function(){
+                    // Init Map
+                    var mapSearch = new GMaps({
+                        div: '#js-map-search',
+                        lat: 20,
+                        lng: 0,
+                        zoom: 2,
+                        scrollwheel: false
+                    });
+
+                    GMaps.geocode({
+                        address: data.project.address_1 + data.project.city + data.project.zip,
+                        callback: function (results, status) {
+                            if ((status === 'OK') && results) {
+                                var latlng = results[0].geometry.location;
+
+                                mapSearch.removeMarkers();
+                                mapSearch.addMarker({ lat: latlng.lat(), lng: latlng.lng() });
+                                mapSearch.fitBounds(results[0].geometry.viewport);
+                            } else {
+                                alert('Address not found!');
+                            }
+                        }
+                    });
 
 
-};
-initMapSearch();
-});
-ProjectService.GetDashboardCountByProjectId($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.dashboardcount = data;
-});
-ProjectService.GetUserCountByProjectId($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.usercount = data;
-});
-ProjectService.GetDatasourceCountByProjectId($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.datasourcecount = data;
-});
-ProjectService.GetTriggerCountByProjectId($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.triggercount = data;
-});
-ProjectService.GetSpacesCountByProjectId($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.spacescount = data;
-});
+            };
+            initMapSearch();
 
+        });
 
-}
-]);
+        ProjectService.GetDatasourceDetails($stateParams.projectId).then(function (data) {
+            var datasources = data.datasources;
+            console.log(datasources,'datasources datasources datasources');                        
+
+                        // Plugin configuration
+                        var options = {
+                            // debug: true,     // console logs
+                            allowHtml: true, // allow HTML markup
+                            shareBox: false,  // display the social media share box
+                            // socialMedia: {   // configuration of the social media share box
+                            //     url: "https://www.jpchateau.com/demo/interactive-image",
+                            //     text: "Clouded Leopard",
+                            //     hashtags: ["jQuery", "cloudedLeopard"],
+                            //     twitterUsername: "jpchateau",
+                            // }
+                        };
+                
+                        // Plugin activation
+                        $(document).ready(function() {
+                            $("#my-interactive-image").interactiveImage(datasources, options);
+                        });
+            
+        });
+        
+        ProjectService.GetDashboardCountByProjectId($stateParams.projectId).then(function (data) {
+            console.log(data);
+            $scope.dashboardcount = data;
+        });
+        ProjectService.GetUserCountByProjectId($stateParams.projectId).then(function (data) {
+            console.log(data);
+            $scope.usercount = data;
+        });
+        ProjectService.GetDatasourceCountByProjectId($stateParams.projectId).then(function (data) {
+            console.log(data);
+            $scope.datasourcecount = data;
+        });
+        ProjectService.GetTriggerCountByProjectId($stateParams.projectId).then(function (data) {
+            console.log(data);
+            $scope.triggercount = data;
+        });
+        ProjectService.GetSpacesCountByProjectId($stateParams.projectId).then(function (data) {
+            console.log(data);
+            $scope.spacescount = data;
+        });
+
+}]);
 
 
 // Project settings controller
@@ -1912,309 +2035,320 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
     function ($scope, $stateParams, ProjectService, triggers, localStorageService) {
         console.log($stateParams);
         $scope.project = [];
-//remove triggers on local storage
-localStorageService.remove('triggers');
-function isProject(value) {
-    return value.project_id == $stateParams.projectId;
-}
-triggers.fetchTriggers(function (data) {
-    var tgrlist = data.filter(isProject);
-// console.log('after filter');
-// console.log(tgrlist);
-localStorageService.set('triggers', tgrlist);
-trglist = data;
-});
-
-ProjectService.GetById($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.project = data.project;
-    var items = [
-            // Text items
-            {
-                type: "text",
-                title: "Text title",
-                description: "<b>Text item</b> with description. It has a <i>custom class name</i> " +
-                    "and the plugin option to allow <i>HTML markup</i>",
-                position: {
-                    left: 100,
-                    top: 50
-                },
-                customClassName: "custom-text"
-            },
-            {
-                type: "text",
-                title: "Text title",
-                description: "Text item with HTTP link and its label",
-                position: {
-                    left: 300,
-                    top: 50
-                },
-                link: {
-                    url: "https://www.jpchateau.com/demo/interactive-image",
-                    label: "Interactive Image Demo"
-                }
-            },
-            {
-                type: "text",
-                title: "Text title",
-                description: "Text item with picture",
-                position: {
-                    left: 500,
-                    top: 50
-                },
-                picturePath: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg"
-            },
-            {
-                type: "text",
-                title: "Text title",
-                description: "Text item with picture and HTTP link",
-                position: {
-                    left: 700,
-                    top: 50
-                },
-                picturePath: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
-                link: {
-                    url: "https://www.jpchateau.com/demo/interactive-image",
-                    label: "Interactive Image Demo"
-                },
-                sticky: true
-            },
-            // Picture items
-            {
-                type: "picture",
-                path: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
-                position: {
-                    left: 100,
-                    top: 150
-                }
-            },
-            {
-                type: "picture",
-                path: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
-                caption: "Picture with legend",
-                position: {
-                    left: 300,
-                    top: 150
-                }
-            },
-            {
-                type: "picture",
-                path: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
-                caption: "Picture with link",
-                linkUrl: "https://www.nationalgeographic.com",
-                position: {
-                    left: 500,
-                    top: 150
-                },
-                sticky: true
-            },
-            // Audio items
-            {
-                type: "audio",
-                path: "http://www.healthfreedomusa.org/downloads/iMovie.app/Contents/Resources/iMovie%20%2708%20Sound%20Effects/Leopard%20Snarl.mp3",
-                position: {
-                    left: 100,
-                    top: 250
-                }
-            },
-            {
-                type: "audio",
-                path: "http://www.bioacoustica.org/gallery/sounds/Panthera_pardus2_threat.wav",
-                caption: "Audio WAVE with caption and <i>not sticky</i> behavior",
-                position: {
-                    left: 300,
-                    top: 250
-                }
-            },
-            {
-                type: "audio",
-                path: "https://lasonotheque.org/UPLOAD/ogg/0935.ogg",
-                caption: "Audio Ogg with caption and <i>sticky</i> behavior",
-                position: {
-                    left: 500,
-                    top: 250
-                },
-                sticky: true
-            },
-            // Video items
-            {
-                type: "video",
-                path: "https://www.videvo.net/videvo_files/converted/2015_08/videos/Tiger.mp460597.mp4",
-                position: {
-                    left: 100,
-                    top: 350
-                }
-            },
-            {
-                type: "video",
-                path: "https://upload.wikimedia.org/wikipedia/commons/1/11/Le_regard_du_f%C3%A9lin.webm",
-                caption: "Video WebM with caption and <i>sticky</i> behavior",
-                position: {
-                    left: 300,
-                    top: 350
-                },
-                sticky: true
-            },
-            {
-                type: "video",
-                path: "https://www.videvo.net/videvo_files/converted/2015_08/videos/Tiger.mp460597.mp4",
-                caption: "Video with caption and poster and <i>sticky</i> behavior and a large description",
-                poster: "../docs/_static/poster.jpg",
-                position: {
-                    left: 500,
-                    top: 350
-                },
-                sticky: true
-            },
-            // Provider items
-            {
-                type: "provider",
-                providerName: "youtube",
-                parameters: {
-                    videoId: "iPRiQ6SBntQ"
-                },
-                position: {
-                    left: 100,
-                    top: 450
-                }
-            },
-            {
-                type: "provider",
-                providerName: "dailymotion",
-                parameters: {
-                    videoId: "x4i697s"
-                },
-                position: {
-                    left: 300,
-                    top: 450
-                },
-                sticky: true
-            }
-        ];
-
-        // Plugin configuration
-        var options = {
-            debug: true,     // console logs
-            allowHtml: true, // allow HTML markup
-            shareBox: true,  // display the social media share box
-            socialMedia: {   // configuration of the social media share box
-                url: "https://www.jpchateau.com/demo/interactive-image",
-                text: "Clouded Leopard",
-                hashtags: ["jQuery", "cloudedLeopard"],
-                twitterUsername: "jpchateau",
-            }
-        };
-
-        // Plugin activation
-        $(document).ready(function() {
-            $("#my-interactive-image").interactiveImage(items, options);
+        //remove triggers on local storage
+        localStorageService.remove('triggers');
+        function isProject(value) {
+            return value.project_id == $stateParams.projectId;
+        }
+        triggers.fetchTriggers(function (data) {
+            var tgrlist = data.filter(isProject);
+        // console.log('after filter');
+        // console.log(tgrlist);
+        localStorageService.set('triggers', tgrlist);
+        trglist = data;
         });
-});
+
+        ProjectService.GetById($stateParams.projectId).then(function (data) {
+            console.log(data);
+            $scope.project = data.project;
+            var items = [
+                    // Text items
+                    {
+                        type: "text",
+                        title: "Text title",
+                        description: "<b>Text item</b> with description. It has a <i>custom class name</i> " +
+                            "and the plugin option to allow <i>HTML markup</i>",
+                        position: {
+                            left: 100,
+                            top: 50
+                        },
+                        customClassName: "custom-text"
+                    },
+                    {
+                        type: "text",
+                        title: "Text title",
+                        description: "Text item with HTTP link and its label",
+                        position: {
+                            left: 300,
+                            top: 50
+                        },
+                        link: {
+                            url: "https://www.jpchateau.com/demo/interactive-image",
+                            label: "Interactive Image Demo"
+                        }
+                    },
+                    {
+                        type: "text",
+                        title: "Text title",
+                        description: "Text item with picture",
+                        position: {
+                            left: 500,
+                            top: 50
+                        },
+                        picturePath: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg"
+                    },
+                    {
+                        type: "text",
+                        title: "Text title",
+                        description: "Text item with picture and HTTP link",
+                        position: {
+                            left: 700,
+                            top: 50
+                        },
+                        picturePath: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
+                        link: {
+                            url: "https://www.jpchateau.com/demo/interactive-image",
+                            label: "Interactive Image Demo"
+                        },
+                        sticky: true
+                    },
+                    // Picture items
+                    {
+                        type: "picture",
+                        path: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
+                        position: {
+                            left: 100,
+                            top: 150
+                        }
+                    },
+                    {
+                        type: "picture",
+                        path: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
+                        caption: "Picture with legend",
+                        position: {
+                            left: 300,
+                            top: 150
+                        }
+                    },
+                    {
+                        type: "picture",
+                        path: "https://www.jpchateau.com/bundles/jpcjpchateau/images/demo/interactive-image/clouded-leopard-head.jpg",
+                        caption: "Picture with link",
+                        linkUrl: "https://www.nationalgeographic.com",
+                        position: {
+                            left: 500,
+                            top: 150
+                        },
+                        sticky: true
+                    },
+                    // Audio items
+                    {
+                        type: "audio",
+                        path: "http://www.healthfreedomusa.org/downloads/iMovie.app/Contents/Resources/iMovie%20%2708%20Sound%20Effects/Leopard%20Snarl.mp3",
+                        position: {
+                            left: 100,
+                            top: 250
+                        }
+                    },
+                    {
+                        type: "audio",
+                        path: "http://www.bioacoustica.org/gallery/sounds/Panthera_pardus2_threat.wav",
+                        caption: "Audio WAVE with caption and <i>not sticky</i> behavior",
+                        position: {
+                            left: 300,
+                            top: 250
+                        }
+                    },
+                    {
+                        type: "audio",
+                        path: "https://lasonotheque.org/UPLOAD/ogg/0935.ogg",
+                        caption: "Audio Ogg with caption and <i>sticky</i> behavior",
+                        position: {
+                            left: 500,
+                            top: 250
+                        },
+                        sticky: true
+                    },
+                    // Video items
+                    {
+                        type: "video",
+                        path: "https://www.videvo.net/videvo_files/converted/2015_08/videos/Tiger.mp460597.mp4",
+                        position: {
+                            left: 100,
+                            top: 350
+                        }
+                    },
+                    {
+                        type: "video",
+                        path: "https://upload.wikimedia.org/wikipedia/commons/1/11/Le_regard_du_f%C3%A9lin.webm",
+                        caption: "Video WebM with caption and <i>sticky</i> behavior",
+                        position: {
+                            left: 300,
+                            top: 350
+                        },
+                        sticky: true
+                    },
+                    {
+                        type: "video",
+                        path: "https://www.videvo.net/videvo_files/converted/2015_08/videos/Tiger.mp460597.mp4",
+                        caption: "Video with caption and poster and <i>sticky</i> behavior and a large description",
+                        poster: "../docs/_static/poster.jpg",
+                        position: {
+                            left: 500,
+                            top: 350
+                        },
+                        sticky: true
+                    },
+                    // Provider items
+                    {
+                        type: "provider",
+                        providerName: "youtube",
+                        parameters: {
+                            videoId: "iPRiQ6SBntQ"
+                        },
+                        position: {
+                            left: 100,
+                            top: 450
+                        }
+                    },
+                    {
+                        type: "provider",
+                        providerName: "dailymotion",
+                        parameters: {
+                            videoId: "x4i697s"
+                        },
+                        position: {
+                            left: 300,
+                            top: 450
+                        },
+                        sticky: true
+                    }
+                ];
+
+                // Plugin configuration
+                var options = {
+                    debug: true,     // console logs
+                    allowHtml: true, // allow HTML markup
+                    shareBox: true,  // display the social media share box
+                    socialMedia: {   // configuration of the social media share box
+                        url: "https://www.jpchateau.com/demo/interactive-image",
+                        text: "Clouded Leopard",
+                        hashtags: ["jQuery", "cloudedLeopard"],
+                        twitterUsername: "jpchateau",
+                    }
+                };
+
+                // Plugin activation
+                $(document).ready(function() {
+                    $("#my-interactive-image").interactiveImage(items, options);
+                });
+        });
 
 
-ProjectService.GetDashboardCountByProjectId($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.dashboardcount = data;
-});
-ProjectService.GetUserCountByProjectId($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.usercount = data;
-});
-ProjectService.GetDatasourceCountByProjectId($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.datasourcecount = data;
-});
-ProjectService.GetTriggerCountByProjectId($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.triggercount = data;
-});
-ProjectService.GetSpacesCountByProjectId($stateParams.projectId).then(function (data) {
-    console.log(data);
-    $scope.spacescount = data;
-});
+        ProjectService.GetDashboardCountByProjectId($stateParams.projectId).then(function (data) {
+            console.log(data);
+            $scope.dashboardcount = data;
+        });
+        ProjectService.GetUserCountByProjectId($stateParams.projectId).then(function (data) {
+            console.log(data);
+            $scope.usercount = data;
+        });
+        ProjectService.GetDatasourceCountByProjectId($stateParams.projectId).then(function (data) {
+            console.log(data);
+            $scope.datasourcecount = data;
+        });
+        ProjectService.GetTriggerCountByProjectId($stateParams.projectId).then(function (data) {
+            console.log(data);
+            $scope.triggercount = data;
+        });
+        ProjectService.GetSpacesCountByProjectId($stateParams.projectId).then(function (data) {
+            console.log(data);
+            $scope.spacescount = data;
+        });
 
 
-}
+    }
 ]);
 
 App.directive('dashboardModal', function () {
     return {
-//template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
-restrict: "EA",
-scope: false,
-templateUrl: '/assets/js/modules/project/views/add-dashboard-modal.html'
-// templateUrl: '/src/assets/js/modules/project/views/add-dashboard-modal.html'
-};
+        //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+        restrict: "EA",
+        scope: false,
+        templateUrl: '/assets/js/modules/project/views/add-dashboard-modal.html'
+        // templateUrl: '/src/assets/js/modules/project/views/add-dashboard-modal.html'
+    };
 });
 
 App.directive('useraddModal', function () {
     return {
-//template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
-restrict: "EA",
-scope: false,
-templateUrl: '/assets/js/modules/project/views/add-user-modal.html'
-// templateUrl: '/src/assets/js/modules/project/views/add-user-modal.html'
-};
+        //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+        restrict: "EA",
+        scope: false,
+        templateUrl: '/assets/js/modules/project/views/add-user-modal.html'
+        // templateUrl: '/src/assets/js/modules/project/views/add-user-modal.html'
+    };
 });
 
 App.directive('projectUserModal', function () {
     return {
-//template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
-restrict: "EA",
-scope: false,
-templateUrl: '/assets/js/modules/project/views/project-user-modal.html'
-//templateUrl: '/src/assets/js/modules/project/views/project-user-modal.html'
-};
+        //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+        restrict: "EA",
+        scope: false,
+        templateUrl: '/assets/js/modules/project/views/project-user-modal.html'
+        //templateUrl: '/src/assets/js/modules/project/views/project-user-modal.html'
+    };
 });
 
 App.directive('panelModal', function () {
     return {
-//template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
-restrict: "EA",
-scope: false,
-templateUrl: '/assets/js/modules/project/views/add-panel-modal.html'
-// templateUrl: '/src/assets/js/modules/project/views/add-panel-modal.html'
-};
+        //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+        restrict: "EA",
+        scope: false,
+        templateUrl: '/assets/js/modules/project/views/add-panel-modal.html'
+        // templateUrl: '/src/assets/js/modules/project/views/add-panel-modal.html'
+    };
 });
 
 App.directive('editdashboardModal', function () {
     return {
-//template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
-restrict: "EA",
-scope: false,
-templateUrl: '/assets/js/modules/project/views/edit-dashboard-modal.html'
-//templateUrl: '/src/assets/js/modules/project/views/edit-dashboard-modal.html'
-};
+        //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+        restrict: "EA",
+        scope: false,
+        templateUrl: '/assets/js/modules/project/views/edit-dashboard-modal.html'
+        //templateUrl: '/src/assets/js/modules/project/views/edit-dashboard-modal.html'
+    };
 });
 
 App.directive('editpanelModal', function () {
     return {
-//template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
-restrict: "EA",
-scope: false,
-templateUrl: '/assets/js/modules/project/views/edit-panel-modal.html'
-//templateUrl: '/src/assets/js/modules/project/views/edit-dashboard-modal.html'
-};
+    //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+    restrict: "EA",
+    scope: false,
+    templateUrl: '/assets/js/modules/project/views/edit-panel-modal.html'
+    //templateUrl: '/src/assets/js/modules/project/views/edit-dashboard-modal.html'
+    };
 });
 
 App.directive('deletepanelModal', function () {
     return {
-//template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
-restrict: "EA",
-scope: false,
-templateUrl: '/assets/js/modules/project/views/delete-panel-modal.html'
-//templateUrl: '/src/assets/js/modules/project/views/edit-dashboard-modal.html'
-};
+    //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+    restrict: "EA",
+    scope: false,
+    templateUrl: '/assets/js/modules/project/views/delete-panel-modal.html'
+    //templateUrl: '/src/assets/js/modules/project/views/edit-dashboard-modal.html'
+    };
 });
 
 App.directive('deletedashboardModal', function () {
     return {
-//template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
-restrict: "EA",
-scope: false,
-templateUrl: '/assets/js/modules/project/views/delete-dashboard-modal.html'
-//templateUrl: '/src/assets/js/modules/project/views/edit-dashboard-modal.html'
-};
+    //template: '<div class="modal" id="modal-small" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="block block-themed block-transparent remove-margin-b"><div class="block-header bg-primary-dark"><ul class="block-options"><li><button data-dismiss="modal" type="button"><i class="si si-close"></i></button></li></ul><h3 class="block-title">Terms &amp; Conditions</h3></div><div class="block-content"><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p><p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p></div></div><div class="modal-footer"><button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button><button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button></div></div></div></div>'
+    restrict: "EA",
+    scope: false,
+    templateUrl: '/assets/js/modules/project/views/delete-dashboard-modal.html'
+    //templateUrl: '/src/assets/js/modules/project/views/edit-dashboard-modal.html'
+    };
 });
+
+App.directive('backImg', function(){
+    return function(scope, element, attrs){
+        attrs.$observe('backImg', function(value) {
+            element.css({
+                'background-image': 'url(' + value +')',
+                'background-size' : 'cover'
+            });
+        });
+    };
+})
 
 
