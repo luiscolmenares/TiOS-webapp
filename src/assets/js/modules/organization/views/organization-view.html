@@ -27,12 +27,57 @@
                             <button type="button"><i class="si si-settings"></i></button>
                         </li>
                     </ul>
-                    <h3 class="block-title">Projects Map</h3>
+                    <h3 class="block-title">{{organization.name}}'s Projects Map</h3>
                 </div>
                 <!-- Markers Map Container -->
                 <div id="js-map-markers" style="height: 400px;"></div>
             </div>
             <!-- END Map Markers Map -->
+        </div>
+
+        <div class="col-sm-12">
+            <div class="block">
+                <div class="block-header">
+                    <ul class="block-options">
+                        <li>
+                            <button type="button"><i class="si si-settings"></i></button>
+                        </li>
+                    </ul>
+                    <h3 class="block-title">{{organization.name}}'s Project List</h3>
+                </div>
+
+                <table id="table-projects" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th> 
+                        <th>Name</th>
+                        <th>Address</th>
+                        <!-- <th >Project</th> -->
+                        <th>Access</th>
+                        <!-- <th></th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr ng-repeat="project in projects">
+                        <td align="center">{{project.id}}</td>
+                        <td><img ng-src="{{project.icon_image_url}}" style="height: 20px; padding-right: 5px">
+                            <a href='#/project/{{project.id}}/view' data-ui-sref='projectview({projectId::project.id})'>{{project.name}}</a>
+                        </td>
+                        
+                        <td>{{project.address_1}}&nbsp;{{project.address_2}}. {{project.city}}</td>
+                        <td>{{project.active}}</td>
+                        
+                    </tr>
+                
+                </tbody>
+            </table>
+                
+                
+            </div>
+            
+        </div>
+            
         </div>
        
    
