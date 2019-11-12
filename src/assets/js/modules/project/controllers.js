@@ -1932,10 +1932,12 @@ $state.reload();
 ]);
 
 // Project settings controller
-App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService', 'triggers', 'localStorageService',
-    function ($scope, $stateParams, ProjectService, triggers, localStorageService) {
-        console.log($stateParams);
+App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService', 'triggers', 'localStorageService','$window','MqttConnection',
+    function ($scope, $stateParams, ProjectService, triggers, localStorageService,$window,MqttConnection) {
+
         $scope.project = [];
+        var totalTopics = [];   
+
         //remove triggers on local storage
         localStorageService.remove('triggers');
         function isProject(value) {
@@ -1983,8 +1985,23 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
         });
 
         ProjectService.GetDatasourceDetails($stateParams.projectId).then(function (data) {
-            var datasources = data.datasources;
-            console.log(datasources,'datasources datasources datasources');                        
+            
+            $window.showDataSourceDetail = function(datasourceId) {
+
+                ProjectService.GetDatasourceSpaceDetails(datasourceId).then(function (data){
+                    $scope.datasource = data.datasource;
+                    updateDataSourceData(data.datasource);
+                    subscribeTopic(data.datasource);
+                })
+
+                $('#modal-view-data-source-details').modal('show');
+            }
+
+            
+
+            
+            var hotsports = data.datasources;
+            console.log(hotsports,'datasources datasources datasources');                        
 
                         // Plugin configuration
                         var options = {
@@ -2001,7 +2018,7 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
                 
                         // Plugin activation
                         $(document).ready(function() {
-                            $("#my-interactive-image").interactiveImage(datasources, options);
+                            $("#my-interactive-image").interactiveImage(hotsports, options);
                         });
             
         });
@@ -2027,12 +2044,198 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
             $scope.spacescount = data;
         });
 
+
+    // method to update data after message recive for datascource
+    function updateDataSourceData(datasource){
+        $datasourcecount = 0;
+        if (datasource.type === 'Monitor: Temperature Sensor (Celsius)' && datasource.data.data != undefined) {
+                if($datasourcecount == 0){
+                    $scope.gaugeSensorData_0 = datasource.data.data;
+                }
+                
+            }
+
+            if (datasource.type === 'Control: Smart Switch (Light)'){
+          
+                $datasourcecount = $datasourcecount + 1;
+
+            }
+            if (datasource.type === 'Control: Smart Switch (Water Valve)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Control: Smart Switch (Gas Valve)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Control: Smart Switch (Lock)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Control: Smart Switch (Power)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Control: Smart Bulb'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Monitor: Temperature Sensor (Farenheit)'){
+                if($datasourcecount == 0){
+                    $scope.gaugeSensorData_0 = datasource.data.data;
+                }
+                
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Monitor: Humidity Sensor'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Monitor: Proximity Sensor'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Monitor: Door Sensor'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Monitor: Flood Sensor'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Voltage (V)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Electric Current (A)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Electric Power (W)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Electric Energy (E)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+    }
+
+    // method to subscribe topics 
+    function subscribeTopic(datasource){
+        let topics = []    
+        if(datasource.options_array.topic != undefined){
+            topics = [datasource.options_array.topic + '/monitor', datasource.options_array.topic + '/control'];
+        }
+        if(topics.length > 0){
+            angular.forEach(topics, function (topic) {
+                totalTopics.push(topic);
+                MqttConnection.subscribeTopic(topic);
+            })    
+        }
+    }
+
+    // Method to recive changes
+    $scope.$on("ReciveMessage", function(evt,data){ 
+        angular.forEach(totalTopics, function (topic) {
+            if(topic == data.topic){
+                    let monitorTopic = $scope.datasource.options_array.topic + '/monitor'
+                    if(monitorTopic == data.topic){
+                        
+                        if(($scope.datasource.type === 'Control: Smart Switch (Light)') || 
+                            ($scope.datasource.type === 'Control: Smart Switch (Water Valve)') ||
+                            ($scope.datasource.type === 'Control: Smart Switch (Gas Valve)') ||
+                            ($scope.datasource.type === 'Control: Smart Switch (AC)') ||
+                            ($scope.datasource.type === 'Control: Smart Switch (Power)') ||
+                            ($scope.datasource.type === 'Control: Smart Switch (Lock)') ||
+                            ($scope.datasource.type === 'Control: Smart Bulb')){
+                                console.log(data.payloadString,'data.payloadString');    
+                                if(data.payloadString == "OFF"){
+                                        $scope.datasource.toggle = 0;
+                                    }else{
+                                        $scope.datasource.toggle = 1;
+                                    } 
+                                    switchAction($scope.datasource);
+                            }else{
+
+                                if($scope.datasource.data != undefined){
+                                    if($scope.datasource.data.data == undefined){
+                                        let detasourceData = {created_at:'',data:''};
+                                        $scope.datasource.data = detasourceData;
+                                    }
+                                    
+                                    $scope.datasource.data.data = data.payloadString;
+                                    updateDataSourceData($scope.datasource);
+                                }                                
+                            }
+                            $scope.$apply();
+                    }
+                // })
+            }
+        })
+    })
+
+    // method to handle switch action
+    function switchAction(datasource){
+            var isChecked = jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
+            if (isChecked) {
+                $scope.activate = "ON";
+            } else {
+                $scope.activate = "OFF";
+            }
+            
+            mobilenotification(datasource)
+    }
+
+    // method to send mobile notification
+    function mobilenotification(datasource){
+        var mobilenotification = $.param({
+            name: datasource.name,
+            space: datasource.space_id,
+            topic: datasource.options_array.topic,
+            value: $scope.activate,
+            project_id: datasource.project_id,
+            data: 0
+        });
+        ProjectService.CreateMobileNotification(mobilenotification)
+        .then(function (response) {
+            if (response.success == false) {
+
+                $.notify({
+                    message: 'Error'
+                },{     
+                    type: 'danger'
+                });
+
+
+            } else {
+                var sensordata = $.param({
+                    topic: datasource.options_array.topic,
+                    value: $scope.activate,
+                });
+
+
+                ProjectService.CreateDatasourceSensorData(sensordata)
+                .then(function (response){
+
+                    var message = 'Succesfully switched ';
+                    
+                    if(datasource.toggle == 0){
+                        message = message + 'OFF';
+                    }
+                    if(datasource.toggle == 1){
+                        message = message + 'ON';
+                    }
+                    
+                    $.notify({
+                        // message: datasource.name + ' ' + message + $scope.activate
+                        message: datasource.name + ' ' + message
+                    },{     
+                        type: 'success'
+                    });
+
+
+                });
+
+
+            }
+        });
+    }
+
 }]);
 
 
 // Project settings controller
-App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectService', 'triggers', 'localStorageService',
-    function ($scope, $stateParams, ProjectService, triggers, localStorageService) {
+App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectService', 'triggers', 'localStorageService', '$window',
+    function ($scope, $stateParams, ProjectService, triggers, localStorageService,$window) {
+        
         console.log($stateParams);
         $scope.project = [];
         //remove triggers on local storage
@@ -2049,15 +2252,14 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
         });
 
         ProjectService.GetById($stateParams.projectId).then(function (data) {
-            console.log(data);
             $scope.project = data.project;
             var items = [
-                    // Text items
+                    // Text items                   s
+                    
                     {
                         type: "text",
                         title: "Text title",
-                        description: "<b>Text item</b> with description. It has a <i>custom class name</i> " +
-                            "and the plugin option to allow <i>HTML markup</i>",
+                        description: "<b>Text item</b> with description. It has a <i>custom class name</i> ",
                         position: {
                             left: 100,
                             top: 50
@@ -2230,8 +2432,13 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
 
                 // Plugin activation
                 $(document).ready(function() {
+                   
+                    //angular.element('#floorplan').scope().onclickTest();
+                    //angular.element('#floorplan').scope().$evalAsync() 
                     $("#my-interactive-image").interactiveImage(items, options);
-                });
+                    
+                });           
+               
         });
 
 
@@ -2256,7 +2463,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
             $scope.spacescount = data;
         });
 
-
+         
     }
 ]);
 
@@ -2351,4 +2558,10 @@ App.directive('backImg', function(){
     };
 })
 
-
+App.directive('showDataSourceDetails', function () {
+    return {
+        restrict: "EA",
+        scope: false,
+        templateUrl: '/assets/js/modules/project/views/data-source-details.html'
+    };
+});

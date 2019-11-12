@@ -135,7 +135,7 @@ $(document).on("click", ".view-space-add-image", function () {
     SpaceService.GetById(spaceid)
     .then(function (data) {
         $scope.space = data;
-        console.log($scope.space);
+
         $('#modal-space-add-image').modal('show');
     });
 });
@@ -802,8 +802,6 @@ App.controller('SpaceViewCtrl', ['$scope', 'spaces', '$localStorage', '$window',
         SpaceService.GetById($scope.space_id)
         .then(function (data) {
             $scope.space = data;
-
-            console.log($scope.space,'$scope.space');
             // $datasourcecount = 0;
 
             // $mqttconnected = false;
@@ -894,6 +892,7 @@ init();
 
 
     }
+    
     // method to send mobile notification
     function mobilenotification(datasource){
         var mobilenotification = $.param({
@@ -956,6 +955,8 @@ init();
         if (datasource.type === 'Monitor: Temperature Sensor (Celsius)' && datasource.data != undefined) {
                 if($datasourcecount == 0){
                     $scope.gaugeSensorData_0 = datasource.data.data;
+                    // console.log($scope.gaugeSensorData_0,'$scope.gaugeSensorData_0');
+
                 }
                 if($datasourcecount == 1){
                     $scope.gaugeSensorData_1 = datasource.data.data;
@@ -1117,8 +1118,7 @@ init();
                             (datasources.type === 'Control: Smart Switch (AC)') ||
                             (datasources.type === 'Control: Smart Switch (Power)') ||
                             (datasources.type === 'Control: Smart Switch (Lock)') ||
-                            (datasources.type === 'Control: Smart Bulb')){
-                                console.log(data.payloadString,'data.payloadString');    
+                            (datasources.type === 'Control: Smart Bulb')){  
                                 if(data.payloadString == "OFF"){
                                         datasources.toggle = 0;
                                     }else{
@@ -1140,8 +1140,6 @@ init();
 
     // method to send message in 
     function publish(message,topic){
-        console.log(message,'message');
-        console.log(topic,'topic');
         MqttConnection.publish(message,topic);
     }
 
