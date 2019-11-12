@@ -37,15 +37,53 @@
     }
 </style>
 <!-- custom css interactiive images -->
+<!-- custom js for fullscreen -->
+<script>
+var elem = document.documentElement;
+// var elem = document.getElementById('content');
+function openFullscreen() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
 
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  }
+}
+</script>
+<!-- custom js for fullscreen -->
 
 
 
 
 <!-- Page Content -->
-<div class="content">
+<div class="content" id="content">
+    <div class="block-header">
+                    <ul class="block-options">
+                        
+                             <button type="button"  onclick="openFullscreen();"><i class="si si-size-fullscreen"></i></button>
+                             <button type="button"  onclick="closeFullscreen();"><i class="si si si-size-actual"></i></button>
+                      
+                    </ul>
+                    
+                </div>
+   
     <div class="row">
-        <div class="col-sm-12" ng-if="project != undefined && project != '' ">
+        <div class="col-sm-12" style="z-index: 1000" ng-if="project != undefined && project != '' && project.image != undefined && project.image != '' ">
             <!-- interactive image container -->
             <!-- <div ng-style="{'background-image':'url({{project.image}})'}" id="my-interactive-image"></div> -->
             <div class="block">
@@ -55,7 +93,7 @@
                             <button type="button"><i ng-click="refreshMap()" class="si si-refresh"></i></button>
                         </li>
                     </ul>
-                    <span ng-bind="project.name"></span>                            
+                    <div class="h5 text-muted text-uppercase push-5-t">Interactive Floorplan</div>                       
                 </div>
                 <div back-img="{{project.image}}" id="my-interactive-image"></div>
                 <!-- <div id="my-interactive-image"></div> -->
@@ -64,7 +102,8 @@
 
             <!-- END interactive image container -->
         </div>
-        <div class="col-sm-12">
+        <div>
+            <div class="col-sm-12">
             <!-- Map Markers Map -->
             <div class="block">
                 <div class="block-header">
@@ -85,6 +124,8 @@
             </div>
             <!-- END Map Markers Map -->
         </div>
+        </div>
+        
         <div class="col-sm-12 col-md-12 col-lg-3">
             <a class="block block-bordered block-link-hover3" data-ui-sref="spaces({projectId: project.id})">
                 <table class="block-table text-center">

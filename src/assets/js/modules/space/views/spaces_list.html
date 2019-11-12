@@ -1,9 +1,9 @@
 
-<div class="content bg-gray-lighter"   style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+<div class="content bg-gray-lighter" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
     <div class="row items-push">
         <div class="col-sm-7">
             <h1 class="page-heading animated fadeIn text-white">
-                <i class="si si-frame"></i> <a style="color: white" data-ui-sref="projectsettings({projectId: project.id})">{{project.name}}</a> > Spaces
+                <i class="si si-frame"></i> <a style="color: white" data-ui-sref="projectview({projectId: project.id})">{{project.name}}</a> > Spaces
             </h1>
         </div>
         <div class="col-sm-5 text-right hidden-xs"> 
@@ -41,7 +41,8 @@
                     
                     <tr ng-repeat="space in spaceslist">
                         <td>{{space.id}}</td>
-                        <td><img ng-src="{{space.icon_image_url}}" style="height: 20px; padding-right: 5px">{{space.name}}
+                        <td><img ng-src="{{space.icon_image_url}}" style="height: 20px; padding-right: 5px">
+                            <a href='#/project/{{space.project_id}}/space/{{space.id}}' data-ui-sref='spaceview({spaceId::space.id})'>{{space.name}}</a>
                         </td>
                         <td>{{space.organization_name}}</td>
                         <td>{{space.project_name}}</td>
