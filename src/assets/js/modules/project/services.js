@@ -44,7 +44,8 @@
         service.RemoveUserFromProject = RemoveUserFromProject;
         service.CreateMobileNotification = CreateMobileNotification;
         service.CreateDatasourceSensorData = CreateDatasourceSensorData;
-        service.GetDatasourceDetails = GetDatasourceDetails
+        service.GetDatasourceDetails = GetDatasourceDetails;
+        service.GetDatasourceSpaceDetails = GetDatasourceSpaceDetails
 
         return service;
 
@@ -385,6 +386,16 @@
                 }
             };
             return $http.get(urls.BASE_API + 'project/' + projectId + '/hp/datasources', config).then(handleSuccess, handleError('Error getting datasources'));
+
+        }
+
+        function GetDatasourceSpaceDetails(datasourceId) {
+            var config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            };
+            return $http.get(urls.BASE_API + 'datasource/' + datasourceId , config).then(handleSuccess, handleError('Error getting dashboard count by id'));
 
         }
     }
