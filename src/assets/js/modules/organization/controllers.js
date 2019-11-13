@@ -9,7 +9,6 @@ App.controller('OrganizationViewCtrl', ['$scope', '$localStorage', '$window', 'U
     function ($scope, $localStorage, $window, UserService, OrganizationService, $http, $state, $timeout, $stateParams, ProjectService) {
         var organizationid = $stateParams.organizationId;
         var markers = [];
-
         // ProjectService.GetProjectsByOrganizationId($stateParams.organizationId)
         //             .then(function(data) {
         //                 console.log('GetProjectsByOrganizationId');
@@ -17,11 +16,6 @@ App.controller('OrganizationViewCtrl', ['$scope', '$localStorage', '$window', 'U
 
         //             });
         // OrganizationService.GetById($stateParams.organizationId)
-        OrganizationService.GetById($stateParams.organizationId)
-                    .then(function (data){
-                        $scope.organization = data.organization;
-                    });
-
          ProjectService.GetProjectsByOrganizationId($stateParams.organizationId)
                     .then(function (data) {
                         $scope.projects = data.projects;

@@ -43,22 +43,22 @@ App.constant('urls', {
 // BASE_API: 'http://127.0.0.1:5000/api/',
 // BASE_NR: 'http://127.0.0.1:1880',
 // MQTT_BROKER: 'mqtt.tiosplatform.com',
-// MQTT_BROKER_PORT: 8083
+// MQTT_BROKER_PORT: 9001
 
 //Local: TechValens
-// BASE_API_SERVER: 'http://192.168.168.44:5000/',
-// BASE_API: 'http://192.168.168.44:5000/api/',
-// BASE_NR: 'http://192.168.168.44:1880',
-// MQTT_BROKER: 'mqtt.tiosplatform.com',
-// MQTT_BROKER_PORT: 8083
+BASE_API_SERVER: 'http://192.168.168.56:5000/',
+BASE_API: 'http://192.168.168.56:5000/api/',
+BASE_NR: 'http://192.168.168.56:1880',
+MQTT_BROKER: 'mqtt.tiosplatform.com',
+MQTT_BROKER_PORT: 8083
 
 
 //prod
-BASE_API_SERVER: 'https://api.tiosplatform.com/',
-BASE_API: 'https://api.tiosplatform.com/api/',
-BASE_NR: 'https://node-red.tiosplatform.com:1080',
-MQTT_BROKER: 'mqtt.tiosplatform.com',
-MQTT_BROKER_PORT: 9001,
+// BASE_API_SERVER: 'https://api.tiosplatform.com/',
+// BASE_API: 'https://api.tiosplatform.com/api/',
+// BASE_NR: 'https://node-red.tiosplatform.com:1080',
+// MQTT_BROKER: 'mqtt.tiosplatform.com',
+// MQTT_BROKER_PORT: 9001,
 
 });
 
@@ -674,21 +674,21 @@ App.config(['$stateProvider', '$urlRouterProvider',
                     url: '/project/:projectId/settings',
                     templateUrl: 'assets/js/modules/project/views/projectsettings.html',
                     controller: 'ProjectSettingsCtrl',
-// resolve: {
-//     deps: ['$ocLazyLoad', function($ocLazyLoad) {
-//         return $ocLazyLoad.load({
-//             insertBefore: '#css-bootstrap',
-//             serie: true,
-//             files: [
-//                 'assets/js/plugins/datatables/jquery.dataTables.min.css',
-//                 'assets/js/plugins/datatables/jquery.dataTables.min.js',
-//                 'assets/js/plugins/sweetalert/sweetalert.min.css',
-//                 'assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js',
-//                 'assets/js/plugins/sweetalert/sweetalert.min.js'
-//             ]
-//         });
-//     }]
-// }
+                    // resolve: {
+                    //     deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    //         return $ocLazyLoad.load({
+                    //             insertBefore: '#css-bootstrap',
+                    //             serie: true,
+                    //             files: [
+                    //                 'assets/js/plugins/datatables/jquery.dataTables.min.css',
+                    //                 'assets/js/plugins/datatables/jquery.dataTables.min.js',
+                    //                 'assets/js/plugins/sweetalert/sweetalert.min.css',
+                    //                 'assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js',
+                    //                 'assets/js/plugins/sweetalert/sweetalert.min.js'
+                    //             ]
+                    //         });
+                    //     }]
+                    // }
                 })
 
                 .state('projectfloorplan', {
