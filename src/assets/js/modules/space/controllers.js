@@ -1076,7 +1076,37 @@ init();
             if (datasource.type === 'Monitor: Flood Sensor'){
                 $datasourcecount = $datasourcecount + 1;
             }
-            if (datasource.type === 'Voltage (V)'){
+            if (datasource.type === 'Monitor: Voltage (V)'){
+                if($datasourcecount == 0){
+                    $scope.gaugeSensorData_0 = datasource.data.data;
+                }
+                if($datasourcecount == 1){
+                    $scope.gaugeSensorData_1 = datasource.data.data;
+                }
+                if($datasourcecount == 2){
+                    $scope.gaugeSensorData_2 = datasource.data.data;
+                }
+                if($datasourcecount == 3){
+                    $scope.gaugeSensorData_3 = datasource.data.data;
+                }
+                if($datasourcecount == 4){
+                    $scope.gaugeSensorData_4 = datasource.data.data;
+                }
+                if($datasourcecount == 5){
+                    $scope.gaugeSensorData_5 = datasource.data.data;
+                }
+                if($datasourcecount == 6){
+                    $scope.gaugeSensorData_6 = datasource.data.data;
+                }
+                if($datasourcecount == 7){
+                    $scope.gaugeSensorData_7 = datasource.data.data;
+                }
+                if($datasourcecount == 8){
+                    $scope.gaugeSensorData_8 = datasource.data.data;
+                }
+                if($datasourcecount == 9){
+                    $scope.gaugeSensorData_9 = datasource.data.data;
+                }
                 $datasourcecount = $datasourcecount + 1;
             }
             if (datasource.type === 'Electric Current (A)'){
