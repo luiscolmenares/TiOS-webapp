@@ -2048,12 +2048,23 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
     // method to update data after message recive for datascource
     function updateDataSourceData(datasource){
         $datasourcecount = 0;
-        if (datasource.type === 'Monitor: Temperature Sensor (Celsius)' && datasource.data.data != undefined) {
-                if($datasourcecount == 0){
-                    $scope.gaugeSensorData_0 = datasource.data.data;
+            if(datasource.data != undefined){
+                if(datasource.data.data != undefined){
+                    if (datasource.type === 'Monitor: Temperature Sensor (Celsius)') {
+                        if($datasourcecount == 0){
+                            $scope.gaugeSensorData_0 = datasource.data.data;
+                        }   
+                    }
+
+                    if (datasource.type === 'Monitor: Temperature Sensor (Farenheit)'){
+                        if($datasourcecount == 0){
+                            $scope.gaugeSensorData_0 = datasource.data.data;
+                        }
+                        
+                        $datasourcecount = $datasourcecount + 1;
+                    }
                 }
-                
-            }
+            }            
 
             if (datasource.type === 'Control: Smart Switch (Light)'){
           
@@ -2075,13 +2086,7 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
             if (datasource.type === 'Control: Smart Bulb'){
                 $datasourcecount = $datasourcecount + 1;
             }
-            if (datasource.type === 'Monitor: Temperature Sensor (Farenheit)'){
-                if($datasourcecount == 0){
-                    $scope.gaugeSensorData_0 = datasource.data.data;
-                }
-                
-                $datasourcecount = $datasourcecount + 1;
-            }
+            
             if (datasource.type === 'Monitor: Humidity Sensor'){
                 $datasourcecount = $datasourcecount + 1;
             }
