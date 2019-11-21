@@ -154,8 +154,7 @@ $scope.loadSpaces = function () {
 $(document).on("click", ".view-space-edit", function () {
     var spaceid = $(this).data('id');
     SpaceService.GetById(spaceid)
-    .then(function (data) {
-        console.log(data);
+    .then(function (data) {        
         $scope.space = data;
 // //Obtenemos la organizacion
 // OrganizationService.GetByProjectId($stateParams.projectId)
