@@ -1992,6 +1992,8 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
                     $scope.datasource = data.datasource;
                     updateDataSourceData(data.datasource);
                     subscribeTopic(data.datasource);
+
+                    
                 })
 
                 $('#modal-view-data-source-details').modal('show');
@@ -2046,7 +2048,7 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
 
 
     // method to update data after message recive for datascource
-    function updateDataSourceData(datasource){
+    function updateDataSourceData(datasource){            
         $datasourcecount = 0;
             if(datasource.data != undefined){
                 if(datasource.data.data != undefined){
@@ -2064,8 +2066,8 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
                         $datasourcecount = $datasourcecount + 1;
                     }
                 }
-            }            
-
+            }    
+          
             if (datasource.type === 'Control: Smart Switch (Light)'){
           
                 $datasourcecount = $datasourcecount + 1;
@@ -2128,7 +2130,7 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
     }
 
     // Method to recive changes
-    $scope.$on("ReciveMessage", function(evt,data){ 
+    $scope.$on("ReciveMessage", function(evt,data){  
         angular.forEach(totalTopics, function (topic) {
             if(topic == data.topic){
                     let monitorTopic = $scope.datasource.options_array.topic + '/monitor'
@@ -2140,25 +2142,25 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
                             ($scope.datasource.type === 'Control: Smart Switch (AC)') ||
                             ($scope.datasource.type === 'Control: Smart Switch (Power)') ||
                             ($scope.datasource.type === 'Control: Smart Switch (Lock)') ||
-                            ($scope.datasource.type === 'Control: Smart Bulb')){
-                                console.log(data.payloadString,'data.payloadString');    
+                            ($scope.datasource.type === 'Control: Smart Bulb')){ 
                                 if(data.payloadString == "OFF"){
                                         $scope.datasource.toggle = 0;
                                     }else{
                                         $scope.datasource.toggle = 1;
                                     } 
                                     switchAction($scope.datasource);
-                            }else{
-
-                                if($scope.datasource.data != undefined){
-                                    if($scope.datasource.data.data == undefined){
-                                        let detasourceData = {created_at:'',data:''};
-                                        $scope.datasource.data = detasourceData;
-                                    }
-                                    
-                                    $scope.datasource.data.data = data.payloadString;
-                                    updateDataSourceData($scope.datasource);
-                                }                                
+                            }else{                                  
+                                if($scope.datasource.data != null && $scope.datasource.data != undefined){                                    
+                                    if($scope.datasource.data.data){ 
+                                        $scope.datasource.data.data = data.payloadString;
+                                    }else{
+                                        let detasourceData = {created_at:'',data:data.payloadString};
+                                        $scope.datasource.data.data = detasourceData;
+                                    }                                                                       
+                                }else{
+                                    $scope.datasource.data = {data : {created_at:'',data:data.payloadString}};
+                                }   
+                                updateDataSourceData($scope.datasource);                                                                    
                             }
                             $scope.$apply();
                     }
