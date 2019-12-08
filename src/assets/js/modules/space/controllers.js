@@ -802,6 +802,8 @@ App.controller('SpaceViewCtrl', ['$scope', 'spaces', '$localStorage', '$window',
         .then(function (data) {
             $scope.space = data;
             // $datasourcecount = 0;
+            console.log('---space---');
+            console.log(data);
 
             // $mqttconnected = false;
             angular.forEach($scope.space.datasources, function (datasource) {
@@ -953,36 +955,36 @@ init();
 
         if (datasource.type === 'Monitor: Temperature Sensor (Celsius)' && datasource.data != undefined) {
                 if($datasourcecount == 0){
-                    $scope.gaugeSensorData_0 = datasource.data.data;
+                    $scope.TgaugeSensorData_0 = datasource.data.data;
                     // console.log($scope.gaugeSensorData_0,'$scope.gaugeSensorData_0');
 
                 }
                 if($datasourcecount == 1){
-                    $scope.gaugeSensorData_1 = datasource.data.data;
+                    $scope.TgaugeSensorData_1 = datasource.data.data;
                 }
                 if($datasourcecount == 2){
-                    $scope.gaugeSensorData_2 = datasource.data.data;
+                    $scope.TgaugeSensorData_2 = datasource.data.data;
                 }
                 if($datasourcecount == 3){
-                    $scope.gaugeSensorData_3 = datasource.data.data;
+                    $scope.TgaugeSensorData_3 = datasource.data.data;
                 }
                 if($datasourcecount == 4){
-                    $scope.gaugeSensorData_4 = datasource.data.data;
+                    $scope.TgaugeSensorData_4 = datasource.data.data;
                 }
                 if($datasourcecount == 5){
-                    $scope.gaugeSensorData_5 = datasource.data.data;
+                    $scope.TgaugeSensorData_5 = datasource.data.data;
                 }
                 if($datasourcecount == 6){
-                    $scope.gaugeSensorData_6 = datasource.data.data;
+                    $scope.TgaugeSensorData_6 = datasource.data.data;
                 }
                 if($datasourcecount == 7){
-                    $scope.gaugeSensorData_7 = datasource.data.data;
+                    $scope.TgaugeSensorData_7 = datasource.data.data;
                 }
                 if($datasourcecount == 8){
-                    $scope.gaugeSensorData_8 = datasource.data.data;
+                    $scope.TgaugeSensorData_8 = datasource.data.data;
                 }
                 if($datasourcecount == 9){
-                    $scope.gaugeSensorData_9 = datasource.data.data;
+                    $scope.TgaugeSensorData_9 = datasource.data.data;
                 }
                 $datasourcecount = $datasourcecount + 1;
             }
@@ -1011,17 +1013,6 @@ init();
                 $datasourcecount = $datasourcecount + 1;
             }
             if (datasource.type === 'Control: Smart Switch (Lock)'){
-
-                // alert(datasource.toggle);
-
-            //      if(datasource.toggle == 1){
-            // // jQuery('#val-activate-datasource_' + datasource.id).prop("checked");
-            // jQuery('#val-activate-datasource_' + datasource.id).attr('Checked','Checked');
-            //         // $scope.activate = 1;
-            //         } else {
-            //             // $scope.activate = 0;
-            //             jQuery('#val-activate-datasource_' + datasource.id).removeAttr('Checked','Checked');
-            //     }
                 $datasourcecount = $datasourcecount + 1;
             }
             if (datasource.type === 'Control: Smart Switch (Power)'){
@@ -1077,44 +1068,107 @@ init();
             }
             if (datasource.type === 'Monitor: Voltage (V)'){
                 if($datasourcecount == 0){
-                    $scope.gaugeSensorData_0 = datasource.data.data;
+                    $scope.VgaugeSensorData_0 = datasource.data.data;
                 }
                 if($datasourcecount == 1){
-                    $scope.gaugeSensorData_1 = datasource.data.data;
+                    $scope.VgaugeSensorData_1 = datasource.data.data;
                 }
                 if($datasourcecount == 2){
-                    $scope.gaugeSensorData_2 = datasource.data.data;
+                    $scope.VgaugeSensorData_2 = datasource.data.data;
                 }
                 if($datasourcecount == 3){
-                    $scope.gaugeSensorData_3 = datasource.data.data;
+                    $scope.VgaugeSensorData_3 = datasource.data.data;
                 }
                 if($datasourcecount == 4){
-                    $scope.gaugeSensorData_4 = datasource.data.data;
+                    $scope.VgaugeSensorData_4 = datasource.data.data;
                 }
                 if($datasourcecount == 5){
-                    $scope.gaugeSensorData_5 = datasource.data.data;
+                    $scope.VgaugeSensorData_5 = datasource.data.data;
                 }
                 if($datasourcecount == 6){
-                    $scope.gaugeSensorData_6 = datasource.data.data;
+                    $scope.VgaugeSensorData_6 = datasource.data.data;
                 }
                 if($datasourcecount == 7){
-                    $scope.gaugeSensorData_7 = datasource.data.data;
+                    $scope.VgaugeSensorData_7 = datasource.data.data;
                 }
                 if($datasourcecount == 8){
-                    $scope.gaugeSensorData_8 = datasource.data.data;
+                    $scope.VgaugeSensorData_8 = datasource.data.data;
                 }
                 if($datasourcecount == 9){
-                    $scope.gaugeSensorData_9 = datasource.data.data;
+                    $scope.VgaugeSensorData_9 = datasource.data.data;
                 }
                 $datasourcecount = $datasourcecount + 1;
             }
-            if (datasource.type === 'Electric Current (A)'){
+            if (datasource.type === 'Monitor: Electric Current (A)'){
                 $datasourcecount = $datasourcecount + 1;
             }
-            if (datasource.type === 'Electric Power (W)'){
+            if (datasource.type === 'Monitor: Electric Power (W)'){
+                if($datasourcecount == 0){
+                    $scope.WgaugeSensorData_0 = datasource.data.data;
+                }
+                if($datasourcecount == 1){
+                    $scope.WgaugeSensorData_1 = datasource.data.data;
+                }
+                if($datasourcecount == 2){
+                    $scope.WgaugeSensorData_2 = datasource.data.data;
+                }
+                if($datasourcecount == 3){
+                    $scope.WgaugeSensorData_3 = datasource.data.data;
+                }
+                if($datasourcecount == 4){
+                    $scope.WgaugeSensorData_4 = datasource.data.data;
+                }
+                if($datasourcecount == 5){
+                    $scope.WgaugeSensorData_5 = datasource.data.data;
+                }
+                if($datasourcecount == 6){
+                    $scope.WgaugeSensorData_6 = datasource.data.data;
+                }
+                if($datasourcecount == 7){
+                    $scope.WgaugeSensorData_7 = datasource.data.data;
+                }
+                if($datasourcecount == 8){
+                    $scope.WgaugeSensorData_8 = datasource.data.data;
+                }
+                if($datasourcecount == 9){
+                    $scope.WgaugeSensorData_9 = datasource.data.data;
+                }
                 $datasourcecount = $datasourcecount + 1;
             }
-            if (datasource.type === 'Electric Energy (E)'){
+            if (datasource.type === 'Monitor: Electric Energy (E)'){
+                $datasourcecount = $datasourcecount + 1;
+            }
+            if (datasource.type === 'Monitor: Apparent power (KVA)'){
+                if($datasourcecount == 0){
+                    $scope.KgaugeSensorData_0 = datasource.data.data;
+                }
+                if($datasourcecount == 1){
+                    $scope.KgaugeSensorData_1 = datasource.data.data;
+                }
+                if($datasourcecount == 2){
+                    $scope.KgaugeSensorData_2 = datasource.data.data;
+                }
+                if($datasourcecount == 3){
+                    $scope.KgaugeSensorData_3 = datasource.data.data;
+                }
+                if($datasourcecount == 4){
+                    $scope.KgaugeSensorData_4 = datasource.data.data;
+                }
+                if($datasourcecount == 5){
+                    $scope.KgaugeSensorData_5 = datasource.data.data;
+                }
+                if($datasourcecount == 6){
+                    $scope.KgaugeSensorData_6 = datasource.data.data;
+                }
+                if($datasourcecount == 7){
+                    $scope.KgaugeSensorData_7 = datasource.data.data;
+                }
+                if($datasourcecount == 8){
+                    $scope.KgaugeSensorData_8 = datasource.data.data;
+                }
+                if($datasourcecount == 9){
+                    $scope.KgaugeSensorData_9 = datasource.data.data;
+                }
                 $datasourcecount = $datasourcecount + 1;
             }
     }
@@ -1157,6 +1211,8 @@ init();
                             }else{
                                 if(datasources.data != undefined){
                                     datasources.data.data = data.payloadString;
+                                    console.log('datasources');
+                                    console.log(datasources);
                                     updateData(datasources);
                                 }                                
                             }

@@ -1935,6 +1935,8 @@ $state.reload();
 App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService', 'triggers', 'localStorageService','$window','MqttConnection',
     function ($scope, $stateParams, ProjectService, triggers, localStorageService,$window,MqttConnection) {
 
+        $scope.gaugeSensorData_0 = 'loading...';
+
         $scope.project = [];
         var totalTopics = [];   
 
@@ -2048,7 +2050,13 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
 
 
     // method to update data after message recive for datascource
-    function updateDataSourceData(datasource){            
+    function updateDataSourceData(datasource){ 
+
+         console.log('UPDATING DATASOURCE DATA');   
+         console.log('datasource.type');
+         console.log(datasource.type);
+         console.log('datasource.data.data');
+         console.log(datasource);   
         $datasourcecount = 0;
             if(datasource.data != undefined){
                 if(datasource.data.data != undefined){
@@ -2060,6 +2068,22 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
 
                     if (datasource.type === 'Monitor: Temperature Sensor (Farenheit)'){
                         if($datasourcecount == 0){
+                            $scope.gaugeSensorData_0 = datasource.data.data;
+                        }
+                        
+                        $datasourcecount = $datasourcecount + 1;
+                    }
+
+                    if (datasource.type === 'Monitor: Voltage (V)'){
+                        if($datasourcecount == 0){
+                            $scope.gaugeSensorData_0 = 'Loading';
+                            console.log('$datasourcecount');
+                            console.log($datasourcecount);
+                            console.log('datasource.type');
+                            console.log(datasource.type);
+
+                            console.log('datasource.data.data');
+                            console.log(datasource.data.data);
                             $scope.gaugeSensorData_0 = datasource.data.data;
                         }
                         
@@ -2090,9 +2114,12 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
             }
             
             if (datasource.type === 'Monitor: Humidity Sensor'){
+                $scope.gaugeSensorData_0 = datasource.data.data;
+
                 $datasourcecount = $datasourcecount + 1;
             }
             if (datasource.type === 'Monitor: Proximity Sensor'){
+                $scope.gaugeSensorData_0 = datasource.data.data;
                 $datasourcecount = $datasourcecount + 1;
             }
             if (datasource.type === 'Monitor: Door Sensor'){
@@ -2131,6 +2158,7 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
 
     // Method to recive changes
     $scope.$on("ReciveMessage", function(evt,data){  
+        console.log('message received');
         angular.forEach(totalTopics, function (topic) {
             if(topic == data.topic){
                     let monitorTopic = $scope.datasource.options_array.topic + '/monitor'
@@ -2309,7 +2337,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             url: "https://www.jpchateau.com/demo/interactive-image",
                             label: "Interactive Image Demo"
                         },
-                        sticky: true
+                        sticky: false
                     },
                     // Picture items
                     {
@@ -2338,7 +2366,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             left: 500,
                             top: 150
                         },
-                        sticky: true
+                        sticky: false
                     },
                     // Audio items
                     {
@@ -2366,7 +2394,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             left: 500,
                             top: 250
                         },
-                        sticky: true
+                        sticky: false
                     },
                     // Video items
                     {
@@ -2385,7 +2413,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             left: 300,
                             top: 350
                         },
-                        sticky: true
+                        sticky: false
                     },
                     {
                         type: "video",
@@ -2396,7 +2424,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             left: 500,
                             top: 350
                         },
-                        sticky: true
+                        sticky: false
                     },
                     // Provider items
                     {
@@ -2420,7 +2448,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             left: 300,
                             top: 450
                         },
-                        sticky: true
+                        sticky: false
                     }
                 ];
 
