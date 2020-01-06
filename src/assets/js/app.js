@@ -10,6 +10,9 @@ angular.module('Dashboard', []);
 angular.module('ngMaterial', []);
 angular.module('angularPaho', []);
 angular.module('angularPahoConnection', []);
+angular.module('angularMoment',[]);
+angular.module('ui.tree',[]);
+
 //Only for dev
 Pusher.logToConsole = true;
 var pusher = new Pusher('0cbe3c892f6f009260b0', {
@@ -17,8 +20,7 @@ var pusher = new Pusher('0cbe3c892f6f009260b0', {
       encrypted: true
     });
 // Create our angular module
-var App = angular.module('app', [
-    'Authentication',
+var App = angular.module('app', ['Authentication',
     'Dashboard',
     'ngCookies',
     'ngStorage',
@@ -32,7 +34,7 @@ var App = angular.module('app', [
     'angularjs-gauge',
     'angularPaho',
     'angularFileUpload',
-    'angularPahoConnection'
+    'angularPahoConnection',
     //'AngularPrint'
     //,
     //'ngWebSocket'
@@ -43,7 +45,7 @@ App.constant('urls', {
 // BASE_API: 'http://127.0.0.1:5000/api/',
 // BASE_NR: 'http://127.0.0.1:1880',
 // MQTT_BROKER: 'mqtt.tiosplatform.com',
-// MQTT_BROKER_PORT: 8083
+// MQTT_BROKER_PORT: 9001
 
 //Local: TechValens
 // BASE_API_SERVER: 'http://192.168.168.56:5000/',
@@ -58,9 +60,10 @@ BASE_API_SERVER: 'https://api.tiosplatform.com/',
 BASE_API: 'https://api.tiosplatform.com/api/',
 BASE_NR: 'https://node-red.tiosplatform.com:1080',
 MQTT_BROKER: 'mqtt.tiosplatform.com',
-MQTT_BROKER_PORT: 8083,
+MQTT_BROKER_PORT: 9001,
 
 });
+App.service('toaster');
 
 // Router configuration
 App.config(['$stateProvider', '$urlRouterProvider',
@@ -1767,6 +1770,34 @@ App.config(['$stateProvider', '$urlRouterProvider',
                                     files: [
                                         'assets/js/plugins/magnific-popup/magnific-popup.min.css',
                                         'assets/js/plugins/magnific-popup/magnific-popup.min.js'
+                                    ]
+                                });
+                            }]
+                    }
+                })
+                .state('dataAnalyticsTree', {
+                    url: '/dataanalytics',
+                    templateUrl: 'assets/js/modules/data-analytics/views/data-analytics.html',
+                    controller: 'CompAnalyticsTreeCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    insertBefore: '#css-bootstrap',
+                                    serie: true,
+                                    files: [
+                                        'assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker3.min.css',
+                                        'assets/js/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css',
+                                        'assets/js/plugins/select2/select2-bootstrap.min.css',
+                                        'assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js',
+                                        'assets/js/plugins/fullcalendar/moment.min.js',
+                                        'assets/js/plugins/bootstrap-treeview/bootstrap-treeview.min.css',
+                                        'assets/js/plugins/bootstrap-treeview/bootstrap-treeview.min.js',
+                                        'assets/js/plugins/flot/jquery.flot.min.js',
+                                        'assets/js/plugins/flot/jquery.flot.pie.min.js',
+                                        'assets/js/plugins/flot/jquery.flot.stack.min.js',
+                                        'assets/js/plugins/flot/jquery.flot.resize.min.js',
+                                        "assets/js/plugins/angular-ui-tree-master/dist/angular-ui-tree.js",
+                                        "assets/js/plugins/angular-ui-tree-master/dist/angular-ui-tree.min.css"
                                     ]
                                 });
                             }]

@@ -1935,8 +1935,6 @@ $state.reload();
 App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService', 'triggers', 'localStorageService','$window','MqttConnection',
     function ($scope, $stateParams, ProjectService, triggers, localStorageService,$window,MqttConnection) {
 
-        $scope.gaugeSensorData_0 = 'loading...';
-
         $scope.project = [];
         var totalTopics = [];   
 
@@ -1994,8 +1992,6 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
                     $scope.datasource = data.datasource;
                     updateDataSourceData(data.datasource);
                     subscribeTopic(data.datasource);
-
-                    
                 })
 
                 $('#modal-view-data-source-details').modal('show');
@@ -2050,13 +2046,7 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
 
 
     // method to update data after message recive for datascource
-    function updateDataSourceData(datasource){ 
-
-         console.log('UPDATING DATASOURCE DATA');   
-         console.log('datasource.type');
-         console.log(datasource.type);
-         console.log('datasource.data.data');
-         console.log(datasource);   
+    function updateDataSourceData(datasource){
         $datasourcecount = 0;
             if(datasource.data != undefined){
                 if(datasource.data.data != undefined){
@@ -2133,14 +2123,17 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
             if (datasource.type === 'Control: Smart Bulb'){
                 $datasourcecount = $datasourcecount + 1;
             }
-            
+            if (datasource.type === 'Monitor: Temperature Sensor (Farenheit)'){
+                if($datasourcecount == 0){
+                    $scope.gaugeSensorData_0 = datasource.data.data;
+                }
+                
+                $datasourcecount = $datasourcecount + 1;
+            }
             if (datasource.type === 'Monitor: Humidity Sensor'){
-                $scope.gaugeSensorData_0 = datasource.data.data;
-
                 $datasourcecount = $datasourcecount + 1;
             }
             if (datasource.type === 'Monitor: Proximity Sensor'){
-                $scope.gaugeSensorData_0 = datasource.data.data;
                 $datasourcecount = $datasourcecount + 1;
             }
             if (datasource.type === 'Monitor: Door Sensor'){
@@ -2178,8 +2171,7 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
     }
 
     // Method to recive changes
-    $scope.$on("ReciveMessage", function(evt,data){  
-        console.log('message received');
+    $scope.$on("ReciveMessage", function(evt,data){ 
         angular.forEach(totalTopics, function (topic) {
             if(topic == data.topic){
                     let monitorTopic = $scope.datasource.options_array.topic + '/monitor'
@@ -2191,25 +2183,25 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
                             ($scope.datasource.type === 'Control: Smart Switch (AC)') ||
                             ($scope.datasource.type === 'Control: Smart Switch (Power)') ||
                             ($scope.datasource.type === 'Control: Smart Switch (Lock)') ||
-                            ($scope.datasource.type === 'Control: Smart Bulb')){ 
+                            ($scope.datasource.type === 'Control: Smart Bulb')){
+                                console.log(data.payloadString,'data.payloadString');    
                                 if(data.payloadString == "OFF"){
                                         $scope.datasource.toggle = 0;
                                     }else{
                                         $scope.datasource.toggle = 1;
                                     } 
                                     switchAction($scope.datasource);
-                            }else{                                  
-                                if($scope.datasource.data != null && $scope.datasource.data != undefined){                                    
-                                    if($scope.datasource.data.data){ 
-                                        $scope.datasource.data.data = data.payloadString;
-                                    }else{
-                                        let detasourceData = {created_at:'',data:data.payloadString};
-                                        $scope.datasource.data.data = detasourceData;
-                                    }                                                                       
-                                }else{
-                                    $scope.datasource.data = {data : {created_at:'',data:data.payloadString}};
-                                }   
-                                updateDataSourceData($scope.datasource);                                                                    
+                            }else{
+
+                                if($scope.datasource.data != undefined){
+                                    if($scope.datasource.data.data == undefined){
+                                        let detasourceData = {created_at:'',data:''};
+                                        $scope.datasource.data = detasourceData;
+                                    }
+                                    
+                                    $scope.datasource.data.data = data.payloadString;
+                                    updateDataSourceData($scope.datasource);
+                                }                                
                             }
                             $scope.$apply();
                     }
@@ -2358,7 +2350,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             url: "https://www.jpchateau.com/demo/interactive-image",
                             label: "Interactive Image Demo"
                         },
-                        sticky: false
+                        sticky: true
                     },
                     // Picture items
                     {
@@ -2387,7 +2379,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             left: 500,
                             top: 150
                         },
-                        sticky: false
+                        sticky: true
                     },
                     // Audio items
                     {
@@ -2415,7 +2407,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             left: 500,
                             top: 250
                         },
-                        sticky: false
+                        sticky: true
                     },
                     // Video items
                     {
@@ -2434,7 +2426,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             left: 300,
                             top: 350
                         },
-                        sticky: false
+                        sticky: true
                     },
                     {
                         type: "video",
@@ -2445,7 +2437,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             left: 500,
                             top: 350
                         },
-                        sticky: false
+                        sticky: true
                     },
                     // Provider items
                     {
@@ -2469,7 +2461,7 @@ App.controller('ProjectFloorplanCtrl', ['$scope', '$stateParams', 'ProjectServic
                             left: 300,
                             top: 450
                         },
-                        sticky: false
+                        sticky: true
                     }
                 ];
 
