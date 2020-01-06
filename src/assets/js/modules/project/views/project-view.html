@@ -16,8 +16,27 @@
 <!-- END Page Header -->
 
 <!-- Specific styles of a scene -->
-
-<!-- custom css interactive images moved to assets/css/custom.css -->
+<style>
+    .interactive-image {
+        margin: auto;
+        width: 100%;
+        height: 600px;
+        object-fit: cover;
+        /* background-image:    s url('assets/js/plugins/interactiveimagejs/docs/_static/image.jpg'); */
+        background-size:contain !important;
+        background-repeat: no-repeat;
+        background-position: center; 
+    }
+    .interactive-image .item {
+        min-width: 200px !important;
+        min-height: 60px !important;
+        height: auto !important;
+    }
+    .interactive-image .text-item .picture{
+        max-width: 100%;
+    }
+</style>
+<!-- custom css interactiive images -->
 
 
 
@@ -29,7 +48,7 @@
         <div class="col-sm-12" ng-if="project != undefined && project != '' ">
             <!-- interactive image container -->
             <!-- <div ng-style="{'background-image':'url({{project.image}})'}" id="my-interactive-image"></div> -->
-            <div class="block" style="position: relative; z-index: 2;">
+            <div class="block">
                 <div class="block-header">
                     <ul class="block-options">
                         <li>

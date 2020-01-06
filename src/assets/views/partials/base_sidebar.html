@@ -68,10 +68,18 @@
                         <a ng-if="menuitem.type === 'main'" data-ui-sref="{{menuitem.data_ui_sref}}"  data-ui-sref-active="{{menuitem.data_ui_sref_active}}">
                             <i class="{{menuitem.icon_class}}"></i><span class="{{menuitem.span_class}}">{{menuitem.name}}</span>
                         </a>
+                    </li>
+                    <li>
+                        <a data-ui-sref="dataAnalyticsTree">
+                            <i class="fa fa-bar-chart-o"></i><span> Data Analytics</span>
+                        </a>
+                    </li>
+                    <li ng-repeat="menuitem in menuitems">
                         <a ng-if="menuitem.type === 'button'" href="javascript:void(0)" ng-click="logout()">
                             <i class="{{menuitem.icon_class}}"></i><span class="{{menuitem.span_class}}">{{menuitem.name}}</span>
                         </a>
                     </li>
+
 
                 <!-- <li user-role="['super']">
                     <a data-ui-sref="admindashboard" data-ui-sref-active="active">

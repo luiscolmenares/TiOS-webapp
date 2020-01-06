@@ -1,0 +1,251 @@
+<div class="row">
+    <div class="col-lg-12">
+            <div class="content bg-gray-lighter"  style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+                <div class="row items-push">
+                    <div class="col-sm-7">
+                        <h1 class="page-heading animated fadeIn text-white">
+                            <i class="si si-briefcase fa fa-bar-chart-o"></i> Data <span style="font-weight: 200 !important">Analytics</span>
+                        </h1>
+                    </div>
+                    <div class="col-sm-5 text-right">              
+                        <button type="button" class="btn btn-minw btn-square btn-primary" ng-click="chartData($scope.dataSourcesType, $scope.resolution)"
+                        >Display Chart</button>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="block">           
+              <div class="content-p-5">
+                <div class="block-content p-m-5">
+                    <div class="row bg-gray-lighter p-m-5">
+                        <div class="col-md-2 col-lg-2">
+                            <b>Time:</b>
+                        </div>
+                        <div class="col-md-4 col-lg-4 ">
+                            <div class="col-md-4 col-lg-4 py-5">
+                                <span> 
+                                    <span class="input-group-addon inline-add-on-calendar datepicker-icon"><i class="fa fa-calendar"></i></span>      
+                                    <label for="example-datepicker4">From Date:</label> 
+                                </span>
+                            </div>
+                            <div class="form-material col-md-8 col-lg-8 m-p-0">
+                                <input data-js-datepicker class="form-control width-70 datepicker-icon" type="text" id="fromDate" name="fromDate" ng-model="fromDate" data-date-format="mm/dd/yyyy" placeholder="mm/dd/yyyy" onkeypress="event.preventDefault()" onkeydown="event.preventDefault()" onkeyup="event.preventDefault()" ng-change="displayRequest = false;dateToEpoch('fromDate')"/>   
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-lg-2 ">
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <div class="col-md-4 col-lg-4 py-5">
+                                <span>
+                                    <span class="input-group-addon inline-add-on-calendar"><i class="fa fa-calendar"></i></span>
+                                     <label for="exampledatepicker4">To Date:</label>
+                                 </span>
+                            </div>
+                            <div class="form-material  col-md-8 col-lg-8 m-p-0">
+                                <input data-js-datepicker class="form-control width-80" type="text" id="toDate" name="toDate" ng-model="toDate" data-date-format="mm/dd/yyyy" placeholder="mm/dd/yyyy"   onkeypress="event.preventDefault();" onkeydown="event.preventDefault()" onkeyup="event.preventDefault()" ng-change="displayRequest = false;dateToEpoch('toDate')"/> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <div class="row bg-gray-lighter p-m-5">
+                        <div class="col-md-2 col-lg-2">
+                            <b>Chart Type:</b>
+                        </div>
+                        <div class="col-md-3 col-lg-3 chart_type">
+                            <input type="radio" ng-model="chart.type" value="lineChart" ng-click="displayRequest = false"/> 
+                            <label for="lineChart">Line Chart</label>
+                        </div>
+                        <div class="col-md-3 col-lg-3 chart_type">
+                            <input type="radio" ng-model="chart.type" value="barChart" ng-click="displayRequest = false"/> 
+                            <label for="barChart">Bar Chart</label>
+                        </div>
+                        <div class="col-md-3 col-lg-3 chart_type">
+                            <input type="radio" ng-model="chart.type" value="pieChart" ng-click="displayRequest = false"/>
+                            <label for="pieChart">Pie Chart</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-lg-8">           
+                        <!-- <div class="p-l-15 p-t-5 text-center" ng-if="((chart.type != 'pieChart' &&  durationValues.length == 0 && displayRequest == true))"> -->
+                        <div ng-if="loader == true && displayRequest == true && (fromDate && toDate) && ((fromDateEpoch < toDateEpoch) || (fromDateEpoch == toDateEpoch))" class="p-l-15 p-t-5 text-center">
+                            <h3>Loading...</h3>
+                        </div>
+                        <div class="p-l-15 p-t-5 text-center" ng-if="(((chart.type == 'pieChart' && dataPieDataChart.length == 0) || (dataPieDataChart.length == 1  && dataPieDataChart[0].data == 0) || (chart.type == 'pieChart' && noPieData == true)) && displayRequest == true && loader == false)">
+                            <h3>
+                                Data not available for these selections.
+                            </h3>
+                        </div>
+                        <div  class="p-l-15 p-t-5 text-center" ng-if="(chart.type != 'pieChart' && durationValues.length == 0  && displayRequest == true && loader == false)">
+                            <h3>
+                                Data not available for these selections.
+                            </h3>
+                        </div>
+                        <div class="p-l-15 p-t-5 text-center" ng-if="nodeType == ''">
+                            <h4>
+                                Please Select any Organization, project, Space or Datasource
+                            </h4>
+                        </div>
+                        <div class="block-content block-content-full"> 
+                            <div ng-if="chart.type == 'lineChart' && displayRequest == true"  class="js-flot-lines" style="height: 550px; width: 950px"></div>
+                            <div ng-if="chart.type == 'barChart' && displayRequest == true" class="js-flot-bars" style="height: 550px; width: 950px"></div>
+                            <div ng-if="chart.type == 'pieChart' && displayRequest == true" class="js-flot-pie" style="height: 550px; width: 950px"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4" >
+                            <div ui-tree class="container-height chart_accordion">
+                                    <ol ui-tree-nodes="" ng-model="list">
+                                        <li ng-repeat="organization in organizations;" ui-tree-node  class="p-m-10">
+                                            <span class="organization_acco" ng-click="expandNode(organization, 'organization')">
+                                                <i class="fa fa-plus" ng-if="(organization.id != organizationId || (organizationId != '' && nodeProjects.length == 0))"></i>
+                                            </span>
+                                            <span class="organization_acco"  ng-if="organization.id == organizationId && nodeProjects.length > 0" ng-click="clearProjectsSpaces('projectsSpaces');">
+                                                <i class="fa fa-minus"></i>
+                                            </span>
+                                            <span ui-tree-handle>
+                                                <span  class="organizationname">
+                                                    <input type="radio" name="organization"  ng-click="assignOrganizationId(organization, 'organization')" >
+                                                    <label ng-if="organization.id != organizationCheckedId">
+                                                        {{organization.name}}
+                                                    </label>
+                                                    <label ng-if="organization.id == organizationCheckedId">
+                                                        {{organization.name}}
+                                                    </label>
+                                                </span>
+                                            </span>
+                                            <ol ui-tree-nodes="" ng-model="expandedNode"  ng-if="organization.id == organizationId" >
+                                                <li ui-tree-node  ng-repeat="project in nodeProjects"  class="projects-p-m-10">
+                                                    <span class="organization_acco"  ng-click="event.stopPropagation();expandNode(project, 'project');">
+                                                        <i class="fa fa-plus" ng-if="(project.id != projectId || (projectId != '' && nodeSpaces.length == 0)) && (isNodeSpaces != true)"></i>
+                                                    </span>
+                                                    <span class="organization_acco"  ng-if="project.id == projectId && isNodeSpaces != true && nodeSpaces.length > 0" ng-click="clearProjectsSpaces('spaces');">
+                                                        <i class="fa fa-minus"></i>
+                                                    </span>
+                                                    <span ui-tree-handle>
+                                                        <span class="organizationname">
+                                                            <input  type="radio" name="project_name" ng-click="assignProjectId(project, 'project')">
+                                                        <label ng-if="project.id != projectCheckedId">{{ project.name }}</label>               
+                                                         <label class="pointerClass p-5 clickedDataNode" ng-if="project.id == projectCheckedId">
+                                                               {{project.name}}
+                                                           </label>
+                                                        </span> 
+                                                       </span>
+                                                       <div ui-tree-handle class="pointerClass p-l-15 p-t-5" ng-if="nodeSpaces.length == 0 && spacesId == null && projectId == null">
+                                                            <span>
+                                                                This Project doesn't have any space available.
+                                                            </span>
+                                                       </div>
+                                                    </span>
+                                                    <ol ng-if="project.id == projectId && spaceId != 'available'" ui-tree-nodes="" ng-model="expandedSpace">
+                                                        <li ui-tree-node  ng-repeat="space in nodeSpaces;" class="spaces-p-m-10">
+                                                            <span ui-tree-handle>
+                                                                <span class="organizationname">
+                                                                <input type="radio" name="spacename" ng-model="spaceId" ng-click="loader = true;assignSpaceId(space, 'space');toggleSelection(space, $event);">
+                                                                 <label ng-if="space.id != spaceCheckedId">
+                                                                    {{$index + 1}}. {{ space.name }}
+                                                                 </label>
+                                                                 <label class="pointerClass p-5 clickedDataNode"  ng-if="space.id == spaceCheckedId">
+                                                                        {{$index + 1}}. {{space.name}}
+                                                                    </label>
+                                                                 </span> 
+                                                                   </span>
+                                                                </span>
+                                                            </span>
+                                                                <ul  ui-tree-nodes="" ng-model="expandedSpaceDatasources"  ng-if="space.id == spaceCheckedId" class=" p-l-15" ng-if="loader == false">
+                                                                <li ui-tree-node  ng-repeat="datasource in dataSourcesOfSpace" class="spaces-p-m-10" ng-if="space.id==datasource.space_id">
+                                                                    <div ui-tree-handle>
+                                                                        <span class="organizationname">
+                                                                        <input type="radio" name="datasource"ng-if="chart.type != 'pieChart'" ng-model="datasourceChecked"  value="datasource.id" id="datasource.id" ng-click="datasourceCheckedId = datasource.id;DatasourceValues(datasource, 'datasource');toggleSelectionDatasource(space, $event); ">
+                                                                        <label  ng-if="datasource.id != datasourceCheckedId && chart.type != 'pieChart'">
+                                                                            {{ datasource.name }}
+                                                                        </label>
+                                                                        <span  ng-if="datasource.id == datasourceCheckedId && chart.type == 'pieChart'">
+                                                                            {{ datasource.name }}
+                                                                        </span>
+                                                                        <!-- <label  ng-if="datasource.id != datasourceCheckedId && chart.type == 'pieChart'"> -->
+                                                                        <span ng-if="datasource.id != datasourceCheckedId && chart.type == 'pieChart'">
+                                                                            {{ datasource.name }}
+                                                                        </span>
+                                                                        <!-- </label> -->
+                                                                        <label class="pointerClass p-5 clickedDataNode"  ng-if="datasource.id == datasourceCheckedId &&  chart.type != 'pieChart'">
+                                                                            {{ datasource.name }}
+                                                                        </label>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                                <div ui-tree-handle class="pointerClass p-l-15 p-t-5" ng-if="dataSourcesOfSpace.length == 0 && spaceId == null && loader == false">
+                                                                    <span>This Space doesn't have any Datasource available.
+                                                                    </span>
+                                                                </div>
+                                                            </ul>
+                                                        </li>
+                                                    </ol>
+                                                </li>
+                                                <div ui-tree-handle class="pointerClass p-l-15 p-t-5" ng-if="nodeProjects.length == 0 && projectId == null">
+                                                     <span>
+                                                         This Organization doesn't have any Project available.
+                                                     </span>
+                                                </div>
+                                            </ol>
+                                        </li>
+                                    </ol>
+                            </div>
+                        <div class="block-box">
+                            <h4>Datasource Type</h4>
+                            <div class="block p-t-5">
+                                <!-- <input type="checkbox" name="voltage" ng-click="$scope.dataSourcesType = 'voltage'; chartData($scope.dataSourcesType,  $scope.resolutionSelected)" ng-model="voltage"/>  -->
+                                <input type="radio" name="voltage" ng-model="dataSources.type" value="voltage" /> 
+                                <label for="voltage">Voltage</label>
+                            </div>
+                            <div class="block">
+                                 <input type="radio" name="energy" ng-model="dataSources.type" value="energy" /> 
+                                <label for="energy">Energy</label>
+                            </div>
+                            <div class="block">
+                                 <input type="radio" name="temperature" ng-model="dataSources.type" value="temperature" /> 
+                                <label for="temperature"> Temperature</label>
+                            </div>
+                          </div>
+
+                      <div class="block-box">
+                            <h4>
+                                Resolution
+                            </h4>
+                            <div ng-if="((toDateEpoch - fromDateEpoch) <= 86400)" class="py-5">
+                                <input type="radio" name="minute" ng-model="resolution.type" value="minute" ng-change="$scope.resolutionSelected = 'minute';"/> 
+                                <label for="oneMin">Minute</label>
+                            </div>
+                            <div class="py-5" ng-if="((toDateEpoch - fromDateEpoch) <= 86400)">
+                                <input type="radio" name="hour" ng-model="resolution.type" value="hour" ng-change="$scope.resolutionSelected = 'hour';"/> 
+                                <label for="hour">Hour</label>
+                            </div>
+                            <div class="py-5" ng-if="(((toDateEpoch - fromDateEpoch) > 86400) && ((toDateEpoch - fromDateEpoch) < 2629743))" >
+                                <input type="radio" name="day" ng-model="resolution.type" value="day" ng-change="$scope.resolutionSelected = 'day';"/> 
+                                <label for="day">Day</label>
+                            </div>
+                            <div class="py-5" ng-if="((toDateEpoch - fromDateEpoch) > 2629743)">
+                                <input type="radio" name="month" ng-model="resolution.type" value="month" ng-change="$scope.resolutionSelected = 'month';"/> 
+                                <label for="month">Month</label>
+                            </div>
+                            <!-- <div class="py-5">
+                                <button type="button" class="btn btn-lg btn-chart" ng-click="chartData($scope.dataSourcesType, $scope.resolution)"
+                                >Display Chart</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    <!-- END Page Content -->
+
+
+
+
+
+
