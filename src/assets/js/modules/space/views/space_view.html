@@ -3,9 +3,7 @@
     <div class="row items-push">
         <div class="col-sm-7">
             <h1 class="page-heading animated fadeIn text-white">
-                <i class="si si-frame"></i> <img src="{{space.icon_image_url}}" style="height: 23px; padding-right: 5px" />
-                <a style="color: white" data-ui-sref="projectview({projectId: space.project_id})">{{space.project_name}}</a>
-                ><a style="color: white" data-ui-sref="spaces({projectId: space.project_id})">Spaces</a> {{' > ' + space.name}}
+                <i class="si si-frame"></i> <img src="{{space.icon_image_url}}" style="height: 23px; padding-right: 5px" /><a style="color: white" data-ui-sref="spaces({projectId: space.project_id})">{{space.project_name}}</a> {{' > ' + space.name}}
             </h1>
         </div>
         <div class="col-sm-5 text-right hidden-xs"> 
@@ -20,7 +18,7 @@
     <!-- Page Content -->
     <div class="content content-narrow">
         <div class="row">
-            <div class="col-lg-6 col-xs-12">
+            <div class="col-lg-4 col-xs-12">
                 <div class="block block-themed" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
                     <div class="block-header bg-info">
                         <ul class="block-options">
@@ -30,7 +28,7 @@
                             <li>
                                 <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
                             </li>
-
+                            
 
                         </ul>
                         <h3 class="block-title">Image</h3>
@@ -39,50 +37,51 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <img class="img-space" src="{{space.image_url}}">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    <img src="{{space.image_url}}" width="100%">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 </div>
+
             </div>
-            <div class="col-lg-6 col-xs-12" ng-repeat="datasource in space.datasources"> 
-                    <div class="block block-themed" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-                        <div class="block-header bg-info">
-                            <ul class="block-options">
-                                <li>
-                                    <button type="button" data-js-block-option data-action="fullscreen_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-                                </li>
+            <div class="col-lg-4 col-xs-12" ng-repeat="datasource in space.datasources">  
+                <div class="block block-themed" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    <div class="block-header bg-info">
+                        <ul class="block-options">
+                            <li>
+                                <button type="button" data-js-block-option data-action="fullscreen_toggle"></button>
+                            </li>
+                            <li>
+                                <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                            </li>
+                            
 
-
-                            </ul>
-                            <h3 class="block-title">{{ datasource.name }}</h3>
-                        </div>
-                        <!-- Monitor: Temperature Sensor (Celsius) -->
-                        <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 0">
-                            <tbody>
-                                <tr>
-                                    <td style="width: 50%;">
-                                        <ng-gauge size="170" type="arch" thick="10" 
-                                        min="0" max="100" value="TgaugeSensorData_0" 
-                                        cap="round" label="Temperature" append="&deg;C"
-                                        foreground-color="#ff6c9d" background-color="#ecf0f1">
-                                    </ng-gauge>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        </ul>
+                        <h3 class="block-title">{{ datasource.name }}</h3>
+                    </div>
                     <!-- Monitor: Temperature Sensor (Celsius) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 0">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="100" value="gaugeSensorData_0" 
+                                    cap="round" label="Temperature" append="&deg;C"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Celsius) -->
                     <!-- Monitor: Temperature Sensor (Celsius) -->
                     <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 1">
                         <tbody>
                             <tr>
                                 <td style="width: 50%;">
                                     <ng-gauge size="170" type="arch" thick="10" 
-                                    min="0" max="100" value="TgaugeSensorData_1" 
+                                    min="0" max="100" value="gaugeSensorData_1" 
                                     cap="round" label="Temperature" append="&deg;C"
                                     foreground-color="#ff6c9d" background-color="#ecf0f1">
                                 </ng-gauge>
@@ -92,1323 +91,453 @@
                 </table>
                 <!-- Monitor: Temperature Sensor (Celsius) -->
                 <!-- Monitor: Temperature Sensor (Celsius) -->
-                <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 2">
-                    <tbody>
-                        <tr>
-                            <td style="width: 50%;">
-                                <ng-gauge size="170" type="arch" thick="10" 
-                                min="0" max="100" value="TgaugeSensorData_2" 
-                                cap="round" label="Temperature" append="&deg;C"
-                                foreground-color="#ff6c9d" background-color="#ecf0f1">
-                            </ng-gauge>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <!-- Monitor: Temperature Sensor (Celsius) -->
-            <!-- Monitor: Temperature Sensor (Celsius) -->
-            <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 3">
-                <tbody>
-                    <tr>
-                        <td style="width: 50%;">
-                            <ng-gauge size="170" type="arch" thick="10" 
-                            min="0" max="100" value="TgaugeSensorData_3" 
-                            cap="round" label="Temperature" append="&deg;C"
-                            foreground-color="#ff6c9d" background-color="#ecf0f1">
-                        </ng-gauge>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <!-- Monitor: Temperature Sensor (Celsius) -->
-        <!-- Monitor: Temperature Sensor (Celsius) -->
-        <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 4">
-            <tbody>
-                <tr>
-                    <td style="width: 50%;">
-                        <ng-gauge size="170" type="arch" thick="10" 
-                        min="0" max="100" value="TgaugeSensorData_4" 
-                        cap="round" label="Temperature" append="&deg;C"
-                        foreground-color="#ff6c9d" background-color="#ecf0f1">
-                    </ng-gauge>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <!-- Monitor: Temperature Sensor (Celsius) -->
-    <!-- Monitor: Temperature Sensor (Celsius) -->
-    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 5">
-        <tbody>
-            <tr>
-                <td style="width: 50%;">
-                    <ng-gauge size="170" type="arch" thick="10" 
-                    min="0" max="100" value="TgaugeSensorData_5" 
-                    cap="round" label="Temperature" append="&deg;C"
-                    foreground-color="#ff6c9d" background-color="#ecf0f1">
-                </ng-gauge>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Celsius) -->
-<!-- Monitor: Temperature Sensor (Celsius) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 6">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="100" value="TgaugeSensorData_6" 
-                cap="round" label="Temperature" append="&deg;C"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Celsius) -->
-<!-- Monitor: Temperature Sensor (Celsius) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 7">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="100" value="TgaugeSensorData_7" 
-                cap="round" label="Temperature" append="&deg;C"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Celsius) -->
-<!-- Monitor: Temperature Sensor (Celsius) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 8">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="100" value="TgaugeSensorData_8" 
-                cap="round" label="Temperature" append="&deg;C"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Celsius) -->
-<!-- Monitor: Temperature Sensor (Celsius) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 9">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="100" value="TgaugeSensorData_9" 
-                cap="round" label="Temperature" append="&deg;C"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Celsius) -->
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 0">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="gaugeSensorData_0" 
-                cap="round" label="Temperature" append="F"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 1">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="gaugeSensorData_1" 
-                cap="round" label="Temperature" append="F"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 2">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="gaugeSensorData_2" 
-                cap="round" label="Temperature" append="F"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 3">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="gaugeSensorData_3" 
-                cap="round" label="Temperature" append="F"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 4">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="gaugeSensorData_4" 
-                cap="round" label="Temperature" append="F"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 5">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="gaugeSensorData_5" 
-                cap="round" label="Temperature" append="F"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 6">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="gaugeSensorData_6" 
-                cap="round" label="Temperature" append="F"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 7">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="gaugeSensorData_7" 
-                cap="round" label="Temperature" append="F"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 8">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="gaugeSensorData_8" 
-                cap="round" label="Temperature" append="F"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 9">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="gaugeSensorData_9" 
-                cap="round" label="Temperature" append="F"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Temperature Sensor (Farenheit) -->
-<!-- Monitor: Voltage (V) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Voltage (V)'  && $index === 0">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="VgaugeSensorData_0" 
-                cap="round" label="Voltage" append="V"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Voltage (V) -->
-<!-- Monitor: Voltage (V) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Voltage (V)'  && $index === 1">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="VgaugeSensorData_1" 
-                cap="round" label="Voltage" append="V"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Voltage (V) -->
-<!-- Monitor: Voltage (V) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Voltage (V)'  && $index === 2">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="VgaugeSensorData_2" 
-                cap="round" label="Voltage" append="V"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Voltage (V) -->
-<!-- Monitor: Voltage (V) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Voltage (V)'  && $index === 3">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="VgaugeSensorData_3" 
-                cap="round" label="Voltage" append="V"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Voltage (V) -->
-<!-- Monitor: Voltage (V) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Voltage (V)'  && $index === 4">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="VgaugeSensorData_4" 
-                cap="round" label="Voltage" append="V"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Voltage (V) -->
-<!-- Monitor: Voltage (V) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Voltage (V)'  && $index === 5">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="VgaugeSensorData_5" 
-                cap="round" label="Voltage" append="V"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Voltage (V) -->
-<!-- Monitor: Voltage (V) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Voltage (V)'  && $index === 6">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="VgaugeSensorData_6" 
-                cap="round" label="Voltage" append="V"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Voltage (V) -->
-<!-- Monitor: Voltage (V) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Voltage (V)'  && $index === 7">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="VgaugeSensorData_7" 
-                cap="round" label="Voltage" append="V"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Voltage (V) -->
-<!-- Monitor: Voltage (V) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Voltage (V)'  && $index === 8">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="VgaugeSensorData_8" 
-                cap="round" label="Voltage" append="V"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Voltage (V) -->
-<!-- Monitor: Voltage (V) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Voltage (V)'  && $index === 9">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="VgaugeSensorData_9" 
-                cap="round" label="Voltage" append="V"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Voltage (V) -->
-<!-- Monitor: Electric Power (W) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Power (W)'  && $index === 0">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="WgaugeSensorData_0" 
-                cap="round" label="Power" append="V"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Electric Power (W) -->
-<!-- Monitor: Electric Power (W) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Power (W)'  && $index === 1">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="WgaugeSensorData_1" 
-                cap="round" label="Power" append="W"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Electric Power (W) -->
-<!-- Monitor: Electric Power (W) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Power (W)'  && $index === 2">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="WgaugeSensorData_2" 
-                cap="round" label="Power" append="W"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Electric Power (W) -->
-<!-- Monitor: Electric Power (W) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Power (W)'  && $index === 3">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="WgaugeSensorData_3" 
-                cap="round" label="Voltage" append="W"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Electric Power (W) -->
-<!-- Monitor: Electric Power (W) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Power (W)'  && $index === 4">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="WgaugeSensorData_4" 
-                cap="round" label="Power" append="W"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Electric Power (W) -->
-<!-- Monitor: Electric Power (W) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Power (W)'  && $index === 5">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="WgaugeSensorData_5" 
-                cap="round" label="Power" append="W"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Electric Power (W) -->
-<!-- Monitor: Electric Power (W) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Power (W)'  && $index === 6">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="WgaugeSensorData_6" 
-                cap="round" label="Power" append="W"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Electric Power (W) -->
-<!-- Monitor: Electric Power (W) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Power (W)'  && $index === 7">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="WgaugeSensorData_7" 
-                cap="round" label="Power" append="W"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Electric Power (W) -->
-<!-- Monitor: Electric Power (W) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Power (W)'  && $index === 8">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="WgaugeSensorData_8" 
-                cap="round" label="Power" append="W"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Electric Power (W) -->
-<!-- Monitor: Electric Power (W) -->                   
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Power (W)'  && $index === 9">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <ng-gauge size="170" type="arch" thick="10" 
-                min="0" max="300" value="WgaugeSensorData_9" 
-                cap="round" label="Power" append="W"
-                foreground-color="#ff6c9d" background-color="#ecf0f1">
-            </ng-gauge>
-        </td>
-    </tr>
-</tbody>
-</table>
-<!-- Monitor: Electric Power (W) -->
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Apparent power (KVA)'  && $index === 0">
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 2">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="100" value="gaugeSensorData_2" 
+                                    cap="round" label="Temperature" append="&deg;C"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 3">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="100" value="gaugeSensorData_3" 
+                                    cap="round" label="Temperature" append="&deg;C"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 4">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="100" value="gaugeSensorData_4" 
+                                    cap="round" label="Temperature" append="&deg;C"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 5">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="100" value="gaugeSensorData_5" 
+                                    cap="round" label="Temperature" append="&deg;C"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 6">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="100" value="gaugeSensorData_6" 
+                                    cap="round" label="Temperature" append="&deg;C"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 7">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="100" value="gaugeSensorData_7" 
+                                    cap="round" label="Temperature" append="&deg;C"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 8">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="100" value="gaugeSensorData_8" 
+                                    cap="round" label="Temperature" append="&deg;C"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Celsius)' && $index === 9">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="100" value="gaugeSensorData_9" 
+                                    cap="round" label="Temperature" append="&deg;C"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Celsius) -->
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 0">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="300" value="gaugeSensorData_0" 
+                                    cap="round" label="Temperature" append="F"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 1">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="300" value="gaugeSensorData_1" 
+                                    cap="round" label="Temperature" append="F"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 2">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="300" value="gaugeSensorData_2" 
+                                    cap="round" label="Temperature" append="F"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 3">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="300" value="gaugeSensorData_3" 
+                                    cap="round" label="Temperature" append="F"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 4">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="300" value="gaugeSensorData_4" 
+                                    cap="round" label="Temperature" append="F"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 5">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="300" value="gaugeSensorData_5" 
+                                    cap="round" label="Temperature" append="F"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 6">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="300" value="gaugeSensorData_6" 
+                                    cap="round" label="Temperature" append="F"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 7">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="300" value="gaugeSensorData_7" 
+                                    cap="round" label="Temperature" append="F"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 8">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="300" value="gaugeSensorData_8" 
+                                    cap="round" label="Temperature" append="F"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                    <table class="block-table text-center" ng-if="datasource.type === 'Monitor: Temperature Sensor (Farenheit)'  && $index === 9">
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <ng-gauge size="170" type="arch" thick="10" 
+                                    min="0" max="300" value="gaugeSensorData_9" 
+                                    cap="round" label="Temperature" append="F"
+                                    foreground-color="#ff6c9d" background-color="#ecf0f1">
+                                </ng-gauge>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Monitor: Temperature Sensor (Farenheit) -->
+                <!-- Control: Smart Switch (Light) -->
+                    <table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Light)'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <!--<span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activatedatasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                <!-- Control: Smart Switch (Light) -->
+                <!-- Control: Smart Switch (Lock) -->
+                    <table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Lock)'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <!--<span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">CLOSE/OPEN</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                <!-- Control: Smart Switch (Lock) -->
+                <!-- Control: Smart Switch (Gas Valve) -->
+                    <table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Gas Valve)'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <!--<span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">CLOSE/OPEN</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                <!-- Control: Smart Switch (Gas Valve) -->
+                <!-- Control: Smart Switch (Water Valve) -->
+                    <table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Water Valve)'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <!--<span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">CLOSE/OPEN</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                <!-- Control: Smart Switch (Water Valve) -->
+                <!-- Control: Smart Switch (Power) -->
+                    <table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Power)'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <!--<span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                <!-- Control: Smart Switch (Power) -->
+                <!-- Control: Smart Switch (AC) -->
+                    <table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (AC)'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <!--<span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                <!-- Control: Smart Switch (AC) -->
+                <!-- Control: Smart Bulb -->
+                    <table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Bulb'">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <!--<span ng-bind="panel.id"></span> -->
+                                                <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                <!-- Control: Smart Bulb -->
+            </div>  
+        </div>
+        <!-- <div class="col-lg-6 col-xs-12">  
+                <div class="block block-themed" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    <div class="block-header bg-info">
+                        <ul class="block-options">
+                            <li>
+                                <button type="button" data-js-block-option data-action="fullscreen_toggle"></button>
+                            </li>
+                            <li>
+                                <button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                            </li>
+                            <li>
+                                <button type="button" data-toggle="modal" class="panel-delete" ng-click="initModalData()"><i class="si si-close text-white-op"></i></button>
+                            </li>
 
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KVA</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Apparent Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Apparent power (KVA)'  && $index === 1">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KVA</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Apparent Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Apparent power (KVA)'  && $index === 2">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KVA</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Apparent Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Apparent power (KVA)'  && $index === 3">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KVA</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Apparent Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Apparent power (KVA)'  && $index === 4">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KVA</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Apparent Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Apparent power (KVA)'  && $index === 5">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KVA</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Apparent Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Apparent power (KVA)'  && $index === 6">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KVA</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Apparent Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Apparent power (KVA)'  && $index === 7">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KVA</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Apparent Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Apparent power (KVA)'  && $index === 8">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KVA</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Apparent Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<!-- Monitor: Monitor: Apparent power (KVA) -->                   
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Apparent power (KVA)'  && $index === 9">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KVA</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Apparent Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Apparent power (KVA) -->
-<!-- Monitor: Monitor: Real power (KW) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Real power (KW)'  && $index === 0">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KW</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Real Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Real power (KW) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Real power (KW)'  && $index === 1">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KW</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Real Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Real power (KW) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Real power (KW)'  && $index === 2">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KW</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Real Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Real power (KW) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Real power (KW)'  && $index === 3">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KW</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Real Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Real power (KW) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Real power (KW)'  && $index === 4">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KW</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Real Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Real power (KW) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Real power (KW)'  && $index === 5">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KW</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Real Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Real power (KW) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Real power (KW)'  && $index === 6">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KW</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Real Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Real power (KW) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Real power (KW)'  && $index === 7">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KW</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Real Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Real power (KW) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Real power (KW)'  && $index === 8">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KW</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Real Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Real power (KW) -->                   
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Real power (KW)'  && $index === 9">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{datasource.data.data | number:3}}<span class="h2 text-muted"> <sup></sup>KW</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Real Power</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Energy (kWh) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Energy (kWh)'  && $index === 0">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{(datasource.data.data/1000) | number:3}}<span class="h2 text-muted"> <sup></sup>KWH</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Energy</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Energy (kWh) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Energy (kWh)'  && $index === 1">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{(datasource.data.data/1000) | number:3}}<span class="h2 text-muted"> <sup></sup>KWH</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Energy</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Energy (kWh) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Energy (kWh)'  && $index === 2">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{(datasource.data.data/1000) | number:3}}<span class="h2 text-muted"> <sup></sup>KWH</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Energy</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Energy (kWh) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Energy (kWh)'  && $index === 3">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{(datasource.data.data/1000) | number:3}}<span class="h2 text-muted"> <sup></sup>KWH</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Energy</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Energy (kWh) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Energy (kWh)'  && $index === 4">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{(datasource.data.data/1000) | number:3}}<span class="h2 text-muted"> <sup></sup>KWH</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Energy</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Energy (kWh) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Energy (kWh)'  && $index === 5">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{(datasource.data.data/1000) | number:3}}<span class="h2 text-muted"> <sup></sup>KWH</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Energy</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Energy (kWh) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Energy (kWh)'  && $index === 6">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{(datasource.data.data/1000) | number:3}}<span class="h2 text-muted"> <sup></sup>KWH</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Energy</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Energy (kWh) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Energy (kWh)'  && $index === 7">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{(datasource.data.data/1000) | number:3}}<span class="h2 text-muted"> <sup></sup>KWH</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Energy</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Energy (kWh) -->
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Energy (kWh)'  && $index === 8">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{(datasource.data.data/1000) | number:3}}<span class="h2 text-muted"> <sup></sup>KWH</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Energy</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Monitor: Monitor: Energy (kWh) -->                   
-<table class="block-table text-center" ng-if="datasource.type === 'Monitor: Electric Energy (kWh)'  && $index === 9">
-
-    <tbody>
-        <tr>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <!-- ngIf: panel.sensorData.data --><div class="h1 font-w700 ng-binding ng-scope">{{(datasource.data.data/1000) | number:3}}<span class="h2 text-muted"> <sup></sup>KWH</span> </div><!-- end ngIf: panel.sensorData.data -->
-                <div class="h5 text-muted text-uppercase push-5-t">Energy</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-left">
-                <span style="font-size:8px; font-style: italic;" class="ng-binding">Last sync: {{datasource.created_at.date}}</span>
-            </td>
-        </tr>
-    </tbody>
-    <!-- </table> -->
-</table>
-<!-- Monitor: Monitor: Real power (KW) -->
-<!-- Control: Smart Switch (Light) -->
-<table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Light)'">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <div class="push-30 push-30-t">
-                    <i class="si si-power fa-3x text-smooth"></i>
-                </div>
-            </td>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <label class="css-input switch switch-square switch-lg switch-default">
-                    <!--<span ng-bind="panel.id"></span> -->
-                    <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activatedatasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
-                </label>
-                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<!-- Control: Smart Switch (Light) -->
-<!-- Control: Smart Switch (Lock) -->
-<table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Lock)'">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <div class="push-30 push-30-t">
-                    <i class="si si-power fa-3x text-smooth"></i>
-                </div>
-            </td>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <label class="css-input switch switch-square switch-lg switch-default">
-                    <!--<span ng-bind="panel.id"></span> -->
-                    <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
-                </label>
-                <div class="h5 text-muted text-uppercase push-5-t">CLOSE/OPEN</div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<!-- Control: Smart Switch (Lock) -->
-<!-- Control: Smart Switch (Gas Valve) -->
-<table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Gas Valve)'">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <div class="push-30 push-30-t">
-                    <i class="si si-power fa-3x text-smooth"></i>
-                </div>
-            </td>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <label class="css-input switch switch-square switch-lg switch-default">
-                    <!--<span ng-bind="panel.id"></span> -->
-                    <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
-                </label>
-                <div class="h5 text-muted text-uppercase push-5-t">CLOSE/OPEN</div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<!-- Control: Smart Switch (Gas Valve) -->
-<!-- Control: Smart Switch (Water Valve) -->
-<table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Water Valve)'">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <div class="push-30 push-30-t">
-                    <i class="si si-power fa-3x text-smooth"></i>
-                </div>
-            </td>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <label class="css-input switch switch-square switch-lg switch-default">
-                    <!--<span ng-bind="panel.id"></span> -->
-                    <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
-                </label>
-                <div class="h5 text-muted text-uppercase push-5-t">CLOSE/OPEN</div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<!-- Control: Smart Switch (Water Valve) -->
-<!-- Control: Smart Switch (Power) -->
-<table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (Power)'">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <div class="push-30 push-30-t">
-                    <i class="si si-power fa-3x text-smooth"></i>
-                </div>
-            </td>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <label class="css-input switch switch-square switch-lg switch-default">
-                    <!--<span ng-bind="panel.id"></span> -->
-                    <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
-                </label>
-                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<!-- Control: Smart Switch (Power) -->
-<!-- Control: Smart Switch (AC) -->
-<table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Switch (AC)'">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <div class="push-30 push-30-t">
-                    <i class="si si-power fa-3x text-smooth"></i>
-                </div>
-            </td>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <label class="css-input switch switch-square switch-lg switch-default">
-                    <!--<span ng-bind="panel.id"></span> -->
-                    <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
-                </label>
-                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<!-- Control: Smart Switch (AC) -->
-<!-- Control: Smart Bulb -->
-<table class="block-table text-center" style="min-height: 165px" ng-if="datasource.type === 'Control: Smart Bulb'">
-    <tbody>
-        <tr>
-            <td style="width: 50%;">
-                <div class="push-30 push-30-t">
-                    <i class="si si-power fa-3x text-smooth"></i>
-                </div>
-            </td>
-            <td class="bg-gray-lighter" style="width: 50%;">
-                <label class="css-input switch switch-square switch-lg switch-default">
-                    <!--<span ng-bind="panel.id"></span> -->
-                    <input ng-checked="datasource.toggle == 1 ? true : false" type="checkbox" id="val-activate-datasource_{{datasource.id}}" name="val-activate-datasource_{{datasource.id}}" ng-model="activate" ng-change="switch(datasource)"><span></span> 
-                </label>
-                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<!-- Control: Smart Bulb -->
-</div>  
-</div>
-<!-- <div class="col-lg-6 col-xs-12">  
-<div class="block block-themed" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-<div class="block-header bg-info">
-<ul class="block-options">
-<li>
-<button type="button" data-js-block-option data-action="fullscreen_toggle"></button>
-</li>
-<li>
-<button type="button" data-js-block-option data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-</li>
-<li>
-<button type="button" data-toggle="modal" class="panel-delete" ng-click="initModalData()"><i class="si si-close text-white-op"></i></button>
-</li>
-
-</ul>
-<h3 class="block-title">titulo</h3>
-</div>
-<table class="block-table text-center" style="min-height: 165px">
-<tbody>
-<tr>
-<td style="width: 50%;">
-<div class="push-30 push-30-t">
-<i class="si si-power fa-3x text-smooth"></i>
-</div>
-</td>
-<td class="bg-gray-lighter" style="width: 50%;">
-<label class="css-input switch switch-square switch-lg switch-default">
-    <span ng-bind="panel.id"></span> -->
-<!--  <input ng-checked="activate == 1 ? true : false" type="checkbox" id="val-activate-panel_{{panel.id}}" name="val-activate" ng-model="activate" ng-value="off" ng-change="switch(panel)"><span></span> 
-</label>
-<div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>  
-</div> -->
-</div>
+                        </ul>
+                        <h3 class="block-title">titulo</h3>
+                    </div>
+                     <table class="block-table text-center" style="min-height: 165px">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%;">
+                                                <div class="push-30 push-30-t">
+                                                    <i class="si si-power fa-3x text-smooth"></i>
+                                                </div>
+                                            </td>
+                                            <td class="bg-gray-lighter" style="width: 50%;">
+                                                <label class="css-input switch switch-square switch-lg switch-default">
+                                                 <span ng-bind="panel.id"></span> -->
+                                               <!--  <input ng-checked="activate == 1 ? true : false" type="checkbox" id="val-activate-panel_{{panel.id}}" name="val-activate" ng-model="activate" ng-value="off" ng-change="switch(panel)"><span></span> 
+                                            </label>
+                                                <div class="h5 text-muted text-uppercase push-5-t">OFF/ON</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+            </div>  
+         </div> -->
+    </div>
 </div>

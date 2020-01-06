@@ -367,7 +367,9 @@
 
 // private functions
 
-        function handleSuccess(res) {            
+        function handleSuccess(res) {
+            console.log('success!');
+            console.log(res);
             return res.data;
         }
 
@@ -406,7 +408,9 @@ App.factory('projects', ['$http', 'urls', function ($http, urls) {
         return {
             fetchProjects: function (callback) {
                 $http.get(urls.BASE_API + "projects")
-                        .then(function (response) {                         
+                        .then(function (response) {
+                            console.log('fetching projects');
+                            console.log(response);
                             callback(response.data.projects);
                         });
 
