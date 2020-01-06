@@ -2077,19 +2077,40 @@ App.controller('ProjectSettingsCtrl', ['$scope', '$stateParams', 'ProjectService
                     if (datasource.type === 'Monitor: Voltage (V)'){
                         if($datasourcecount == 0){
                             $scope.gaugeSensorData_0 = 'Loading';
-                            console.log('$datasourcecount');
-                            console.log($datasourcecount);
-                            console.log('datasource.type');
-                            console.log(datasource.type);
-
-                            console.log('datasource.data.data');
-                            console.log(datasource.data.data);
+                
                             $scope.gaugeSensorData_0 = datasource.data.data;
                         }
-                        
-                        $datasourcecount = $datasourcecount + 1;
-                    }
-                }
+                        if($datasourcecount == 1){
+                    $scope.VgaugeSensorData_1 = datasource.data.data;
+                        }
+                        if($datasourcecount == 2){
+                            $scope.VgaugeSensorData_2 = datasource.data.data;
+                        }
+                        if($datasourcecount == 3){
+                            $scope.VgaugeSensorData_3 = datasource.data.data;
+                        }
+                        if($datasourcecount == 4){
+                            $scope.VgaugeSensorData_4 = datasource.data.data;
+                        }
+                        if($datasourcecount == 5){
+                            $scope.VgaugeSensorData_5 = datasource.data.data;
+                        }
+                        if($datasourcecount == 6){
+                            $scope.VgaugeSensorData_6 = datasource.data.data;
+                        }
+                        if($datasourcecount == 7){
+                            $scope.VgaugeSensorData_7 = datasource.data.data;
+                        }
+                        if($datasourcecount == 8){
+                            $scope.VgaugeSensorData_8 = datasource.data.data;
+                        }
+                        if($datasourcecount == 9){
+                            $scope.VgaugeSensorData_9 = datasource.data.data;
+                        }
+                                
+                                $datasourcecount = $datasourcecount + 1;
+                            }
+                        }
             }    
           
             if (datasource.type === 'Control: Smart Switch (Light)'){
