@@ -276,7 +276,7 @@
     border-radius: 50%;
     top: 16px;
 }
-.chart_accordion ol li .organizationname input:checked+label, .unChecked {
+.chart_accordion ol li .organizationname input:checked+label {
     background: #949494;
     color: #fff;
 }
@@ -304,19 +304,6 @@
 .chart_accordion ol li ol li ol li ul li, .chart_accordion ol li ol li ol li ol li:last-child, .chart_accordion ol li ol li ol li ul li:last-child{
     padding-left: 15px!important;
 }
-.font-blue {
-  color: #2585ff;
-}
-.white-font {
-  color: white;
-}
-.blue-bg {
-  background-color: #5c90d2 !important;
-}
-.no-pointer {
-  cursor: auto !important;
-}
-
 @keyframes pulse {
     0% {
         transform: scale(0.95);
