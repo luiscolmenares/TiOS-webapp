@@ -10,7 +10,7 @@
         var service = {};
 
         service.GetAll = GetAll;
-        service.getAllOrganizations = getAllOrganizations;
+        // service.getAllOrganizations = getAllOrganizations;
         service.GetById = GetById;
         service.Create = Create;
         service.Update = Update;
@@ -28,10 +28,8 @@
         service.getProjectsNodes = getProjectsNodes;
         service.getSpacesNodes = getSpacesNodes;
         service.GetDatasourcesNodes = GetDatasourcesNodes;
-        service.dataSourcesAvg = dataSourcesAvg;
         service.dataSourcesValues = dataSourcesValues;
         service.dataSourcesValuesByProject = dataSourcesValuesByProject;
-        service.dataSourcesAvgByProject =  dataSourcesAvgByProject;
 
         service.avgByOrganization =  avgByOrganization;
         service.minByOrganization =  minByOrganization;
@@ -66,11 +64,21 @@
         service.daySpacesAvgByProjectId =  daySpacesAvgByProjectId;
         service.monthSpacesAvgByProjectId =  monthSpacesAvgByProjectId;
         service.dayAvgDataourcesBySpaceId = dayAvgDataourcesBySpaceId;
+        service.avgBySpaceId = avgBySpaceId;
+        service.maxBySpaceId = maxBySpaceId;
+        service.minBySpaceId = minBySpaceId;
         service.monthAvgDataourcesBySpaceId = monthAvgDataourcesBySpaceId;
         service.hourAvgDataourcesBySpaceId = hourAvgDataourcesBySpaceId;
         service.minuteAvgDataourcesBySpaceId = minuteAvgDataourcesBySpaceId;
         service.avgDataourcesBySpaceId = avgDataourcesBySpaceId;
-        
+        service.dataSourcesAvg = dataSourcesAvg;
+        service.dataSourcesAvg = dataSourcesAvg;
+        service.dataSourcesMax = dataSourcesMax;
+        service.dataSourcesMin = dataSourcesMin;
+        service.dataSourcesAvgByProject =  dataSourcesAvgByProject;
+        service.dataSourcesMinByProject = dataSourcesMinByProject;
+        service.dataSourcesMaxByProject = dataSourcesMaxByProject;
+
         return service;
 
         function GetAll(datasourceId) {
@@ -133,7 +141,6 @@
 
 
         function handleSuccess(res) {
-            console.log('success');
             return res.data;
         }
 
@@ -167,7 +174,7 @@
         function dataSourcesAvg(dataSourceId, dataValues) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json'
                 }
             };
             return $http.post(urls.BASE_API + 'datasource/' + dataSourceId + '/analytics/average', dataValues, config).then(handleSuccess, handleError('error'));
@@ -176,7 +183,7 @@
         function dataSourcesMax(dataSourceId, dataValues) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json'
                 }
             };
             return $http.post(urls.BASE_API + 'datasource/' + dataSourceId + '/analytics/max', dataValues, config).then(handleSuccess, handleError('error'));
@@ -185,7 +192,7 @@
         function dataSourcesMin(dataSourceId, dataValues) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json'
                 }
             };
             return $http.post(urls.BASE_API + 'datasource/' + dataSourceId + '/analytics/min', dataValues, config).then(handleSuccess, handleError('error'));
@@ -212,17 +219,17 @@
         function dataSourcesAvgByProject(projectId, dataValues) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json;'
                 }
             };
 
-            return $http.post(urls.BASE_API + 'project/' + projectId + '/analytics/avg', dataValues, config).then(handleSuccess, handleError('error'));
+            return $http.post(urls.BASE_API + 'project/' + projectId + '/analytics/average', dataValues, config).then(handleSuccess, handleError('error'));
         }
 
         function dataSourcesMaxByProject(projectId, dataValues) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json;'
                 }
             };
             return $http.post(urls.BASE_API + 'project/' + projectId + '/analytics/max', dataValues, config).then(handleSuccess, handleError('error'));
@@ -231,7 +238,7 @@
         function dataSourcesMinByProject(projectId, dataValues) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json;'
                 }
             };
             return $http.post(urls.BASE_API + 'project/' + projectId + '/analytics/min', dataValues, config).then(handleSuccess, handleError('error'));
@@ -269,7 +276,7 @@
 
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json'
                 }
             };
             return $http.post(urls.BASE_API + 'organization/' + organizationId + '/analytics/min', dataValues, config).then(handleSuccess, handleError('error'));
@@ -279,7 +286,7 @@
 
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json;'
                 }
             };
             return $http.post(urls.BASE_API + 'organization/' + organizationId + '/analytics/max', dataValues, config).then(handleSuccess, handleError('error'));
@@ -348,17 +355,17 @@
         function avgByProject(projectId, dataValues) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json;'
                 }
             };
 
-            return $http.post(urls.BASE_API + 'project/' + projectId + '/analytics/avg', dataValues, config).then(handleSuccess, handleError('error'));
+            return $http.post(urls.BASE_API + 'project/' + projectId + '/analytics/average', dataValues, config).then(handleSuccess, handleError('error'));
         }
 
         function maxByProject(projectId, dataValues) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json;'
                 }
             };
             return $http.post(urls.BASE_API + 'project/' + projectId + '/analytics/max', dataValues, config).then(handleSuccess, handleError('error'));
@@ -367,7 +374,7 @@
         function minByProject(projectId, dataValues) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json;'
                 }
             };
             return $http.post(urls.BASE_API + 'project/' + projectId + '/analytics/min', dataValues, config).then(handleSuccess, handleError('error'));
@@ -376,7 +383,7 @@
         function countByProject(projectId, dataValues) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json;'
                 }
             };
             return $http.post(urls.BASE_API + 'project/' + projectId + '/analytics/count', dataValues, config).then(handleSuccess, handleError('error'));
@@ -623,6 +630,36 @@
                 }
             }; 
             return $http.post(urls.BASE_API + 'space/' + spaceId + '/analytics/average/datasources', dataValues, config).then(handleSuccess, handleError('error'));
+        }
+
+        function maxBySpaceId(spaceId, dataValues) {
+
+            var config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }; 
+            return $http.post(urls.BASE_API + 'space/' + spaceId + '/analytics/max/datasources', dataValues, config).then(handleSuccess, handleError('error'));
+        }
+
+        function avgBySpaceId(spaceId, dataValues) {
+
+            var config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }; 
+            return $http.post(urls.BASE_API + 'space/' + spaceId + '/analytics/average/datasources', dataValues, config).then(handleSuccess, handleError('error'));
+        }
+
+        function minBySpaceId(spaceId, dataValues) {
+
+            var config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }; 
+            return $http.post(urls.BASE_API + 'space/' + spaceId + '/analytics/min/datasources', dataValues, config).then(handleSuccess, handleError('error'));
         }
     };
 })();
