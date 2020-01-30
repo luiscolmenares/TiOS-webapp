@@ -705,9 +705,9 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
 
             }else if($scope.dataSources.type != null && $scope.dataSources.type == 'energy') {
 
-                $scope.orgDataValues['datasource_type'] = "Monitor: Apparent power (KVA)";
-                $scope.projectDataValues['datasource_type'] = "Monitor: Apparent power (KVA)";
-                $scope.spacesByProjectDataValues['datasource_type'] = "Monitor: Apparent power (KVA)";
+                $scope.orgDataValues['datasource_type'] = "Monitor: Electric Energy (kWh)";
+                $scope.projectDataValues['datasource_type'] = "Monitor: Electric Energy (kWh)";
+                $scope.spacesByProjectDataValues['datasource_type'] = "Monitor: Electric Energy (kWh)";
 
             }else if($scope.dataSources.type != null && $scope.dataSources.type == 'temperature') {
 
