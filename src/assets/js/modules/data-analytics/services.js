@@ -72,7 +72,6 @@
         service.minuteAvgDataourcesBySpaceId = minuteAvgDataourcesBySpaceId;
         service.avgDataourcesBySpaceId = avgDataourcesBySpaceId;
         service.dataSourcesAvg = dataSourcesAvg;
-        service.dataSourcesAvg = dataSourcesAvg;
         service.dataSourcesMax = dataSourcesMax;
         service.dataSourcesMin = dataSourcesMin;
         service.dataSourcesAvgByProject =  dataSourcesAvgByProject;
@@ -157,7 +156,7 @@
         function getProjectsNodes(organizationId) {
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'json'
                 }
             };
             return $http.get(urls.BASE_API + 'organization/' + organizationId + '/projects', config).then(handleSuccess, handleError('Error getting projects by org id count'));
@@ -440,7 +439,7 @@
 
         function monthAvgValuesByDatasource(datasourceId, dataValues) {
 
-            var config = {
+            var config = { 
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -472,7 +471,7 @@
 
             var config = {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    'Content-Type': 'application/json'
                 }
             };
             return $http.post(urls.BASE_API + 'datasource/' + datasourceId + '/analytics/values/average/hour', dataValues, config).then(handleSuccess, handleError('error'));

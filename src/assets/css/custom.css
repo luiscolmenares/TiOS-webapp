@@ -316,7 +316,25 @@
 .no-pointer {
   cursor: auto !important;
 }
+#flotPlaceholder div.xAxis div.tickLabel 
+{    
+    transform: rotate(-90deg) !important;
+    -ms-transform:rotate(-90deg) !important; /* IE 9 */
+    -moz-transform:rotate(-90deg) !important; /* Firefox */
+    -webkit-transform:rotate(-90deg) !important; /* Safari and Chrome */
+    -o-transform:rotate(-90deg) !important; /* Opera */
+    /*rotation-point:50% 50%;*/ /* CSS3 */
+    /*rotation:270deg;*/ /* CSS3 */
+}
+.flot-x-axis .flot-tick-label {
+  white-space: nowrap !important;
+  /* transform: translate(-9px, 0) rotate(-60deg) !important; */
+  transform: translate(-45px, 10px) rotate(270deg) !important;
+  text-indent: -100% !important;
+  transform-origin: top right !important;
+  text-align: right !important;
 
+}
 @keyframes pulse {
     0% {
         transform: scale(0.95);
