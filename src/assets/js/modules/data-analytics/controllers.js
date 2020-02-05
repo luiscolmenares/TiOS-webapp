@@ -2,8 +2,8 @@
     
 App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage', '$window', '$http', 'urls', 'DataanalyticsService', function ($rootScope, $scope, $localStorage, $window, $http, urls, DataanalyticsService ) {
 
-    $scope.fromDate =  new Date();// null;
-    $scope.toDate = new Date();// null;
+    $scope.fromDate =  new Date();
+    $scope.toDate = new Date();
     $scope.organizationsCount;
     $scope.treeData;
     $scope.i = '';
@@ -74,7 +74,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
     $scope.maximum = null;
     $scope.durations = [];
     $scope.monthsName = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
+    $scope.durationLegends = [];
     //reset dates to current date
     $scope.resetDates = function() {
 
@@ -206,7 +206,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
         };
     });
 
-        //initialize dateTimepicker
+    //initialize dateTimepicker
     App.directive('jsDatetimepicker', function () {
         return {
             link: function (scope, element, attrs) {
@@ -535,6 +535,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
     //assign organization Id on clicking any organization
     $scope.assignOrganizationId = function(organization, nodeSelected, event) {
         
+        $scope.datasourceCheckedId = null;
         $scope.displayRequest = false;
         $scope.organizationCheckedId = organization.id;
         $scope.nodeType = nodeSelected;
@@ -620,7 +621,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
     $scope.chartData = function(resolution) {
 
         //if project ids not checked and space is checked, assign its project id to projectCheckedId
-        if((!$scope.projectCheckedId || $scope.projectCheckedId == '' || $scope.projectCheckedId == null) &&  $scope.projectIdOfSpace) {
+        if((!$scope.projectCheckedId || $scope.projectCheckedId == '' || $scope.projectCheckedId == null) && $scope.projectIdOfSpace) {
             $scope.projectCheckedId = $scope.projectIdOfSpace;
         } 
 
@@ -722,27 +723,44 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                 $scope.avgByOrganization();
                 $scope.minByOrganization();
                 $scope.maxByOrganization();
+
+                //get average for displaying pie chart if node selected is organization
+                if($scope.chart.type == 'pieChart') {
+                    $scope.projectsAvgByOrganizationId();
+                }
             } else if($scope.nodeType == 'project') {
 
                 $scope.avgByProject();
                 $scope.minByProject();
                 $scope.maxByProject();
+
+                //get average for displaying pie chart if node selected is project
+                if($scope.chart.type == 'pieChart') {
+                    $scope.spacesAvgByProjectId();
+                }
             } else if($scope.nodeType == 'space') {
 
                 $scope.dataSourcesAvgByProject();
                 $scope.dataSourcesMaxByProject();
                 $scope.dataSourcesMinByProject();
+
+                //get average for displaying pie chart if node selected is space
+                if($scope.chart.type == 'pieChart') {
+                    $scope.avgDataourcesBySpaceId();
+                }
             } else if($scope.nodeType == 'datasource') {
 
                 $scope.dataSourcesAvg();
                 $scope.dataSourcesMax();
                 $scope.datasourcesMin();
+
+                // if($scope.chart.type == 'pieChart') {
+                //     $scope.projectsAvgByOrganizationId();
+                // }
             }
 
             //fetch values of selected datasource type and time resolution for organization, project, spaces and datasource depending on nodeType and chart type: 
 
-            // if($scope.resolution.type != null && $scope.resolution.type == 'auto') {
-            // }else
             if($scope.resolution.type != null && $scope.resolution.type == 'month') {
 
                 if($scope.nodeType == 'organization') {
@@ -751,7 +769,8 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     $scope.orgDataValues['to_date'] =  $scope.toDateEpoch;
                     
                     if($scope.chart.type == 'pieChart') {
-                        $scope.monthValuesProjectsByOrgId();
+                        // $scope.monthValuesProjectsByOrgId();
+
                     }else {
                         monthValuesByOrganization();                    
                     }
@@ -762,7 +781,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     $scope.projectDataValues['to_date'] =  $scope.toDateEpoch;
                     
                     if($scope.chart.type == 'pieChart') {
-                        $scope.monthSpacesAvgByProjectId();
+                        // $scope.monthSpacesAvgByProjectId();
                     }else {
                         $scope.monthAvgValuesByProject();                    
                     }
@@ -772,8 +791,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     $scope.projectDataValues['to_date'] =  $scope.toDateEpoch;
                     
                     if($scope.chart.type == 'pieChart') {
-                        $scope.avgDataourcesBySpaceId();
-                        // $scope.monthAvgDataourcesBySpaceId();
+                        // $scope.avgDataourcesBySpaceId();
                     }else {
                         $scope.monthAvgValuesByProject();
                     }
@@ -789,7 +807,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     $scope.orgDataValues['to_date'] =  $scope.toDateEpoch;
                     
                     if($scope.chart.type == 'pieChart') {
-                        $scope.dayValuesProjectsByOrgId();
+                        // $scope.dayValuesProjectsByOrgId();
                     }else {
                         dayValuesByOrganization();                    
                     }
@@ -799,7 +817,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     $scope.projectDataValues['to_date'] =  $scope.toDateEpoch;
                     
                     if($scope.chart.type == 'pieChart') {
-                        $scope.daySpacesAvgByProjectId();
+                        // $scope.daySpacesAvgByProjectId();
                     }else {
                         $scope.dayAvgValuesByProject();                    
                     }
@@ -810,8 +828,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     $scope.projectDataValues['to_date'] =  $scope.toDateEpoch;
 
                     if($scope.chart.type == 'pieChart') {
-                        // $scope.dayAvgDataourcesBySpaceId();
-                        $scope.avgDataourcesBySpaceId();
+                        // $scope.avgDataourcesBySpaceId();
                     }else {
                         $scope.dayAvgValuesByProject();                    
                     }
@@ -831,7 +848,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     $scope.orgDataValues['to_date'] =  $scope.toDateEpoch;
                     
                     if($scope.chart.type == 'pieChart') {
-                        $scope.hourValuesProjectsByOrgId();
+                        // $scope.hourValuesProjectsByOrgId();
                     }else {
                         hourValuesByOrganization();                    
                     }
@@ -840,7 +857,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     $scope.projectDataValues['from_date'] = $scope.fromDateEpoch;
                     $scope.projectDataValues['to_date'] =  $scope.toDateEpoch;
                     if($scope.chart.type == 'pieChart') {
-                        $scope.hourSpacesAvgByProjectId();
+                        // $scope.hourSpacesAvgByProjectId();
                     }else {
                         $scope.hourAvgValuesByProject();
                     }
@@ -851,8 +868,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     $scope.projectDataValues['to_date'] =  $scope.toDateEpoch;
 
                     if($scope.chart.type == 'pieChart') {
-                        // $scope.hourAvgDataourcesBySpaceId();  
-                        $scope.avgDataourcesBySpaceId();
+                        // $scope.avgDataourcesBySpaceId();
                     }else {
                         $scope.hourAvgValuesByProject();
                     }
@@ -869,7 +885,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     $scope.orgDataValues['from_date'] = $scope.fromDateEpoch;
                     $scope.orgDataValues['to_date'] =  $scope.toDateEpoch;
                     if($scope.chart.type == 'pieChart') {
-                        $scope.minuteValuesProjectsByOrgId();
+                        // $scope.minuteValuesProjectsByOrgId();
                     }else {
                         minuteValuesByOrganization();
                     }
@@ -879,7 +895,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     $scope.projectDataValues['to_date'] =  $scope.toDateEpoch;
                     
                     if($scope.chart.type == 'pieChart') {
-                        $scope.minuteSpacesAvgByProjectId();
+                        // $scope.minuteSpacesAvgByProjectId();
                     }else {
                         $scope.minuteAvgValuesByProject();
                     }
@@ -891,11 +907,10 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     
                     if($scope.chart.type == 'pieChart') {
                         // $scope.minuteAvgDataourcesBySpaceId();
-                        $scope.avgDataourcesBySpaceId();
+                        // $scope.avgDataourcesBySpaceId();
                     }else {
                         $scope.minuteAvgValuesByProject();
                     }
-                    minuteAvgValuesByProject();
                 }else if($scope.nodeType == 'datasource') {
 
                     if($scope.chart.type != 'pieChart') {
@@ -965,14 +980,16 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                     var y = item.datapoint[1];
      
                     var color = item.series.color;
-                    var date =  new Date($scope.durations[x-1][1]);
+                    if($scope.durationLegends[x-1]) {
+                    var tempDate = $scope.durationLegends[x-1][1].split(' ');
+                    var date = new Date(tempDate[0]);
                      
                     var unit = "";
      
-                    
                     var templabel = date.getDate() + ' ' + $scope.monthsName[date.getMonth()] + ' ' + (date.getYear() + 1900);
                     showTooltip(item.pageX, item.pageY, color,
-                        "<div style='font-size:13px;'>" + "<strong>" + templabel + "</strong>"  + " : <strong>" + y + "</strong> " + "</div>");
+                        "<div style='font-size:13px'>" + "<strong>" + templabel + "</strong>"  + " : <strong>" + y + "</strong> " + "</div>");
+                    }
                 }
             } else {
                 $("#tooltip").remove();
@@ -1006,9 +1023,20 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
       //show tooltip
     $scope.showTooltips = function() {
 
-        $(document).ready(function () {
-            $(".js-flot-lines").UseTooltip();
-        });
+        if($scope.chart.type == "lineChart") {
+
+            $(document).ready(function () {
+                $(".js-flot-lines").UseTooltip();
+            });
+        }
+
+        if($scope.chart.type == "barChart") {
+
+            $(document).ready(function () {
+                $(".js-flot-bars").UseTooltip();
+            });
+        }
+
     }
 
     //display chart
@@ -1024,19 +1052,48 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
 
                 //format data array of response for chart type other than pieChart
                 if(durationValuesLength > 0) { 
-                for(var i=0; i<= durationValuesLength; i++) {
 
-                    if(durationData[i] != undefined) {
+                    //add label for only first and last value if resolution is minute
+                    if($scope.resolution.type == "minute") { 
+
+
+                        // if(durationDataLength > 1) {
+                        for(var i=0; i<= durationValuesLength; i++) {
+                        if(durationData[i] != undefined) {
+
                             $scope.durationValues.push([i+1, durationData[i].value]);
-                            $scope.durations.push([i+1, durationData[i][duration]]);
+                            $scope.durationLegends.push([i+1, durationData[i][duration]]);
+
+                            if(i == 0) {
+                                $scope.durations.push([1, durationData[i][duration]]);
+                            }
+                            if(i < durationValuesLength-1 && i > 0) {
+                                $scope.durations.push([i+1, ' ']);
+                            }
+                            if(i == durationValuesLength-1) {
+                                $scope.durations.push([i+1, durationData[i][duration]]);
+                            }
+                            // $scope.durationValues.push([i+1, durationData[i].value]);
+                        
+                            }
+                        // }
                         }
+                    } else {
+                        //add labels for all values for resolutions other than minute 
+                        for(var i=0; i<= durationValuesLength; i++) {
+
+                            if(durationData[i] != undefined) {
+                                $scope.durationValues.push([i+1, durationData[i].value]);
+                                $scope.durations.push([i+1, durationData[i][duration]]);
+                            }
+                        }
+                        $scope.durationLegends = $scope.durations;
                     }
                 }
 
                 //if chart type is line chart , initialize chart with settings
                 if($scope.chart.type == 'lineChart') {
                     // if(durationValuesLength > 0) { 
-
                     var flotLines = jQuery('.js-flot-lines');
                     jQuery.plot(flotLines,
                         [
@@ -1053,7 +1110,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                                         radius: 3/4,
                                         clickable: true,
                                         formatter: function (label, series) {
-                                        return '<div ng-click="legendClicker(' + series.percent + ');" style="border:1px solid gray;font-size:8pt;text-align:center;padding:5px;color:white;">' + label + '<br/>' +   
+                                        return '<div ng-click="legendClicker(' + series.percent + ');" style="border:1px solid gray;font-size:8pt;text-align:center;padding:5px;color:white; position: absolute; left: 100px;">' + label + '<br/>' +   
                                         Math.round(series.percent) + '%</div>';
                                     }
                                 },
@@ -1107,6 +1164,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                                 color: "#a4c0e3",
                             },
                             xaxis: {
+                                rotateTicks: 90,
                                 ticks: $scope.durations, 
                                 tickColor: '#f5f5f5',
                                 color: "#a4c0e3",
@@ -1143,10 +1201,17 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                                     barWidth: 0.35,
                                     fillColor: {
                                         colors: [{opacity: 1}, {opacity: 1}]
+                                    },
+                                    label:{                        
+                                        radius: 3/4,
+                                        clickable: true,
+                                        formatter: function (label, series) {
+                                        return '<div ng-click="legendClicker(' + series.percent + ');" style="border:1px solid gray;font-size:8pt;text-align:center;padding:5px;color:white;">' + label + '<br/>' +   
+                                        Math.round(series.percent) + '%</div>';
                                     }
                                 }
-                            },
-                        ],
+                            }
+                        }],
                         {
                             colors: ['rgb(47, 84, 132)', '#fadb7d'],
                             legend: {
@@ -1156,7 +1221,9 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                                 backgroundOpacity: 0
                             },
                             grid: {
-                                borderWidth: 0
+                                borderWidth: 0,
+                                hoverable: true,
+                                clickable: true
                             },
                             yaxis: {
                                 ticks: 3,
@@ -1168,15 +1235,13 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                                 tickColor: '#f5f5f5',
                                 color: "#5c90d2",
                             },
-                            xaxes:
-                                [{
-                                    color: "#a4c0e3"
-                                }],
-                                yaxes:
-                                [{
-                                    color: "#a4c0e3"
-                                }
-                            ],
+                            xaxes:   
+                                {
+                                rotateTicks: 110,
+                                color: "#a4c0e3",
+                                yaxes: {
+                                color: "#a4c0e3"}
+                            }
                         });
                     // }
                     $scope.showTooltips();
@@ -1192,8 +1257,10 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
 
                 if(durationValuesLength > 0) { 
 
-                    for(var i=0; i<= durationValuesLength; i++) { 
-                        if(durationData[i] != undefined) {
+                    for(var i=0; i< durationValuesLength; i++) { 
+
+                        // if(durationData[i] != undefined) {
+
                             var obj = {label: "", data: ""};
                             if($scope.nodeType == 'space')  {
                                 var obj1 = {label: "", data: ""};
@@ -1206,20 +1273,32 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                                 obj1.label = durationData[i].datasource_name;
                                 $scope.dataPieDataChart.push(obj1);
                             }
-
-                            if(durationData[i][0] != undefined && ($scope.nodeType == 'organization' || $scope.nodeType == 'project')) {
+                            if(($scope.nodeType == 'organization' || $scope.nodeType == 'project')) {
 
                                 if($scope.nodeType == 'organization') {
-                                    obj.data = durationData[i][0].value;
+
+                                    // obj.data = durationData[i][0].value;
+                                    if(durationData[i].average == null) {
+                                        obj.data = 0;
+                                    } else {
+                                        obj.data = durationData[i].average;
+                                    }
                                     obj.label = durationData[i].project_name;
                                 } else if($scope.nodeType == 'project') {
-                                    obj.data = durationData[i][0].value;
+                                    if(durationData[i].average == null) {
+                                        obj.data = 0;
+                                    } else {
+                                    obj.data = durationData[i].average;
+                                    }
                                     obj.label = durationData[i].space_name;
                                 } else if($scope.nodeType == 'space') {
-                                    // obj.data = durationData[i].value;
-                                    // obj.label = durationData[i][duration];
+                                    if(durationData[i].average == null) {
+                                        obj.data = 0;
+                                    } else {
+                                    obj.data = durationData[i].average;
+                                    }                                    // obj.label = durationData[i][duration];
                                     // obj.data = durationData[i].average;
-                                    // obj.label = durationData[i].datasource_name;
+                                    obj.label = durationData[i].datasource_name;
                                 }  else if($scope.nodeType == 'datasource') {
                                     // obj.data = durationData[0].value;
                                     // obj.label = durationData[0][duration];
@@ -1235,35 +1314,34 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
                                 // $scope.dataPieDataChart.push(obj);
 
                             }  
-                            if(!durationData[i][0]  && ($scope.nodeType == 'organization' || $scope.nodeType == 'project')) {
+                            if(($scope.nodeType == 'organization' || $scope.nodeType == 'project')) {
 
                                 if($scope.nodeType == 'organization') {
-                                    obj.label = durationData[i].project_name;
+                                    // obj.label = durationData[i].project_name;
                                 } else if($scope.nodeType == 'project') {
-                                    obj.label = durationData[i].space_name;
+                                    // obj.label = durationData[i].space_name;
                                 } else if($scope.nodeType == 'space') {
 
                                     // obj.data = durationData[i].average;
-                                    obj.label = durationData[i].datasource_name;
+                                    // obj.label = durationData[i].datasource_name;
                                     // obj.label = durationData[i][duration];
                                 }                          
-                                obj.data = 0;  //durationData[i][0].value
-                                $scope.dataPieDataChart.push(obj);
+                                // obj.data = 0;  //durationData[i][0].value
+                                // $scope.dataPieDataChart.push(obj);
                             }
                             var dataPieDataChartLength = $scope.dataPieDataChart.length
-                            for(var i=0; i<dataPieDataChartLength; i++) {
-                                if($scope.dataPieDataChart[i].data != 0) {
+                            for(var ind=0; ind <dataPieDataChartLength; ind++) {
+                                if($scope.dataPieDataChart[ind].data != 0) {
                                     $scope.noPieData = false;
                                 }
                             }
-                        } 
+                        // } 
                     }
                 }
 
                 // initialize pie chart with settings
                 var flotPie = jQuery('.js-flot-pie');
                 // if($scope.dataPieDataChart.length > 0 ) {
-
                     jQuery.plot(flotPie,
                         $scope.dataPieDataChart,
                         {
@@ -1459,6 +1537,17 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
         $scope.datasourceCheckedId = datasource.id;
         $scope.nodeType = nodeSelected;
         $scope.selectedDatasource = datasource.name;
+
+        //assign  selected datasource type to type of datasource to be fetched 
+        if((datasource.type == 'Monitor: Electric Energy (kWh)' || datasource.type == 'Electric Current (A)') || datasource.type == 'Electric Current (A)' || datasource.type == 'Electric Energy (E)') {
+            $scope.dataSources.type = 'energy';
+        }
+        if(datasource.type == 'Monitor: Temperature Sensor (Celsius)' || datasource.type == 'Monitor: Temperature Sensor (Farenheit)') {
+            $scope.dataSources.type = 'temperature';
+        }
+        if(datasource.type == 'Monitor: Voltage (V)' || datasource.type == 'Monitor: Apparent power (KVA)' || datasource.type == 'Monitor: Real power (KW)' || datasource.type == 'Control: Smart Switch (Light)' || datasource.type == 'Control: Smart Switch (AC)' || datasource.type == 'Control: Smart Switch (Light)' || datasource.type == 'Control: Smart Switch (Gas Valve)' || datasource.type == 'Control: Smart Switch (Water Valve)' || datasource.type == 'Control: Smart Switch (Lock)' || datasource.type == 'Control: Smart Bulb' || datasource.type == 'Control: Smart Switch (Lock)' || datasource.type == 'Control: Smart Switch (Power)' || datasource.type == 'Electric Power (W)') {
+            $scope.dataSources.type = 'voltage';
+        }
         $scope.checkedLabel(event);
     }
 
@@ -1576,7 +1665,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
 
         DataanalyticsService.hourAvgValuesByDatasource($scope.datasourceCheckedId, dataValues).then(function (response) {
 
-            $scope.chartDisplay(response, 'date_hour');
+            $scope.chartDisplay(response, 'date_and_hour');
         });
     } 
  
@@ -1584,7 +1673,7 @@ App.controller('CompAnalyticsTreeCtrl', ['$rootScope', '$scope', '$localStorage'
         
         DataanalyticsService.projectsAvgByOrganizationId($scope.organizationCheckedId,  $scope.orgDataValues).then(function (response) {
 
-            // $scope.chartDisplay(response, null);
+            $scope.chartDisplay(response, null);
         });
     } 
  

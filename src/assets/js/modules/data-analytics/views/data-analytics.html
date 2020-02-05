@@ -188,9 +188,11 @@
                                                                    </span>
                                                                 </span>
                                                             </span>
+
+                                                            
                                                                 <ul  ui-tree-nodes="" ng-model="expandedSpaceDatasources"  ng-if="space.id == spaceCheckedId" class=" p-l-15" ng-if="loader == false">
-                                                                <li ui-tree-node  ng-repeat="datasource in dataSourcesOfSpace" class="spaces-p-m-10" ng-if="space.id==datasource.space_id">
-                                                                    <div ui-tree-handle>
+                                                                <li ui-tree-node  ng-repeat="datasource in dataSourcesOfSpace" class="spaces-p-m-10" >
+                                                                    <div ui-tree-handle ng-if="space.id == datasource.space_id">
                                                                         <span class="organizationname">
                                                                         <input type="radio" name="datasource" ng-if="chart.type != 'pieChart'" ng-model="datasourceChecked" value="datasource.id"  id="{{ 'datasource' + datasource.id }}" chkVal='0' class="radioinstant" ng-click="displayRequest = false; datasourceCheckedId = datasource.id;DatasourceValues(datasource, 'datasource', $event);toggleSelectionDatasource(space, $event); ">
                                                                         <label  ng-if="datasource.id != datasourceCheckedId && chart.type != 'pieChart'">
@@ -225,7 +227,7 @@
                                         </li>
                                     </ol>
                             </div>
-                        <div class="block-box" ng-if="datasourceCheckedId == null || datasourceCheckedId == ''">
+                        <div class="block-box" ng-if="(datasourceCheckedId == null || datasourceCheckedId == '')">
                             <h4>Datasource Type</h4>
                             <div class="block p-t-5">
                                 <input type="radio" name="voltage" ng-model="dataSources.type" value="voltage" /> 
@@ -241,16 +243,16 @@
                             </div>
                           </div>
 
-                      <div class="block-box">
+                      <div class="block-box" ng-if='chart.type != "pieChart"'>
                             <h4>
-                                Resolution
+                                Resolution 
                             </h4>
                             <div ng-if="((toDateEpoch - fromDateEpoch) <= 86400)" class="py-5">
-                                <input type="radio" name="minute" ng-model="resolution.type" value="minute" ng-change="$scope.resolutionSelected = 'minute';"/> 
+                                <input type="radio" name="minute" ng-model="resolution.type" value="minute" ng-change="$scope.resolutionSelected = 'minute';" [disabled]="chart.type == 'pieChart'"/> 
                                 <label for="oneMin">Minute</label>
                             </div>
                             <div class="py-5" ng-if="((toDateEpoch - fromDateEpoch) <= 86400)">
-                                <input type="radio" name="hour" ng-model="resolution.type" value="hour" ng-change="$scope.resolutionSelected = 'hour';"/> 
+                                <input type="radio" name="hour" ng-model="resolution.type" value="hour" ng-change="$scope.resolutionSelected = 'hour';" /> 
                                 <label for="hour">Hour</label>
                             </div>
                             <div class="py-5" ng-if="(((toDateEpoch - fromDateEpoch) > 86400) && ((toDateEpoch - fromDateEpoch) < 2629743))" >
