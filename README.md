@@ -21,9 +21,7 @@ Organization Projects will display a set of graphs and reports based on data pul
 
 - Scheduled Actions
 
-- Geolocation (Coming Soon)
-
-- Billing (Coming Soon)
+- Geolocation 
 
 ## Installation
 
