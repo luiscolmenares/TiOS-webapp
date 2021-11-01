@@ -1,6 +1,6 @@
 # TIoS-webapp
 
-This is the main repo forTIoS Web Application
+This is the main repo for TIoS Web Application
 
 TIoS is a tool designed for administrators of internet connected organizations. It is a computerized system for the management of organizations and their IoT projects.
 Organization Projects will display a set of graphs and reports based on data pulled from a restful API. This data comes from devices(sensors) connected to the cloud directly to a Mysql Database and serve to the application using API endpoints.
